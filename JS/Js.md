@@ -382,3 +382,61 @@ mySetTimeout(timer => {
 ```
 `requestAnimationFrame`自带函数节流功能，基本可以保证在 16.6 毫秒内只执行一次（不掉帧的情况下），并且该函数的延时效果是精确的，没有其他定时器时间不准的问题。
 
+# 手写实现Promise
+简单版Promise
+```
+const MyPromise = (function(){
+    const PENDING = "pending"; //等待态
+    const RESOLVED = "resolved"; //执行态
+    const REJECTED = "rejected"; //拒绝态
+
+    function MyPromise(fn) {
+        var that = this;
+        that.state = PENDING;
+        that.value = null;
+        that.resolvedCallbacks = [];
+        that.rejectedCallbacks = [];
+
+        function resolve(value){
+            that.state = RESOLVED;
+            that.value = value;
+            that.resolvedCallbacks.map(cb => cb(that.value));
+        }
+
+        function reject(value){
+            that.state = REJECTED;
+            that.value = value;
+            that.rejectedCallbacks.map(cb => cb(that.value));
+        }
+
+        try {
+            fn(resolve, reject);
+        } catch (error) {
+            resolve(error);
+        }
+    }
+
+    MyPromise.prototype.then = function(onFulfilled, onRejected){
+        const that = this;
+        onFulfilled = typeof onFulfilled === "function" ? onFulfilled : v => v;
+        onRejected = typeof onRejected === "function" ? onRejected : r => {
+            throw r;
+        }
+
+        if(that.state === PENDING){
+            that.resolvedCallbacks.push(onFulfilled);
+            that.rejectedCallbacks.push(onRejected);
+        }
+
+        if(that.state === RESOLVED){
+            onFulfilled(that.value);
+        }
+
+        if(that.state === REJECTED){
+            onRejected(that.value);
+        }
+    }
+
+    return MyPromise;
+})();
+```
