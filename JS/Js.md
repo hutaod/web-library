@@ -45,3 +45,8 @@
 2. [Promise对象方法](./Promise.md#Promise对象方法)
 3. [Promise的静态方法](./Promise.md#Promise的静态方法)
 4. [手写实现Promise](./Promise.md#手写实现Promise)
+
+# [Event Loop](./EventLoop.md)
+
+# [JS进阶](./JS进阶.md)
+1. [手写call、apply和bind函数](./JS进阶.md#手写call、apply和bind函数)

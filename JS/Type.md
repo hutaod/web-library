@@ -18,7 +18,7 @@
     除了原始类型，其他的都是对象类型。
 对象类型和原始类型不同的是，原始类型存储的是值，对象类型存储的是地址。
 
-## `typeof` vs `instanceof`
+## typeof vs instanceof
 `typeof`：对于原始类型，除了 `null` 都可以显示正确的类型；对于对象类型来说，除了函数都会显示object。
 
 `instanceof`：用于测试构造函数的prototype属性是否出现在对象的原型链中的任何位置。
