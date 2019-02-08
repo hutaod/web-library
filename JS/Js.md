@@ -50,3 +50,9 @@
 
 # [JS进阶](./JS进阶.md)
 1. [手写call、apply和bind函数](./JS进阶.md#手写call、apply和bind函数)
+2. [new原理](./JS进阶.md#new)
+3. [instanceof原理](./JS进阶.md#instanceof原理)
+4. [为什么0.1+0.2!=0.3?](./JS进阶.md#为什么0.1+0.2!=0.3?)
+5. [垃圾回收机制](./JS进阶.md#垃圾回收机制)
+
+# [JS常见的设计模式](./JS常见的设计模式.md)
