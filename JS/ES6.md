@@ -29,6 +29,7 @@ child instanceof Parent // true
 ```
 优点：构造函数可以传参，不会与父类引用属性共享，可以复用父类的函数。
 缺点：在继承父类函数的时候调用了父类构造函数，导致子类的原型上多了不需要的父类属性，存在内存上的浪费。
+
 ![error](https://raw.githubusercontent.com/ht1131589588/web-library/master/image/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f332f31332f31363231653861.png)
 
 ### 寄生组合继承
