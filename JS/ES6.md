@@ -41,7 +41,7 @@ Parent.prototype.getValue = function() {
 }
 
 function Child(value) {
-  Parent.call(this, value)
+  Parent.call(this, value) // 调用父构造函数
 }
 Child.prototype = Object.create(Parent.prototype, {
   constructor: {
@@ -60,6 +60,10 @@ child instanceof Parent // true
 将父类的原型赋值给了子类，并且将构造函数设置为子类，这样既解决了无用的父类属性问题，还能正确的找到子类的构造函数。
 
 ### Class 继承
+类声明的特点：
+1. 与let、const一样，有临时死区
+2. 类声明中的代码全部运行在严格模式下
+3. 必须使用 new 调用
 ```
 class Parent {
   constructor(value) {
@@ -124,3 +128,64 @@ import { XXX } from './a.js'
 export function a() {}
 export default function() {}
 ```
+
+## Object.is()
+结果基本与 `===` 类似，除去以下特例
+```
+Object.is(0, -0);            // false
+Object.is(-0, -0);           // true
+Object.is(NaN, NaN);         // true
+```
+
+## 迭代器
+可以迭代的对象都有 `Symbol.iterator` 属性
+可迭代的对象有：数组，Set，Map，字符串，NodeList
+ES6 新增的 `for-of` 就用到了迭代器的功能，只有可迭代的对象能使用
+```
+let a = [1,'a'];
+// 获取数组的迭代器
+let iterator = a[Symbol.iterator]();
+// 当调用 next 时会输出当前迭代的 value 和 是否迭代完成
+console.log(iterator.next()); // {value: 1, done: false}
+console.log(iterator.next()); // {value: 'a', done: false}
+console.log(iterator.next()); //迭代完成时输出 {value: undefined, done: true}
+
+// 这里可以使用新特性数组解构 let [index, value]
+for (let value of a.entries()) {
+  console.log(value) // -> [0, 1]   [1, 'a']
+}
+```
+
+对于除去上述可迭代的对象以外的对象是没有 `Symbol.iterator` 方法的，但是可以让它变成可迭代的。
+```
+let b = { a:1, b:2 };
+// 下面代码报错 Uncaught TypeError: {(intermediate value)(intermediate value)} is not iterable
+for (let item of b) {
+  console.log(item)
+}
+
+//用Symbol.iterator给对象添加迭代方法 
+let a = {
+  array: [],
+  // 这是一个 Generator 函数， 这里用于自定义对象迭代器
+  *[Symbol.iterator]() {
+    for (let item in this.array) {
+      yield item;
+    }
+  }
+}
+a.array.push(...[1,'a']);
+//  for-of 会正常输出, 但是a不存在 entries 方法
+for (let item of a) {
+  console.log(item) // -> 1, 'a'
+}
+
+let itervtor = a[Symbol.iterator]();
+
+console.log(iterator.next()); // {value: 1, done: false}
+console.log(iterator.next()); // {value: 'a', done: false}
+console.log(iterator.next()); //迭代完成时输出 {value: undefined, done: true}
+```
+
+## Proxy 
+[MDN Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
