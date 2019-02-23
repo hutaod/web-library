@@ -189,4 +189,5 @@ console.log(iterator.next()); //迭代完成时输出 {value: undefined, done: t
 ```
 
 ## Proxy 
+待完善...
 [MDN Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
