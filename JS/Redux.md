@@ -10,3 +10,9 @@
 * `store.dispatch` 派发action给store
 * `store.getState` 获取store中的所有数据
 * `store.subscribe` 订阅store数据的改变,只要store数据改变就会调用传入 `store.subscribe` 的回调函数
+
+## 是么是redux中间件？
+对dispatch方法进行升级
+
+* redux-thunk 判断传入的方法是对象还是函数，是对象就派发action，是函数就执行函数，把异步操作放在action中操作
+  
