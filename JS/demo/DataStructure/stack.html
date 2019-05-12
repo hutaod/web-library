@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>数据结构 - 堆栈</title>
 </head>
+
 <body>
     <script>
+        // 堆栈
         class Stack {
-            constructor() {
-                this.stack = [];
+            constructor(...items) {
+                this._reverse = false
+                this.stack = [...items];
             }
 
-            push(item) {
-                this.stack.push(item);
+            push(...items) {
+                return this._reverse ? this.stack.unshift(...items) : this.stack.push(...items);
             }
 
             pop() {
-                this.stack.pop();
+                return this._reverse ? this.stack.shift() : this.stack.pop();
+            }
+
+            reverse() {
+                this._reverse = !this._reverse
             }
 
             peek() {
@@ -35,4 +43,5 @@
         }
     </script>
 </body>
+
 </html>

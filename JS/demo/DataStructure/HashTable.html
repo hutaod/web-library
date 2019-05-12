@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据结构 - 散列表(哈希表)</title>
+</head>
+
+<body>
+  <script>
+    class Node {
+      constructor(data) {
+        this.data = data
+        this.next = null
+      }
+    }
+
+    class HashTableWithChaining {
+      constructor(size = 10) {
+        this.table = new Array(size)
+      }
+
+      // 素数判断
+      isPrime(num) {
+        for (let i = 2, s = Math.sqrt(num); i <= s; i++) {
+          if (num % i === 0) {
+            return false
+          }
+        }
+        return true
+      }
+
+      // 哈希函数生成
+      computeHash(string) {
+        let H = this.findPrime(this.table.length)
+        let total = 0
+        for (let i = 0; i < string.length; ++i) {
+          total += H * total + string.charCodeAt(i)
+        }
+        return total % this.table.length
+      }
+
+      // 取模
+      findPrime(num) {
+        while (true) {
+          if (this.isPrime(num)) {
+            break
+          }
+          num += 1
+        }
+        return num
+      }
+
+      put(item) {
+        let key = this.computeHash(item);
+        let node = new Node(item)
+        if (this.table[key]) {
+          node.next = this.table[key]
+        }
+        this.table[key] = node
+      }
+
+      remove(item) {
+        let key = this.computeHash(item);
+        if (this.table[key]) {
+          if (this.table[key].data === item) {
+            this.table[key] = this.table[key].next
+          } else {
+            let current = this.table[key].next;
+            let prev = this.table[key];
+            while (current) {
+              if (current.data === item) {
+                prev.next = current.next
+              }
+              prev = current
+              current = current.next;
+            }
+          }
+        }
+      }
+      contains(item) {
+        for (let i = 0; i < this.table.length; i++) {
+          if (this.table[i]) {
+            let current = this.table[i];
+            while (current) {
+              if (current.data === item) {
+                return true;
+              }
+              current = current.next;
+            }
+          }
+        }
+        return false;
+      }
+      size(item) {
+        let counter = 0
+        for (let i = 0; i < this.table.length; i++) {
+          if (this.table[i]) {
+            let current = this.table[i]
+            while (current) {
+              counter++
+              current = current.next
+            }
+          }
+        }
+        return counter
+      }
+
+      isEmpty() {
+        return this.size() < 1
+      }
+
+      traverse(fn) {
+        for (let i = 0; i < this.table.length; i++) {
+          if (this.table[i]) {
+            let current = this.table[i];
+            while (current) {
+              fn(current);
+              current = current.next;
+            }
+          }
+        }
+      }
+
+    }
+  </script>
+</body>
+
+</html>
