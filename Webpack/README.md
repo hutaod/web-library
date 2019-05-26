@@ -27,3 +27,11 @@ Webpack 是一个现代JavaScript应用程序的静态模块打包工具，作�
 * 样式(`url(...)`)或HTML文件 (`<img src=...`)中的图片链接
 
 **详细请看官网文档**: [Modules MODULES](https://webpack.js.org/api/module-methods)
+
+### 升级包指南
+
+```
+npm install -g npm-check-updates
+// ncu -u 更新package.json
+ncu -u && npm install
+```

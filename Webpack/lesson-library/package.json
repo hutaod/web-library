@@ -1,0 +1,30 @@
+{
+  "name": "@ht1131589588/tiny",
+  "version": "0.0.6",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ht1131589588/rayslog"
+  },
+  "author": {
+    "name": "ht1131589588",
+    "email": "1131589588@qq.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "gitHead": "8761efe3a0a93a17d713f185e8a9a8cc4e48d122",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  }
+}
