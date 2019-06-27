@@ -3,6 +3,7 @@ import App from "./App.vue";
 
 Vue.config.productionTip = false;
 
+// 向所有父元素发布事件
 Vue.prototype.$dispatch = function(eventName, data) {
   let parent = this.$parent;
   // 查找父元素
@@ -14,6 +15,7 @@ Vue.prototype.$dispatch = function(eventName, data) {
   }
 };
 
+// 广播给所有监听事件的子元素
 Vue.prototype.$boardcast = function(eventName, data) {
   boardcast.call(this, eventName, data);
 };
@@ -28,6 +30,26 @@ function boardcast(eventName, data) {
     }
   });
 }
+
+// Bus: 事件派发、监听和回调管理
+class Bus {
+  constructor() {
+    this.callbacks = [];
+  }
+
+  $on(name, fn) {
+    this.callbacks[name] = this.callbacks[name] || [];
+    this.callbacks[name].push(fn);
+  }
+
+  $emit(name, args) {
+    if (this.callbacks[name]) {
+      this.callbacks[name].forEach(cb => cb(args));
+    }
+  }
+}
+
+Vue.prototype.$bus = new Bus();
 
 new Vue({
   render: h => h(App)

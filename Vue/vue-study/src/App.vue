@@ -1,10 +1,25 @@
 <template>
-  <div id="app">hello world</div>
+  <div id="app">
+    <!-- <CompCommunicate></CompCommunicate> -->
+    <!-- <Recursion></Recursion> -->
+    <!-- <Slots/> -->
+    <FormTest/>
+  </div>
 </template>
 
 <script>
+import CompCommunicate from "@/components/communicate";
+import Recursion from "@/components/recursion";
+import Slots from "@/components/slots";
+import FormTest from "@/components/form/Test";
 export default {
-  name: "app"
+  name: "app",
+  components: {
+    CompCommunicate,
+    Recursion,
+    Slots,
+    FormTest
+  }
 };
 </script>
 
