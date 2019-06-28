@@ -1,5 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
+import create from "./utils/create";
 
 Vue.config.productionTip = false;
 
@@ -50,6 +51,7 @@ class Bus {
 }
 
 Vue.prototype.$bus = new Bus();
+Vue.prototype.$create = create;
 
 new Vue({
   render: h => h(App)

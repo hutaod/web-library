@@ -22,7 +22,7 @@ import KForm from "./Form";
 import KFormItem from "./FormItem";
 import KInput from "./Input";
 
-// import Notice from "@/components/notice/KNotice";
+import Toast from "@/components/toast";
 
 export default {
   components: {
@@ -42,12 +42,12 @@ export default {
   methods: {
     submitForm(form) {
       this.$refs[form].validate(valid => {
-        // const notice = this.$create(Notice, {
-        //   title: "社会你杨哥喊你来搬砖",
-        //   message: valid ? "请求登录!" : "校验失败!",
-        //   duration: 1000
-        // });
-        // notice.show();
+        const toast = this.$create(Toast, {
+          title: "社会你杨哥喊你来搬砖",
+          message: valid ? "请求登录!" : "校验失败!",
+          duration: 1000
+        });
+        toast.show();
       });
     }
   }

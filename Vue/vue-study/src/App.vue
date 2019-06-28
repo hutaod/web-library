@@ -4,21 +4,24 @@
     <!-- <Recursion></Recursion> -->
     <!-- <Slots/> -->
     <FormTest/>
+    <TreeDemo/>
   </div>
 </template>
 
 <script>
-import CompCommunicate from "@/components/communicate";
-import Recursion from "@/components/recursion";
-import Slots from "@/components/slots";
+// import CompCommunicate from "@/components/communicate";
+// import Recursion from "@/components/recursion";
+// import Slots from "@/components/slots";
 import FormTest from "@/components/form/Test";
+import TreeDemo from "@/components/tree";
 export default {
   name: "app",
   components: {
-    CompCommunicate,
-    Recursion,
-    Slots,
-    FormTest
+    // CompCommunicate,
+    // Recursion,
+    // Slots,
+    FormTest,
+    TreeDemo
   }
 };
 </script>
