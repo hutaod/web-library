@@ -15,8 +15,10 @@ export default {
 
   methods: {
     handleInput(e) {
+      console.log(1);
       this.$emit("input", e.target.value);
-      this.$emit("validate");
+      console.log(this.$parent);
+      this.$parent.$emit("validate");
     }
   }
 };
