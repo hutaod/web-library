@@ -1,9 +1,26 @@
 <template>
-  <div>list</div>
+  <div>
+    <div>{{testName}}</div>
+    <div>{{$route.query.a}}</div>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    testName: {
+      type: String
+    }
+  },
+  data() {
+    return {
+      a: "123"
+    };
+  },
+  mounted() {
+    // console.log(this.$route);
+  }
+};
 </script>
 
 <style>
