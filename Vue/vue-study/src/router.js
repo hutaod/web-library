@@ -8,7 +8,7 @@ Vue.use(Router);
 
 const routes = [
   {
-    path: "/home",
+    path: "/",
     name: "home",
     component: Home,
     children: [
@@ -24,7 +24,11 @@ const routes = [
           query: route.query
         })
       },
-      { path: "detail/:id", component: Detail, props: true }
+      {
+        path: "detail/:id",
+        component: Detail,
+        props: true
+      }
     ]
   },
   {
@@ -34,7 +38,13 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "./views/About.vue")
+    component: () =>
+      import(/* webpackChunkName: "about" */ "./views/About.vue"),
+    beforeEnter: (to, from, next) => {
+      console.log(2);
+      next();
+      // ...
+    }
   }
 ];
 
@@ -47,6 +57,7 @@ router.addRoutes(routes);
 
 // 守卫元素
 router.beforeEach((to, from, next) => {
+  console.log(1);
   // 要访问需要登录权限的页面时的判断
   if (to.meta.auth && !window.isLogin) {
     if (window.confirm("请登录")) {

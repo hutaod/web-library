@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input :value="value" @input="handleInput">
+    <input :value="value" @input="handleInput" />
   </div>
 </template>
 
@@ -17,7 +17,9 @@ export default {
     handleInput(e) {
       console.log(1);
       this.$emit("input", e.target.value);
-      console.log(this.$parent);
+      this.$emit("update:value", e.target.value);
+      this.$emit("update:name", e.target.value);
+      // console.log(this.$parent);
       this.$parent.$emit("validate");
     }
   }
