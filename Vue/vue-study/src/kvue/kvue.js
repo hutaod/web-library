@@ -113,7 +113,7 @@ class Compiler {
       this.$fragment = this.nodeToFragment(this.$el);
       // 编译模板内容，同时进行依赖收集
       this.compile(this.$fragment);
-      // 把Fragment放入真实dom，后续队真实dom的操作都会出发虚拟dom
+      // 把Fragment放入dom
       this.$el.appendChild(this.$fragment);
     }
   }
