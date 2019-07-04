@@ -27,10 +27,13 @@ function debounce(func, wait, immediate) {
         // 我更倾向于当设置立即执行时，
         // 执行完一次后wait秒后触发func就能立即执行func，而不是上一次没
         // 有正常执行也会阻碍下一次执行
-        timeout = setTimeout(() => {
-          timeout = null
-        }, wait)
+        // timeout = setTimeout(() => {
+        //   timeout = null
+        // }, wait)
       }
+      timeout = setTimeout(() => {
+        timeout = null
+      }, wait)
     } else {
       timeout = setTimeout(() => {
         func.call(context, args)
