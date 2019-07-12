@@ -47,12 +47,8 @@ export default {
       }
     };
   },
-  mounted() {
-    // console.log(this.$store.getters.hasPermission(["admin"])); // false
-    // console.log(this.hasPermission(["admin"])); // f()
+  computed: {
+    ...mapGetters(["hasPermission"]),
   },
-  methods: {
-    ...mapGetters(["hasPermission"])
-  }
 };
 </script>

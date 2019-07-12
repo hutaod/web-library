@@ -21,7 +21,7 @@ const store = new Vuex.Store({
 
       if (pRoles && Array.isArray(pRoles) && pRoles.length) {
         // 判断用户是否有该当前dom权限
-        const hasPremission = roles.some(() => pRoles.includes(roles))
+        const hasPremission = roles.some(role => pRoles.includes(role))
         return hasPremission
       } else {
         throw new Error(`需要指定要求角色数组，如['admin']`)
