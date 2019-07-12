@@ -17,6 +17,7 @@
       </el-header>
 
       <el-main>
+        <breadcrumb />
         <router-view />
       </el-main>
     </el-container>
@@ -24,11 +25,13 @@
 </template>
 <script>
 import Sidebar from "@/components/sidebar";
+import Breadcrumb from "@/components/Breadcrumb";
 import { mapActions } from "vuex";
 
 export default {
   components: {
-    Sidebar
+    Sidebar,
+    Breadcrumb
   },
   methods: {
     ...mapActions(["user/resetToken"]),

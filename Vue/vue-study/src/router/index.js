@@ -15,13 +15,14 @@ export const constRoutes = [
     path: '/',
     component: Layout, // 应用布局
     redirect: '/home',
+    name: 'home',
     meta: { title: '首页', icon: 'qq' },
     children: [
       {
         path: 'home',
         component: () =>
           import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-        name: 'home',
+        // name: 'home',
         meta: {
           title: 'Home', // 导航菜单项标题
           icon: 'qq' // 导航菜单项图标
@@ -31,7 +32,7 @@ export const constRoutes = [
         path: 'mua',
         component: () =>
           import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-        name: 'mua',
+        // name: 'mua',
         meta: {
           title: '波一个', // 导航菜单项标题
           icon: 'wx' // 导航菜单项图标
