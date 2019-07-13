@@ -13,6 +13,8 @@ const store = new Vuex.Store({
     roles: state => state.user.roles,
     // 权限路由
     permission_routes: state => state.permission.routes,
+    // token获取
+    token: state => state.user.token,
     // 是否有权限判断
     hasPermission: state => pRoles => {
       console.log(pRoles)
