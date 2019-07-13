@@ -11,6 +11,7 @@ const title = 'vue项目最佳实践'
 
 module.exports = {
   publicPath: 'best-practice',
+  outputDir: 'dist/best-practice',
   devServer: {
     port,
     proxy: {
