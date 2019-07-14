@@ -1,10 +1,5 @@
 <template>
   <div>
-    <nav>
-      <nuxt-link to="/">首页</nuxt-link>
-      <n-link to="/admin">管理</n-link>
-      <NLink no-prefetch to="/cart">购物车</NLink>
-    </nav>
     <nuxt />
   </div>
 </template>
