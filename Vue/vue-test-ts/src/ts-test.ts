@@ -8,7 +8,7 @@ name = '22'
 // name2 = '123'
 // name2 = {}
 
-let a: any
+let a: symbol
 a = Symbol()
 
 title = 'world'
