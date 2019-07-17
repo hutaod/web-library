@@ -1,17 +1,3 @@
-# 深浅拷贝
-## 浅拷贝常用方法： 
-* `Object.assign`
-* 通过展开运算符 `...` 来实现浅拷贝
-
-## 深拷贝
-通常可以用 `JSON.parse(JSON.stringify(object))` 来进行深拷贝。
-但方法有局限性。
-  * 会忽略值为 undefined和symbol 的属性, 和键为symbol的属性
-  * 会忽略函数
-  * 不能解决循环引用的对象
-
-## 实现一个深拷贝
-```
 /**
  * 是否是正常对象
  * @param {any} obj
@@ -49,5 +35,44 @@ function deepCopy(elements) {
   return newElements
 }
 
-```
-[测试代码](./demo/copy.js)
+var a = {
+  name: 'zhangsan',
+  school: {
+    university: 'shanghai'
+  },
+  hobby: ['篮球', '足球'],
+  classmates: [
+    {
+      name: 'lisi',
+      age: 22
+    },
+    {
+      name: 'wangwu',
+      age: 21
+    }
+  ],
+  getName: function() {
+    return this.name
+  }
+}
+
+const b = deepCopy(a)
+
+b.name = 'lisi'
+b.age = 24
+b.school.highSchool = 'jiangsu'
+b.hobby.push('🏃')
+b.classmates[0].age = 25
+
+console.log(a.getName())
+console.log(b.getName())
+
+a.getName = function() {
+  return 'H ' + this.name
+}
+
+console.log(a.getName())
+console.log(b.getName())
+
+console.log(JSON.stringify(a))
+console.log(JSON.stringify(b))
