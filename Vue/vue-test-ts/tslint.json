@@ -5,7 +5,13 @@
     "exclude": ["node_modules/**"]
   },
   "rules": {
-    "quotemark": [true, "single"],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double",
+      "avoid-template",
+      "avoid-escape"
+    ],
     "indent": [true, "spaces", 2],
     "interface-name": false,
     "ordered-imports": false,
@@ -13,6 +19,8 @@
     "no-consecutive-blank-lines": false,
     "semicolon": [false, "always"],
     "trailing-comma": [false, "always"],
-    "arrow-parens": [true, "ban-single-arg-parens"]
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "no-shadowed-variable": [false, "always"],
+    "no-console": [false, "always"]
   }
 }

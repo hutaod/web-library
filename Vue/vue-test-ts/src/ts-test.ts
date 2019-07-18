@@ -46,3 +46,32 @@ export { name, title, greeting, warnUser }
 
 // 内置类型
 // string number boolean void any
+
+// 函数参数如果声明，默认就是必选参数
+// ?: 可选参数
+function sayHello(name: string, age?: number): string {
+  console.log(name, age)
+  return name + age
+}
+
+sayHello('tom', 20)
+
+// 重载： 通过参数或返回值类型或个数区别同名参数，先声明，再实现
+// 声明1
+function info(a: object): string
+// 声明2
+function info(a: string): object
+// 实现
+function info(a: any): any {
+  if (typeof a === 'object') {
+    return a.name
+  } else {
+    return {
+      name: a
+    }
+  }
+}
+
+console.log(info({ name: 'tom' }))
+console.log(info('tom'))
+// console.log(info(123)) 报错
