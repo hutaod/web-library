@@ -3,6 +3,7 @@
     <img alt="Vue logo" src="./assets/logo.png" />
     <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
     <Hello :msg="msg" @addFeature="addFeature" />
+    <Decor />
   </div>
 </template>
 
@@ -10,11 +11,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 // import HelloWorld from './components/HelloWorld.vue'
 import Hello from './components/Hello.vue'
+import Decor from './components/Decor.vue'
 
 @Component({
   components: {
     // HelloWorld,
-    Hello
+    Hello,
+    Decor
   }
 })
 export default class App extends Vue {

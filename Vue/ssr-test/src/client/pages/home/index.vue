@@ -7,6 +7,9 @@
 export default {
   data() {
     return { name: "首页" };
+  },
+  created() {
+    console.log(123);
   }
 };
 </script>

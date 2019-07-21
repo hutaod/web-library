@@ -9,6 +9,7 @@
         <router-link to="/about">关于我</router-link>
       </li>
     </ul>
+    <router-view></router-view>
   </div>
 </template>
 

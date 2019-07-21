@@ -22,6 +22,7 @@
     "arrow-parens": [true, "ban-single-arg-parens"],
     "no-shadowed-variable": [false, "always"],
     "no-console": [false, "always"],
-    "max-classes-per-file": [false, 100]
+    "max-classes-per-file": [false, 100],
+    "only-arrow-functions": [false]
   }
 }

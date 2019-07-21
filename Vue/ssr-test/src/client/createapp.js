@@ -1,7 +1,7 @@
 // csr 和ssr统一入口
 import Vue from 'vue'
-import App from './client/App.vue'
-import { createRouter } from './client/router'
+import App from './App.vue'
+import { createRouter } from './router'
 
 export function createApp(context) {
   const router = createRouter()
