@@ -21,6 +21,7 @@
     "trailing-comma": [false, "always"],
     "arrow-parens": [true, "ban-single-arg-parens"],
     "no-shadowed-variable": [false, "always"],
-    "no-console": [false, "always"]
+    "no-console": [false, "always"],
+    "max-classes-per-file": [false, 100]
   }
 }

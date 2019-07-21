@@ -75,3 +75,68 @@ function info(a: any): any {
 console.log(info({ name: 'tom' }))
 console.log(info('tom'))
 // console.log(info(123)) 报错
+
+// class
+class MyComp {
+  // 访问修饰符private、public、protected
+  // private fooo: string // 私有属性，不能在类的外部访问
+  // private bar: string // 保护属性
+  // readonly mua = 'mua' // 只读属性
+
+  constructor(private fooo: string, public bar: string) {
+    // this.fooo = foo
+    // this.bar = bar
+  }
+
+  get foo() {
+    return this.fooo
+  }
+
+  set foo(val) {
+    this.fooo = val
+  }
+
+  // get muaa() {
+  //   return this.mua
+  // }
+}
+
+const mc = new MyComp('123', '234')
+console.log(mc.foo)
+
+interface Person {
+  name: string
+  say(): any
+}
+
+class Student implements Person {
+  constructor(public name: string) {}
+
+  public say() {
+    console.log(this.name)
+  }
+}
+
+function greeting2(person: Person) {
+  return person.say()
+}
+const stu = new Student('hello')
+
+greeting2(stu)
+
+interface Feature {
+  id: number
+  name: string
+}
+
+// 不用泛行
+// interface Result {
+//   ok: 0 | 1
+//   data: Feature[]
+// }
+
+// 泛型
+interface Result<T> {
+  ok: 0 | 1
+  data: T[]
+}

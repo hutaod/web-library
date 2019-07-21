@@ -12,7 +12,7 @@ rm -rf 删除文件夹及子文件
 
 - 配置 nginx
 
-```
+```nginx
 server {
   listen 80;
   server_name sportsadmin.htonlinezone.cn; #域名

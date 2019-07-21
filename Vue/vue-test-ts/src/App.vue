@@ -2,7 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
     <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
-    <Hello msg="blabla" />
+    <Hello :msg="msg" @addFeature="addFeature" />
   </div>
 </template>
 
@@ -17,7 +17,18 @@ import Hello from './components/Hello.vue'
     Hello
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private msg: string = 'blabla'
+
+  protected addFeature(name: any) {
+    console.log(name)
+  }
+  private created() {
+    setTimeout(() => {
+      this.msg = 'hahaha'
+    }, 2000)
+  }
+}
 </script>
 
 <style>
