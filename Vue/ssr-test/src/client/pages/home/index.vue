@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>hi {{name}}</h1>
+    <div>vuexCount： {{$store.state.count}}</div>
   </div>
 </template>
 <script>
