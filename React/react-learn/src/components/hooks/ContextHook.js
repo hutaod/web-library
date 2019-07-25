@@ -23,9 +23,9 @@ const TestContextComp = props => {
   )
 }
 
-class HooksTest extends Component {
+class ContextHook extends Component {
   render() {
-    console.log(`HooksTest`)
+    console.log(`ContextHook`)
     return (
       <div>
         {/* userContext */}
@@ -65,4 +65,4 @@ const TestUseContext = () => {
   return <div>{contextVal.counter}</div>
 }
 
-export default HooksTest
+export default ContextHook
