@@ -7,7 +7,8 @@ import React from 'react'
 // React.lazy必须和 React.Suspense结合
 // const ForwardRef = React.lazy(() => import('./components/ForwardRef'))
 
-import { ContextHook, ReducerHook } from './components/hooks'
+// import { ContextHook, ReducerHook } from './components/hooks'
+import Lifeloop from './components/lifeloop'
 
 const App = () => {
   return (
@@ -34,8 +35,9 @@ const App = () => {
           <ForwardRef />
         </div>
       </React.Suspense> */}
-      <ContextHook />
-      <ReducerHook />
+      {/* <ContextHook />
+      <ReducerHook /> */}
+      <Lifeloop />
     </div>
   )
 }
