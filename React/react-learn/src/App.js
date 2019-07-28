@@ -8,7 +8,11 @@ import React from 'react'
 // const ForwardRef = React.lazy(() => import('./components/ForwardRef'))
 
 // import { ContextHook, ReducerHook } from './components/hooks'
-import Lifeloop from './components/lifeloop'
+// import Lifeloop from './components/lifeloop'
+// import ContextTest from './components/ContextTest'
+// import HocTest from './components/HocTest'
+import Composition from './components/Composition'
+import { ReducerHook } from './components/hooks'
 
 const App = () => {
   return (
@@ -37,7 +41,11 @@ const App = () => {
       </React.Suspense> */}
       {/* <ContextHook />
       <ReducerHook /> */}
-      <Lifeloop />
+      {/* <Lifeloop />
+      <ContextTest />
+      <HocTest /> */}
+      <Composition />
+      <ReducerHook />
     </div>
   )
 }
