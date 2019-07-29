@@ -11,8 +11,9 @@ import React from 'react'
 // import Lifeloop from './components/lifeloop'
 // import ContextTest from './components/ContextTest'
 // import HocTest from './components/HocTest'
-import Composition from './components/Composition'
-import { ReducerHook } from './components/hooks'
+// import Composition from './components/Composition'
+// import { ReducerHook } from './components/hooks'
+import TestForm from './components/Form/Test'
 
 const App = () => {
   return (
@@ -44,8 +45,9 @@ const App = () => {
       {/* <Lifeloop />
       <ContextTest />
       <HocTest /> */}
-      <Composition />
-      <ReducerHook />
+      {/* <Composition />
+      <ReducerHook /> */}
+      <TestForm />
     </div>
   )
 }
