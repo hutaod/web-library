@@ -1,26 +1,48 @@
 import React, { Component } from 'react'
 import { Input, Button } from 'antd'
+import Form from './Form'
 
-// 创建高阶函数
-function FormCreate(Comp) {
-  return class extends Component {
-    render() {
-      return <Comp {...this.props} />
-    }
-  }
-}
+const FormItem = Form.Item
 
-@FormCreate
+@Form.create()
 class Test extends Component {
-  handleLogin = () => {}
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      console.log(err, values)
+    })
+  }
 
   render() {
+    const { getFieldDecorator } = this.props.form
     return (
-      <div>
-        <Input />
-        <Input type="password" />
-        <Button onClick={this.handleLogin}>登录</Button>
-      </div>
+      <Form onSubmit={this.handleSubmit}>
+        <FormItem
+          label="用户名"
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 10 }}
+        >
+          {getFieldDecorator('username', {
+            rules: [
+              {
+                required: true,
+                message: '用户名错误'
+              }
+            ]
+          })(<Input />)}
+        </FormItem>
+        {getFieldDecorator('password', {
+          rules: [
+            {
+              required: true,
+              message: '密码错误'
+            }
+          ]
+        })(<Input type="password" />)}
+        <Button type="primary" htmlType="submit">
+          登录
+        </Button>
+      </Form>
     )
   }
 }
