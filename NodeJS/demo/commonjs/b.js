@@ -1,9 +1,10 @@
-const { add, mul } = require('./a')
-const _ = require('loadsh')
+// b.js
+console.log('b模块start')
 
-const sum = add(1, 2)
-const result = mul(100, 200)
-console.log(sum, result)
+exports.test = 2
 
-const arr = _.concat([1, 2], [3])
-console.log(arr)
+const a = require('./a')
+
+console.log('undeclaredVariable: ', undeclaredVariable)
+
+console.log('b模块加载完毕: a.test值：', a.test)

@@ -13,7 +13,9 @@ import React from 'react'
 // import HocTest from './components/HocTest'
 // import Composition from './components/Composition'
 // import { ReducerHook } from './components/hooks'
-import TestForm from './components/Form/Test'
+// import TestForm from './components/Form/Test'
+import ReduxtTest from './ReduxTest'
+import MyTestRedux from './MyTestRedux'
 
 const App = () => {
   return (
@@ -47,7 +49,9 @@ const App = () => {
       <HocTest /> */}
       {/* <Composition />
       <ReducerHook /> */}
-      <TestForm />
+      {/* <TestForm /> */}
+      <ReduxtTest />
+      <MyTestRedux />
     </div>
   )
 }

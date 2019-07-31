@@ -1,12 +1,10 @@
-function add(a, b) {
-  return a + b
-}
+// a.js
+console.log('a模块start')
 
-function mul(a, b) {
-  return a * b
-}
+undeclaredVariable = 'a模块未声明变量'
 
-module.exports = {
-  add,
-  mul
-}
+const b = require('./b')
+
+console.log('a模块加载完毕: b.test值：', b.test)
+
+exports.test = 1
