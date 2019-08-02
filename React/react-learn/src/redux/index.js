@@ -70,3 +70,12 @@ function compose(...funcs) {
   }
   return funcs.reduce((a, b) => (...args) => a(b(...args)))
 }
+
+export function bindActionCreators(creators, dispatch) {
+  // {add: () => ({type: 'add'})}
+  // {add: (...args) => dispatch(creator(...args))}
+  return Object.keys(creators).reduce((obj, key) => {
+    obj[key] = (...args) => dispatch(creators[key](...args))
+    return obj
+  }, {})
+}

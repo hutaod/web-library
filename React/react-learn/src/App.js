@@ -16,6 +16,7 @@ import React from 'react'
 // import TestForm from './components/Form/Test'
 import ReduxtTest from './ReduxTest'
 import MyTestRedux from './MyTestRedux'
+import RouterTest from './RouterTest'
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
       {/* <TestForm /> */}
       <ReduxtTest />
       <MyTestRedux />
+      <RouterTest/>
     </div>
   )
 }
