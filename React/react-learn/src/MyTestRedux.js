@@ -29,7 +29,7 @@ function logger({ getState }) {
       console.log(nextAction)
       // return dispatch(action)
       // 执行下一个中间件
-      // return action
+      return nextAction
     }
   }
 }
@@ -46,7 +46,8 @@ function thunk({ getState }) {
         action(dispatch, getState)
         return
       }
-      dispatch(action)
+      const nextAction = dispatch(action)
+      console.log(nextAction)
     }
   }
 }
@@ -54,8 +55,10 @@ const store = createStore(counterReducer, applyMiddleware(thunk, logger))
 
 export default class MyTestRedux extends Component {
   componentDidMount() {
-    store.subscribe(() => {
+    this.unsubscribe = store.subscribe(() => {
       this.forceUpdate()
+      console.log(1112222)
+      // this.unsubscribe()
     })
   }
   render() {
@@ -65,6 +68,7 @@ export default class MyTestRedux extends Component {
         <div>
           <button
             onClick={() => {
+              console.log(123)
               store.dispatch({
                 type: 'add'
               })

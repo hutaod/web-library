@@ -14,9 +14,9 @@ import React from 'react'
 // import Composition from './components/Composition'
 // import { ReducerHook } from './components/hooks'
 // import TestForm from './components/Form/Test'
-import ReduxtTest from './ReduxTest'
+// import ReduxtTest from './ReduxTest'
 import MyTestRedux from './MyTestRedux'
-import RouterTest from './RouterTest'
+// import RouterTest from './RouterTest'
 
 const App = () => {
   return (
@@ -51,9 +51,9 @@ const App = () => {
       {/* <Composition />
       <ReducerHook /> */}
       {/* <TestForm /> */}
-      <ReduxtTest />
+      {/* <ReduxtTest /> */}
       <MyTestRedux />
-      <RouterTest/>
+      {/* <RouterTest/> */}
     </div>
   )
 }

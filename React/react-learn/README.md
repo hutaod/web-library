@@ -302,7 +302,7 @@ class TestComp extends Component {
 1. 直接控制props.children来实现
 2. 通过属性实现
 
-    注意：props.children 是合法的js表达式，jsx也会被边缘为js对象。
+    注意：props.children 是合法的js表达式，jsx也会被编译为js对象。
 
 主要记录一下props.children的实现方式：
 1. 常用方式：直接通过属性来实现具名插槽，children为默认插槽

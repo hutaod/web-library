@@ -1,7 +1,13 @@
-export function createStore(reducer, enhancer) {
+export function createStore(reducer, initState, enhancer) {
+  if (typeof initState === 'function' && typeof enhancer === 'function') {
+    throw new TypeError('initState 不能是一个方法')
+  }
+  if (typeof initState === 'function') {
+    enhancer = initState
+    initState = null
+  }
   let currentState = undefined
   const currentListeners = [] // 回调函数数组
-
   // 如果存在 enhancer 强化函数
   if (enhancer) {
     return enhancer(createStore)(reducer)
@@ -16,11 +22,16 @@ export function createStore(reducer, enhancer) {
     currentState = reducer(currentState, action)
     // 变更通知
     currentListeners.forEach(cb => cb())
+    // console.log(currentListeners.length)
     return action
   }
 
   function subscribe(cb) {
     currentListeners.push(cb)
+    return function() {
+      const index = currentListeners.indexOf(cb)
+      currentListeners.splice(index, 1)
+    }
   }
 
   // 初始化状态
@@ -52,7 +63,6 @@ export function applyMiddleware(...middlewares) {
     // 强化后的dispatch，让它可以按顺序的执行中间件函数
     // dispatch =>
     dispatch = compose(...chain)(store.dispatch)
-    console.log(dispatch)
     // 返回全新的store，近更新强化过的dispatch函数
     return {
       ...store,
@@ -71,11 +81,17 @@ function compose(...funcs) {
   return funcs.reduce((a, b) => (...args) => a(b(...args)))
 }
 
-export function bindActionCreators(creators, dispatch) {
+function bindActionCreator(actionCreator, dispatch) {
+  return function() {
+    return dispatch(actionCreator.apply(this, arguments))
+  }
+}
+
+export function bindActionCreators(actionCreators, dispatch) {
   // {add: () => ({type: 'add'})}
   // {add: (...args) => dispatch(creator(...args))}
-  return Object.keys(creators).reduce((obj, key) => {
-    obj[key] = (...args) => dispatch(creators[key](...args))
+  return Object.keys(actionCreators).reduce((obj, key) => {
+    obj[key] = bindActionCreator(actionCreators[key], dispatch)
     return obj
   }, {})
 }
