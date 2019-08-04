@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { add, addAsync, minus } from './store/counter'
-import store from './store'
+// import store from './store'
 
 // 参数1 mapStateToProps = state => ({ num: state })
 // 参数2 mapDispatchToProps = dispatch => ({add: () => {dispatch({ type: 'add' })}})
