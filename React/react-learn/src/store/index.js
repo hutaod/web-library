@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
+// import createSagaMiddleware from 'redux-saga'
 import { counterReducer } from './counter'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
