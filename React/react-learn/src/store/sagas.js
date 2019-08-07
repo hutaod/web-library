@@ -1,8 +1,16 @@
-import { call, put, takeEvery } from 'redux-saga'
+import { call, put, takeEvery } from 'redux-saga/effects'
 
 const UserService = {
-  login() {
-    return
+  login(uname) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (uname === 'ht') {
+          resolve({ id: 1, name: 'ht', age: 18 })
+        } else {
+          resolve('用户名密码错误')
+        }
+      }, 1000)
+    })
   }
 }
 
@@ -13,7 +21,7 @@ function* login(action) {
       type: 'requestLogin'
     })
     const result = yield call(UserService.login, action.uname)
-    yield put({ type: 'loginSucess', result })
+    yield put({ type: 'loginSuccess', result })
   } catch (error) {
     yield put({ type: 'loginFailure', payload: error })
   }
