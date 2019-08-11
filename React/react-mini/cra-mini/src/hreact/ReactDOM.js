@@ -1,10 +1,9 @@
-import initVnode from './kvdom'
-
+import initVNode from './virtual-dom'
 function render(vnode, container) {
-  // console.log(container, initVnode(vnode))
+  console.log(vnode)
   // container.innerHTML = `<pre>${JSON.stringify(vnode, null, 2)}</pre>`
   if (vnode && container) {
-    container.appendChild(initVnode(vnode))
+    container.appendChild(initVNode(vnode))
   }
 }
 
