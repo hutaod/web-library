@@ -40,6 +40,19 @@ console.log(it.next(13)) // => {value: 42, done: true}
 - 第二次 next 传递的参数会替代`yield (x + 1)`，也就是说`y = 2 * 12 = 24;` 返回值为： `24 / 3 = 8`
 - 第三次 next 传递的参数会替代`yield (y / 3)`，也就是：`z = 13`; 返回值为： `5 + 24 + 13 = 42`。
 
+实现一个co函数，让异步代码同步化
+```javascript
+function co(gen) {
+  return function(...arg) {
+    const g = gen(...arg)
+    while (!g.done) {
+      g.next(g.value)
+    }
+    return g.value
+  }
+}
+```
+
 ## Promise
 
 特点：
@@ -48,6 +61,31 @@ console.log(it.next(13)) // => {value: 42, done: true}
 2. `Promise` 实现了链式调用，也就是说每次 `then` 之后返回的都是一个 `Promise` ，并且是一个全新的 `Promise`，原因也是因为 `Promise` 状态不可变。 如果你在 `then` 中使用了 `return` ，那么 `return` 的值会被 `Promise.resolve()` 包装
    优点：解决了回调地狱的问题。
    缺点：无法取消 `Promise`, 错误需要通过回调函数捕获。
+
+实现一个promisify方法：
+```javascript
+// 只用于最后一个参数是回调函数的函数，比如function fn(a, cb){}
+// const newFn = promisify(fn)
+// newFn(a)  => 会执行promise方法
+function promisify(fn) {
+  return function(...args) {
+    // 返回promise的实例
+    return new Promise(function(reslove, reject) {
+      // newFn(a) 时会执行到这里向下执行
+      // 加入参数cb => newFn(a)
+      args.push(function(err, data) {
+        if (err) {
+          reject(err)
+        } else {
+          reslove(data)
+        }
+      })
+      // 这里才是函数真正执行的地方执行newFn(a, cb)
+      fn.apply(null, args)
+    })
+  }
+}
+```
 
 ## async 及 await
 
