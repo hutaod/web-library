@@ -62,7 +62,7 @@ function co(gen) {
    优点：解决了回调地狱的问题。
    缺点：无法取消 `Promise`, 错误需要通过回调函数捕获。
 
-实现一个promisify方法：
+实现一个`promisify`方法：
 ```javascript
 // 只用于最后一个参数是回调函数的函数，比如function fn(a, cb){}
 // const newFn = promisify(fn)
