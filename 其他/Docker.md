@@ -27,3 +27,19 @@ GRANT ALL PRIVILEGES ON *.* TO 'test'@'%';
 
 参考：
 [Docker 安装 MySQL](https://www.runoob.com/docker/docker-install-mysql.html)
+[Docker 安装 MongodDB](https://blog.csdn.net/xiaojin21cen/article/details/84994452)
+
+```bash
+docker run  \
+--name mongodb \
+-p 27017:27017  \
+-v ~/mongo/configdb:/data/configdb/ \
+-v ~/mongo/db/:/data/db/ \
+-d mongo --auth
+
+docker exec -it mongodb mongo admin
+
+db.createUser({ user: 'admin', pwd: '123456', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+
+
+```
