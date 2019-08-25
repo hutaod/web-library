@@ -10,3 +10,9 @@
 - `nvm ls available` （window 用户）
 
 ## [npm 注意事项](./npm注意事项.md)
+
+## 工具
+
+[批量更新package依赖npm-check-updates](https://github.com/tjunnone/npm-check-updates)
+
+[管理多个npm包](https://github.com/lerna/lerna)

@@ -23,6 +23,9 @@ CREATE USER 'test'@'%' IDENTIFIED WITH mysql_native_password BY 'abc123456';
 
 # 设置权限
 GRANT ALL PRIVILEGES ON *.* TO 'test'@'%';
+
+# 创建adminer容器
+docker run --link mysql:mysql --name adminer -p 8888:8080 -d --restart=always adminer
 ```
 
 参考：
