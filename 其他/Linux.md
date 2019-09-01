@@ -36,6 +36,29 @@ server {
 }
 ```
 
+## 公钥信任
+
+```bash
+cd
+# 进入.ssh目录
+cd .ssh
+# 生成密钥
+ssh-keygen -t rsa -P ''
+# 查看密钥
+cat id_rsa.pub
+# 登录远程服务器 需要输入密码
+ssh root@47.xx.xxx.xxx
+
+# 进入远程服务器.ssh目录
+cd .ssh/
+# 编辑远程服务器authorized_keys
+vi authorized_keys
+# 退出
+exit
+# 登录远程服务器 不需要输入密码
+ssh root@47.xx.xxx.xxx
+```
+
 ## 参考资料
 
 [Centos 文件和目录访问权限设置](https://blog.csdn.net/zhwxl_zyx/article/details/41961317)
