@@ -1,0 +1,10 @@
+body {
+  background: yellow !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+body .test {
+  font-size: 25px;
+}
+
