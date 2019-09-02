@@ -152,18 +152,18 @@ eval("var content = __webpack_require__(/*! !../node_modules/css-loader/dist/cjs
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ \"./src/index.css\");\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _index_less__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.less */ \"./src/index.less\");\n/* harmony import */ var _index_less__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_index_less__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _logo_gif__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./logo.gif */ \"./src/logo.gif\");\n/* harmony import */ var _logo_gif__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_logo_gif__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\nconsole.log(_logo_gif__WEBPACK_IMPORTED_MODULE_2___default.a)\nvar img = new Image()\nimg.src = _logo_gif__WEBPACK_IMPORTED_MODULE_2___default.a\nimg.classList.add('logo')\n\nvar root = document.getElementById('root')\nroot.appendChild(img)\n\ndocument.write('hello webpack')\nconsole.log('hello')\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ \"./src/index.css\");\n/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _index_module_less__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.module.less */ \"./src/index.module.less\");\n/* harmony import */ var _index_module_less__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_index_module_less__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _logo_gif__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./logo.gif */ \"./src/logo.gif\");\n/* harmony import */ var _logo_gif__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_logo_gif__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\nconsole.log(_logo_gif__WEBPACK_IMPORTED_MODULE_2___default.a)\nvar img = new Image()\nimg.src = _logo_gif__WEBPACK_IMPORTED_MODULE_2___default.a\nimg.classList.add(_index_module_less__WEBPACK_IMPORTED_MODULE_1___default.a.logo)\n\nvar root = document.getElementById('root')\nroot.appendChild(img)\n\ndocument.write('hello webpack')\nconsole.log('hello')\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
-/***/ "./src/index.less":
-/*!************************!*\
-  !*** ./src/index.less ***!
-  \************************/
+/***/ "./src/index.module.less":
+/*!*******************************!*\
+  !*** ./src/index.module.less ***!
+  \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/index.less?");
+eval("// extracted by mini-css-extract-plugin\nmodule.exports = {\"logo\":\"_14_4xWdyIR3rRGO5TbmV9I\"};\n\n//# sourceURL=webpack:///./src/index.module.less?");
 
 /***/ }),
 

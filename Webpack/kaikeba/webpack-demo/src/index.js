@@ -1,10 +1,10 @@
 import './index.css'
-import './index.less'
+import styles from './index.module.less'
 import logo from './logo.gif'
 console.log(logo)
 var img = new Image()
 img.src = logo
-img.classList.add('logo')
+img.classList.add(styles.logo)
 
 var root = document.getElementById('root')
 root.appendChild(img)

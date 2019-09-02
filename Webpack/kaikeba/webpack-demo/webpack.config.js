@@ -12,10 +12,10 @@ module.exports = {
   output: {
     // 必须时绝对路径
     path: path.resolve(__dirname, './dist'),
-    // js模块，用 chunkhash
-    // 如果使用contenthash css变化后js无变化
-    // 如果用css module时，class名称变了样式无效
-    filename: '[name]_[chunkhash:8].js'
+    // js模块，用 chunkhash css变化后js变化
+    // 如果使用 contenthash css变化后js无变化 js变化css无变化 用于css抽离时
+    // 所以当使用mini-css-extract-plugin插件抽离css时，可将chunk和css块都使用contenthash替换达到互不影响的作用
+    filename: '[name]_[contenthash:8].js'
     // filename: '[name].js'
   },
   mode: 'development',
@@ -49,9 +49,26 @@ module.exports = {
       // }
       {
         test: /\.(less)$/,
+        exclude: /\.(module.less)$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
+          {
+            loader: 'css-loader'
+          },
+          'less-loader',
+          'postcss-loader'
+        ]
+      },
+      {
+        test: /\.(module.less)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          },
           'less-loader',
           'postcss-loader'
         ]
