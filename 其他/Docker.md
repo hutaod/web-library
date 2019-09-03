@@ -2,6 +2,13 @@
 
 ## docker 实例
 
+## docker 创建自己的镜像
+
+```bash
+# 把当前目录下的Dockerfile 文件运行并创建名为 mynginx 镜像
+docker build -t mynginx
+```
+
 ### docker 安装 mysql
 
 ```bash
