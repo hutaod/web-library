@@ -1,5 +1,7 @@
 # 数据结构
 
+## 列表
+
 ## 二叉树
 
 ### 二叉树的中序遍历
@@ -9,7 +11,7 @@
 给定一个二叉树，返回它的中序遍历
 示例：
 
-```javascript
+``` 
 输入: [1,null,2,3]
    1
     \
@@ -25,13 +27,14 @@
 
 递归实现
 
-```javascript
+``` javascript
 var inorderTraversal = function(root, array = []) {
-  if (root) {
-    inorderTraversal(root.left, array)
-    array.push(root.val)
-    inorderTraversal(root.right, array)
-  }
-  return array
+    if (root) {
+        inorderTraversal(root.left, array)
+        array.push(root.val)
+        inorderTraversal(root.right, array)
+    }
+    return array
 }
 ```
+
