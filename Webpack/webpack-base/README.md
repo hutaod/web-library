@@ -234,4 +234,153 @@ module.exports = {
 - `url-loader` 也可以处理理图⽚片和字体 可以设置较小资源自动转为 `base64`
 
 ```javascript
+// file-loader 使用
+{
+  test: /\.(png|svg|jpg|gif)$/,
+  use: 'file-loader'
+}
+
+// url-loader 使用
+{
+  test: /\.(png|svg|jpg|gif)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        limit: 10240
+      }
+    }
+  ]
+}
 ```
+
+## webpack 中的⽂文件监听
+
+文件监听是在发现源码发生变化时，自动重新构建处新的输出文件
+
+`webpack` 开启监听模式的两种方式：
+
+- 启动 `webpack` 命令时，带上 `--watch` 参数
+- 在配置 `webpack.config.js` 中设置 `watch:true`
+
+```bash
+  "scripts": {
+    "build": "webpack --watch"
+  }
+```
+
+```javascript
+  watch: true, // 默认false
+  watchOptions: {
+    // 忽略node_modules的变化
+    ignored: /node_modules/,
+    // 监听到文件变化后，等300ms再去执行，默认300ms
+    aggregateTimeout: 300,
+    // 判断文件是否发生变化时通过不停的询问系统指定文件有没有变化，默认每秒询问1次
+    poll: 1000 // 单位ms
+  }
+```
+
+## 热更新： webpack-dev-server
+
+WDS 不需要手动刷新浏览器
+WDS 不输出文件，而是放在内容中
+使用 HotModuleReplacementPlugin 插件可以页面无刷新重新渲染
+
+## 文件指纹
+
+### 文件指纹是啥？
+
+文件指纹是指打包后输出的⽂文件名的后缀
+
+### 文件指纹如何生成？
+
+`hash` 和整个项目的构建相关，只要项目文件有修改，整个项目构建的 hash 值就会更改 所有的文件哈希值一样。
+`chunkhash` 和 webpack 打包的 chunk 有关，不不同的 entry 会⽣生成不不同的 chunkhash 值。
+`contenthash` 根据⽂文件内容来定义 hash ，⽂文件内容不变，则 contenthash 不变。 比如 1. css 文件中，当引入的 css 文件的主文件变化，css 未变化打包后的 hash 后缀就不会改变，2. 如果 css 不使用 contenthash，那么打包后 css 的哈希后缀 会和 js 哈希后缀一样，也会变，3. 如果这时候 js 仍然使用 chunkhash，每次 css 更改，js 的哈希后缀 也会变化
+
+### 当你的网站需要考虑长效缓存，可以使用不同的 hash
+
+1. 当没有将 css 从 chunk 中抽离时直接使用 chunkhash
+2. 当使用 mini-css-extract-plugin 插件抽离 css 时,可将 chunk 和 css 块都使用 contenthash 替换达到互不影响的作用
+3. 不要使用 hash，这可能因为 webpack 的修改导致 hash 值变动而使缓存失效
+
+关于 hash 的使用场景，可考虑将其作为版本控制；
+
+参考
+[Webpack 疑问系列之 hash/chunkhash/contenthash 区别](https://juejin.im/post/5cd5586a5188254459335921)
+
+### JS 的文件指纹设置
+
+```javascript
+module.exports = {
+  entry: {
+    main: './src/index.js',
+    app: './src/app.js'
+  },
+  output: {
+    filename: '[name]_[chunkhash:8].js',
+    path: __dirname + '/dist'
+  }
+}
+```
+
+### CSS 的文件指纹设置
+
+```javascript
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+module.exports = {
+  entry: {
+    main: './src/index.js',
+    app: './src/app.js'
+  },
+  output: {
+    // 这里设置contenthash是为了避免css文件变化后，
+    // 引用该css的js文件hash后缀跟着变
+    filename: '[name]_[contenthash:8].js',
+    path: __dirname + '/dist'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'less-loader',
+          'postcss-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name]_[contenthash:8].css'
+    })
+  ]
+}
+```
+
+### 图片的文件指纹
+
+设置 file-loader 或者 url-loader 的 filename，使用 [hash]
+这里的 hash 值根据图片的内容生成，图片没变化 hash 值是不会变化的
+
+```javascript
+{
+  test: /\.(png|svg|jpe?g|gif)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        name: '[name]_[hash:8].[ext]',
+        limit: 10240
+      }
+    }
+  ]
+}
+```
+
+### 注意点
+
+如果使用了 HotModuleReplacementPlugin 插件，输出的 chunk 文件指纹只能是 hash
