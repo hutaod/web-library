@@ -15,7 +15,7 @@ module.exports = {
     // js模块，用 chunkhash css变化后js变化
     // 如果使用 contenthash css变化后js无变化 js变化css无变化 用于css抽离时
     // 所以当使用mini-css-extract-plugin插件抽离css时，可将chunk和css块都使用contenthash替换达到互不影响的作用
-    filename: '[name]_[contenthash:8].js'
+    filename: '[name]_[chunkhash:8].js'
     // filename: '[name].js'
   },
   mode: 'development',

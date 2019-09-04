@@ -15,9 +15,9 @@ npm info webpack
 
 作用：缓存
 
-`hash` webpack 构建的 hash 版本 构建一次变一次
+`hash` webpack 构建的 hash 版本 构建一次变一次 所有的文件哈希值一样
 `chunkhash` 根据文件 chunk 生成的，只针对入口文件，入口文件变化内容变才会变
-`contenthash` 用于 比如 css 文件中，当引入的 css 文件的主文件变化，css 未变化就不需要改变，如果 css 不使用 contenthash，那么 indexjs 变了之后 index.less 也会变
+`contenthash` 用于 比如 css 文件中，当引入的 css 文件的主文件变化，css 未变化打包后的 hash 值就不会改变，如果 css 不使用 contenthash，那么打包后 css 的哈希值 会和 js 哈希值一样，也会变
 
 当你的网站需要考虑长效缓存，可以使用不同的 hash
 

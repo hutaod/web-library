@@ -9,5 +9,5 @@ img.classList.add(styles.logo)
 var root = document.getElementById('root')
 root.appendChild(img)
 
-document.write('hello webpack')
+document.write('hello webpack!!')
 console.log('hello')
