@@ -384,3 +384,7 @@ module.exports = {
 ### 注意点
 
 如果使用了 HotModuleReplacementPlugin 插件，输出的 chunk 文件指纹只能是 hash
+
+## JS文件压缩
+
+
