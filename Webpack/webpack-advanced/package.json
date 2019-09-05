@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "watch": "webpack --watch",
-    "dev": "webpack-dev-server --config webpack.dev.js --open"
+    "dev": "webpack-dev-server --config webpack.dev.js"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +30,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "px2rem-loader": "^0.1.9",
-    "raw-loader": "^3.1.0",
+    "raw-loader": "^0.5.1",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",

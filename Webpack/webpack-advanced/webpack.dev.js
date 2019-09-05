@@ -23,7 +23,7 @@ const devConfig = {
           {
             loader: 'px2rem-loader',
             options: {
-              remUnit: 75,
+              remUnit: 37.5,
               remPrecision: 8
             }
           }
@@ -51,6 +51,7 @@ const devConfig = {
   ],
   devServer: {
     contentBase: './dist',
+    // open: true,
     hot: true
   }
 }
