@@ -456,3 +456,118 @@ document.write(helloworld())
 注意：必须是 `ES6` 语法，`CJS` 不不⽀支持
 
 手动开启使用 webpack 内置插件 `webpack.optimize.ModuleConcatenationPlugin`
+
+## 代码分割的意义
+
+对于大型的 Web 应用来讲，将所有的代码都放在一个文件中显然是不够有效的，特别是当你的 某些代码块是在某些特殊的时候才会被使用到。webpack 有一个功能就是将你的代码库分割成 chunks(语块)，当代码运行到需要它们的时候再进行加载。
+
+代码分割的使用：
+
+- 抽离相同代码到一个共享块
+- 脚本懒加载，使得初始化时下载的代码更小
+
+### 懒加载 JS 脚本的方式
+
+CommonJS: require.ensure
+
+ES6: 动态 import（目前还没有原生支持，需要 babel 转换）
+
+### 动态 import
+
+安装 babel 插件
+
+```bash
+npm install @babel/plugin-syntax-dynamic-import --save-dev
+```
+
+配置：
+
+```javascript
+"plugins": ["@babel/plugin-syntax-dynamic-import"],
+```
+
+使用：
+
+```javascript
+// src/index/lazyComp.js
+import React from 'react'
+export default () => <div>动态 import</div>
+
+// src/index/index.js
+import('./lazyComp.js').then(lazyComp => {
+  this.setState({ LazyComp: lazyComp.default })
+})
+```
+
+## ESLint
+
+### ESLint 的必要性
+
+- 统一团队风格
+- 检测代码错误
+
+### 行业里的优秀 ESLint 规范实践
+
+- [Airbnb 的 eslint-config-airbnb、 eslint-config-airbnb-base](https://github.com/airbnb/javascript)
+- [alloyteam 团队 eslint-config-alloy](https://github.com/AlloyTeam/eslint-config-alloy)
+- [ivweb 团队:eslint-config-ivweb](https://github.com/feflow/eslint-config-ivweb)
+
+### 制定团队的 ESLint 规范
+
+- 不不重复造轮⼦子，基于 eslint:recommend 配置并改进
+- 能够帮助发现代码错误的规则，全部开启
+- 帮助保持团队的代码⻛格统一，⽽不是限制开发体验
+
+### ESLint 如何落地
+
+1. 和 CI/CD 系统集成
+
+2. 和 webpack 集成
+
+#### 方案一 webpack 与 CI/CD 集成
+
+1. 在 build 阶段增加 lint pipline
+
+![lint pipline](./images/lintpipline.png)
+
+2. 本地开发阶段增加 precommit 钩子
+
+安装 husky
+
+```bash
+npm i -D husky
+```
+
+增加 `npm script`，通过 `lint-staged` 增量检查修改的文件
+
+```json
+{
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{js,scss}": ["eslint --fix", "git add"]
+    }
+  }
+}
+```
+
+#### 方案二： webpack 与 ESLint 集成
+
+使⽤ eslint-loader，构建时检查 JS 规范
+
+```javascript
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /.jsx?$/,
+        use: ['babel-loader', 'eslint-loader']
+      }
+    ]
+  }
+}
+```
+
+## webpack 打包库和组件

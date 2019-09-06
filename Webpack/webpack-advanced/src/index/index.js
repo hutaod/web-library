@@ -3,26 +3,36 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 // import { common } from '../../common/index'
 import logo from '../images/logo.png'
-import { a } from './tree-shaking'
+// import { a } from './tree-shaking'
 import './index.less'
 
-// a()
-// console.log(a())
-if (false) {
-  console.log(a())
-}
-
 class App extends React.Component {
-  componentDidMount() {
-    // console.log(a)
+  constructor(props) {
+    super(props)
+    this.state = {
+      Text: null,
+    }
+    this.loadComponent()
   }
+
+  loadComponent() {
+    import('./test.js').then((Text) => {
+      console.log(Text)
+      this.setState({
+        Text: Text.default,
+      })
+    })
+  }
+
   render() {
+    const { Text } = this.state
     return (
       <div className="app">
         <div className="search-text">搜索文字的内容</div>
-        <img src={logo} />
+        <img src={logo} alt="" />
         <p />
         {/* {common()} */}
+        {Text ? <Text /> : null}
       </div>
     )
   }

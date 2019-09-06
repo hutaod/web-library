@@ -5,7 +5,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const merge = require('webpack-merge')
-const webpack = require('webpack')
+// const webpack = require('webpack')
 const baseConfig = require('./webpack.base')
 
 const setMPA = () => {
@@ -52,7 +52,7 @@ const prodConfig = {
   output: {
     filename: '[name]_[contenthash:8].js'
   },
-  mode: 'none',
+  mode: 'production',
   // devtool: 'inline-source-map',
   module: {
     rules: [
@@ -112,8 +112,8 @@ const prodConfig = {
       assetNameRegExp: /\.css$/,
       cssProcessor: require('cssnano')
     }),
-    ...htmlWebpackPlugins,
-    new webpack.optimize.ModuleConcatenationPlugin()
+    ...htmlWebpackPlugins
+    // new webpack.optimize.ModuleConcatenationPlugin()
   ],
   optimization: {
     splitChunks: {
