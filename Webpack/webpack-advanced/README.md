@@ -378,6 +378,29 @@ moudle.exports = {
 
 要求：必须是 es6 的语法，cjs(CommonJS) 方式不支持
 
+```javascript
+// 开启摇树优化 production 模式默认开启
+module.exports = {
+  optimization: {
+    true
+  }
+}
+```
+
+development 模式开启也不会直接去掉，只会注释标注，在 uglify 阶段才会被擦除掉
+
+sideEffects 配合 `Tree Shaking`
+
+```json
+// package.json
+{
+  // "sideEffects": false // 默认对所有引入文件进行摇树优化
+  "sideEffects": [
+    "*.css" // 对css不进行摇树优化
+  ]
+}
+```
+
 ### DCE(Dead code elimination) 删除无用的代码
 
 无用代码的定义：
@@ -457,6 +480,12 @@ document.write(helloworld())
 
 手动开启使用 webpack 内置插件 `webpack.optimize.ModuleConcatenationPlugin`
 
+```javascript
+module.exports = {
+  plugins: [new webpack.optimize.ModuleConcatenationPlugin()]
+}
+```
+
 ## 代码分割的意义
 
 对于大型的 Web 应用来讲，将所有的代码都放在一个文件中显然是不够有效的，特别是当你的 某些代码块是在某些特殊的时候才会被使用到。webpack 有一个功能就是将你的代码库分割成 chunks(语块)，当代码运行到需要它们的时候再进行加载。
@@ -465,6 +494,7 @@ document.write(helloworld())
 
 - 抽离相同代码到一个共享块
 - 脚本懒加载，使得初始化时下载的代码更小
+- 公用模块内容不变的情况下，分割后的文件的 chunk hash 值也不会变，浏览器就会利用缓存
 
 ### 懒加载 JS 脚本的方式
 
@@ -498,6 +528,8 @@ import('./lazyComp.js').then(lazyComp => {
   this.setState({ LazyComp: lazyComp.default })
 })
 ```
+
+[点击查看官方文档代码分离说明](https://webpack.docschina.org/guides/code-splitting/)
 
 ## ESLint
 

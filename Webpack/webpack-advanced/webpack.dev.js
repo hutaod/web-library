@@ -2,8 +2,8 @@ const glob = require('glob')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const merge = require('webpack-merge')
-const baseConfig = require('./webpack.base')
+// const merge = require('webpack-merge')
+// const baseConfig = require('./webpack.base')
 
 const setMPA = () => {
   const entry = {}
@@ -87,4 +87,5 @@ const devConfig = {
   }
 }
 
-module.exports = merge(baseConfig, devConfig)
+module.exports = devConfig
+// module.exports = merge(baseConfig, devConfig)

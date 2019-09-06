@@ -4,9 +4,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const merge = require('webpack-merge')
+// const merge = require('webpack-merge')
 // const webpack = require('webpack')
-const baseConfig = require('./webpack.base')
+// const baseConfig = require('./webpack.base')
 
 const setMPA = () => {
   const entry = {}
@@ -117,12 +117,21 @@ const prodConfig = {
   ],
   optimization: {
     splitChunks: {
-      minSize: 10, //单位b 文件大小超过设定值时才会进行分割
-      cacheGroups: {
+      // chunks: 'all', // 对同步 initial，异步 async，所有的模块 有效 all
+      minSize: 30, // 单位b 文件大小超过设定值时才会进行分割
+      // maxSize: 0, // 对模块进行二次分割，不推荐使用
+      // minChunks: 1, // 打包生成的chunk文件最少有⼏个chunk引用了这个模块 默认1
+      // maxAsyncRequests: 5, // 最⼤异步请求数，默认5 
+      // maxInitialRequests: 3, // 最⼤大初始化请求书，⼊入⼝口⽂文件同步请求，默认3
+      // automaticNameDelimiter: '~', // 打包分割符号 默认是~
+      // name: true,// 打包后的名称，除了了布尔值，还可以接收⼀一个函数function 
+      // 不设置缓存组会把所有的都打包在一起
+      cacheGroups: { // 缓存组
         thrids: {
           test: /(react|react-dom)/,
           name: 'venders',
-          chunks: 'all'
+          chunks: 'all',
+          // priority: -10 // 缓存组优先级 数字越⼤大，优先级越⾼高
         },
         commons: {
           name: 'commons',
@@ -134,4 +143,5 @@ const prodConfig = {
   }
 }
 
-module.exports = merge(baseConfig, prodConfig)
+module.exports = prodConfig
+// module.exports = merge(baseConfig, prodConfig)

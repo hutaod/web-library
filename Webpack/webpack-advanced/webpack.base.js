@@ -2,8 +2,11 @@
 
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 const path = require('path')
+const merge = require('webpack-merge')
+const devConfig = require('./webpack.dev')
+const prodConfig = require('./webpack.prod')
 
-module.exports = {
+const baseConfig = {
   entry: {
     index: './src/index.js'
   },
@@ -41,4 +44,14 @@ module.exports = {
     //   ]
     // })
   ]
+}
+
+
+module.exports = env => {
+  console.log(env)
+  if(env && env.production) {
+    return merge(baseConfig, prodConfig)
+  } else {
+    return merge(baseConfig, devConfig)
+  }
 }

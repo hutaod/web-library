@@ -28,7 +28,7 @@ class App extends React.Component {
     const { Text } = this.state
     return (
       <div className="app">
-        <div className="search-text">搜索文字的内容</div>
+        <div className="search-text">搜索文字的内容111</div>
         <img src={logo} alt="" />
         <p />
         {/* {common()} */}
