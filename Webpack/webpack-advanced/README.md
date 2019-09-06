@@ -145,22 +145,20 @@ module.exports = {
 使用 raw-loader 内联 html
 
 ```html
-<script>
-  ${require('raw-loader!babel-loader!./meta.html')}
-</script>
+${ require('raw-loader!./meta.html')} ${require('raw-loader!./meta.html')}
 ```
 
 使用 raw-loader 内联 js
 
 ```html
 <script>
-  ${require('raw-loader!babel-loader!../node_modules/lib-flexible')}
+  ${ require('raw-loader!babel-loader!../node_modules/lib-flexible/flexible.js')}
 </script>
 ```
 
 ### CSS 内联
 
-#### 借助 style-loader
+#### 方案一：借助 style-loader
 
 ```javascript
 module.exports = {
@@ -185,4 +183,276 @@ module.exports = {
 }
 ```
 
-#### html-inline-css-webpack-loader
+#### 方案二：html-inline-css-webpack-loader
+
+## 多页面打包通用方案
+
+动态获取 entry 和对应的 HtmlWebpackPlugin
+
+利用 glob.sync 获取
+
+```javascript
+const setMPA = () => {
+  const entry = {}
+  const htmlWebpackPlugins = []
+
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
+  Object.keys(entryFiles).map(index => {
+    const entryFile = entryFiles[index]
+    const match = entryFile.match(/src\/(.*)\/index\.js$/)
+    const pageName = match[1]
+    entry[pageName] = entryFile
+    htmlWebpackPlugins.push(
+      new HtmlWebpackPlugin({
+        title: pageName,
+        template: path.join(__dirname, `src/${pageName}/index.html`),
+        filename: `${pageName}.html`,
+        chunks: [pageName],
+        inject: true,
+        // 压缩参数配置
+        minify: {
+          html5: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: false,
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: false
+        }
+      })
+    )
+  })
+
+  return {
+    entry,
+    htmlWebpackPlugins
+  }
+}
+
+const { entry, htmlWebpackPlugins } = setMPA()
+
+module.exports = {
+  entry,
+  plugins: [
+    // ...
+    ...htmlWebpackPlugins
+  ]
+}
+```
+
+## 使用 source map
+
+作用： 通过 source map 定位到源代码
+
+source map 科普文：
+[JavaScript Source Map 详解](http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html)
+
+### source map 关键字
+
+- `eval`: 使用 eval 包裹模块代码
+- `source` map: 产生 `.map` 文件
+- `cheap`: 不包含列信息
+- `inline`: 将 `.map` 作为 `DateURL` 嵌入，不单独生成 `.map` 文件
+- `module`: 包含 `loader` 的 `map` 信息
+
+### source map 类型
+
+![source map 列表](./sourcemap.png)
+
+官方文档: [devtool](https://www.webpackjs.com/configuration/devtool/)
+
+## 提取页面公共资源
+
+### 基础库分离
+
+思路：将 `react` 、 `react-dom` 基础包通过 cdn 引入，不打入 `bundle` 中
+方法：使用 `html-webpack-externals-plugin`
+
+在 index.html 中：
+
+```javascript
+<script src="https://cdn.bootcss.com/react/16.9.0-rc.0/umd/react.production.min.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.9.0-alpha.0/umd/react-dom.production.min.js"></script>
+```
+
+在 `webpack.prod.config.js` 中
+
+```javascript
+module.exports = {
+  // ...
+  plugins: [
+    // ...
+    new HtmlWebpackExternalsPlugin({
+      externals: [
+        {
+          module: 'react',
+          entry:
+            'https://cdn.bootcss.com/react/16.9.0-rc.0/umd/react.production.min.js',
+          global: 'React'
+        },
+        {
+          module: 'react-dom',
+          entry:
+            'https://cdn.bootcss.com/react-dom/16.9.0-alpha.0/umd/react-dom.production.min.js',
+          global: 'ReactDOM'
+        }
+      ]
+    })
+  ]
+}
+```
+
+### 利用 SplitChunksPlugin 进行公共脚本分离
+
+`SplitChunksPlugin`插件时 `webpack4` 内置的，替代 `CommonsChunkPlugin` 插件
+
+`chunks` 参数说明：
+
+- async 异步引入的库进行分离(默认)
+- initial 同步引入的库进行分离
+- all 所有引入的库进行分离(推荐)
+
+下面进行配置：
+
+```javascript
+// common/index.js
+export function common() {
+  return 'common module'
+}
+
+// webpack.prod.config.js
+module.exports = {
+  // ...
+  optimization: {
+    splitChunks: {
+      minSize: 10, //单位b 包的体积大小超过设定值时才会进行分离
+      cacheGroups: {
+        // 分离基础包（第三方库）
+        thrids: {
+          test: /(react|react-dom)/, // 匹配出需要分离的包
+          name: 'venders',
+          chunks: 'all'
+        },
+        // 分离页面公共文件
+        commons: {
+          name: 'commons',
+          chunks: 'all',
+          minChunks: 2 // 设定最小引用的次数，大于该值时才会进行分离
+        }
+      }
+    }
+  }
+}
+```
+
+把 chunk name 加入到 html 中
+
+```javascript
+moudle.exports = {
+  plugins: [
+    // ...
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, `src/index.html`),
+      filename: `index.html`,
+      // 加入'venders', 'commons'
+      chunks: ['venders', 'commons', 'index'],
+      inject: true,
+      // 压缩参数配置
+      minify: {
+        html5: true,
+        collapseWhitespace: true,
+        preserveLineBreaks: false,
+        minifyCSS: true,
+        minifyJS: true,
+        removeComments: false
+      }
+    })
+  ]
+}
+```
+
+## `Tree Shaking`(摇树优化) 的使用和原理分析
+
+概念：1 个模块可能有多个方法，只要其中的某个方法使⽤到了，则整个文件都会被打到 bundle 里⾯去，tree shaking 就是只把用到的⽅法打入 bundle ，没用到的⽅法会在 uglify 阶段被擦除掉。
+
+使用：webpack 默认支持，production mode 的情况下默认开启
+
+要求：必须是 es6 的语法，cjs(CommonJS) 方式不支持
+
+### DCE(Dead code elimination) 删除无用的代码
+
+无用代码的定义：
+
+- 代码不会被执行，不可到达
+- 代码的执行结果不会被用到
+- 代码只会影响死变量（只读不写）
+
+比如：
+
+```javascript
+if(false) {
+	console.log('这段代码永远不会执行’)
+}
+```
+
+### Tree-shaking 原理
+
+利用 ES6 模块的特点：
+
+- 只能作为模块顶层的语句出现， 不能出现在 function 里面或是 if 里面等块级作用域中
+- `import` 的模块名只能是字符串常亮
+- `import binding` 是 `immutable` 的，类似 `const`
+
+代码擦除： `uglify` 阶段删除无用的代码
+
+## scope hoisting
+
+webpack 本身构建后的代码存在⼤量闭包代码（mode 为 none 时可以观察到）
+编译前：
+
+```javascript
+import { helloworld } from './helloworld'
+
+document.write(helloworld())
+```
+
+编译后：
+![编译后code](./images/code1.jpg)
+
+这样会导致以下问题：
+
+- 大量作用域包裹代码，导致体积变大，模块越多越明显
+- 运行代码时创建的函数作用域变多，内存开销变大
+
+### 模块转换分析
+
+- 被 webpack 转换后的模块会带上一层包裹
+- import 会被转换成 \_webpack_require
+
+### 进一步分析 webpack 的模块机制
+
+![bundle代码](./images/code2.png)
+
+分析：
+
+- 打包出来的是一个 `IIFE（匿名闭包）`
+- `modules` 是一个数组，每一项是一个模块初始化函数
+- `__webpack_require` 用来加载模块，返回 `module.exports`
+- 通过 `__webpack_require__(__webpack_require__.s = 0)` 启动程序
+
+### scope hoisting 原理
+
+原理： 将所有模块的代码按照引用顺序放在一个函数作用域里，然后适当的重命名一些变量以防变量名冲突
+对比： 通过 `scope hoisting` 可以减少函数声明代码和内存开销
+
+使用 `scope hoisting` 前：
+![使用前](./images/code1.jpg)
+
+使用 `scope hoisting` 后：
+![使用前](./images/code1.jpg)
+
+### scope hoisting 使用
+
+`webpack` `mode` 为 `production` 默认开启
+注意：必须是 `ES6` 语法，`CJS` 不不⽀支持
+
+手动开启使用 webpack 内置插件 `webpack.optimize.ModuleConcatenationPlugin`
