@@ -4,7 +4,10 @@ Webpack 是现在前端必须掌握的技能之一，也是前端进阶一大难
 的配置，理解 Webpack 的作用与原理，拥有工程化的前端思维，轻松构建项目
 
 ## webpack 学习路线
-- [初识webpack](./初识webpack/README.md)
+
+- [初识 webpack](./webpack-start)
+- [webpack 基础](./webpack-base)
+- [webpack 进阶](./webpack-advanced)
 
 ## 升级包指南
 

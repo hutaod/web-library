@@ -1,8 +1,0 @@
-{
-  "compilerOpitons": {
-    "outDir": "./dist",
-    "module": "es6", //模块引入的方式
-    "target": "es5", //转换为es5，在大部分浏览器都能运行
-    "allowJs": true, //在typescript中允许引入js文件
-  }
-}
