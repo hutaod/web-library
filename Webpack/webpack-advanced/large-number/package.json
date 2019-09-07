@@ -1,0 +1,25 @@
+{
+  "name": "@ht1131589588/large-number",
+  "version": "1.0.0",
+  "description": "大整数加法打包",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "prepublish": "webpack"
+  },
+  "keywords": [],
+  "author": {
+    "name": "ht1131589588",
+    "email": "1131589588@qq.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "terser-webpack-plugin": "^2.0.1",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
+  }
+}

@@ -1,10 +1,13 @@
 // import 'lib-flexible'
 import React from 'react'
 import ReactDOM from 'react-dom'
+// import largeNumber from '@ht1131589588/large-number';
 // import { common } from '../../common/index'
 import logo from '../images/logo.png'
 // import { a } from './tree-shaking'
 import './index.less'
+
+// console.log(largeNumber('99999999999999999999999999', '1'))
 
 class App extends React.Component {
   constructor(props) {
