@@ -256,7 +256,7 @@ source map 科普文：
 
 ### source map 类型
 
-![source map 列表](./sourcemap.png)
+![source map 列表](./images/sourcemap.png)
 
 官方文档: [devtool](https://www.webpackjs.com/configuration/devtool/)
 
@@ -603,3 +603,17 @@ module.exports = {
 ```
 
 ## webpack 打包库和组件
+
+`webpack` 除了可以用来打包应用，也可以用来打包 js 库
+
+实现一个库的打包
+
+- 需要打包压缩版和非压缩版
+- 支持 AMD/CJS/ESM 模块引入
+
+### 库的目录结构和打包要求
+
+打包输出的库名称：
+
+- 未压缩版 jsutils.js
+- 压缩版 jsutils.min.js
