@@ -4,7 +4,7 @@
 
 ### JavaScript 代码压缩
 
-`webpack4` 内置了 `uglifyjs-webpack-plugin`
+`webpack4` 内置了 `terser-webpack-plugin`（内部使用 uglifyjs3 进行压缩）
 
 ### CSS 代码压缩
 
@@ -617,3 +617,219 @@ module.exports = {
 
 - 未压缩版 jsutils.js
 - 压缩版 jsutils.min.js
+
+### 编写一个库
+
+```js
+// src/index.js
+function add(a, b) {
+  return a + b
+}
+
+export default {
+  add
+}
+```
+
+### 如何将库暴露出去
+
+- `library` : 指定库的全局变量
+- `libraryTarget` : 支持引入库的方式
+
+```js
+module.exports = {
+  mode: 'production',
+  entry: {
+    'large-number': './src/index.js',
+    'large-number.min': './src/index.js'
+  },
+  output: {
+    filename: '[name].js',
+    library: 'largeNumber',
+    libraryExport: 'default',
+    libraryTarget: 'umd'
+  }
+}
+```
+
+### 对.min 文件进行压缩
+
+1. 设置 mode 为 none，关闭 production 压缩
+2. 配置 `optimization` 设置只压缩 `min.js` 结尾的文件
+
+```js
+// webpack.config.js
+module.exports = {
+  mode: 'none', // 设置mode为none
+  entry: {
+    'large-number': './src/index.js',
+    'large-number.min': './src/index.js'
+  },
+  output: {
+    filename: '[name].js',
+    library: 'largeNumber',
+    libraryExport: 'default',
+    libraryTarget: 'umd'
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      // uglifyjs-webpack-plugin 压缩的时候遇到es6语法会报错
+      // 设置mode为production时默认是使用 terser-webpack-plugin 插件，也是基于uglify-js3改造的
+      new TerserPlugin({
+        // 设置只对.min.js 文件进行压缩
+        include: /\.min\.js$/
+      })
+    ]
+  }
+}
+```
+
+### 设置入口文件
+
+- 配置生产环境使用`.min.js`
+
+```js
+// index.js
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./dist/large-number.min.js')
+} else {
+  module.exports = require('./dist/large-number.js')
+}
+```
+
+## 服务端渲染（SSR）
+
+### 服务端渲染是啥？
+
+HTML + CSS + JS + Data -> 渲染后的 HTML
+
+- 所有模板等资源都存储在服务端
+- 内网机器拉取数据更快
+- 一个 HTML 返回所有数据
+
+### ssr 中浏览器和服务器交互流程
+
+![](images/ssrprocess.png)
+
+### 客户端渲染 vs 服务端渲染
+
+<table>
+  <tr>
+    <th></th>
+    <th>客户端渲染</th>
+    <th>服务端渲染</th>
+  </tr><tr>
+    <td>请求</td>
+    <td>多个请求(HTML, 数据等) </td>
+    <td>1 个请求</td>
+  </tr><tr>
+    <td>加载过程</td>
+    <td>HTML&数据串行加载</td>
+    <td>1 个请求返回 HTML&数据</td>
+  </tr><tr>
+    <td>渲染</td>
+    <td>前端渲染</td>
+    <td>服务端渲染</td>
+  </tr>
+  <tr>
+    <td>可交互</td>
+    <td colspan="2">图片等静态资源加载完成，JS 逻辑执行完成可交互</td>
+  </tr>
+</table>
+
+总结：服务端渲染 (SSR) 的核心是减少请求
+
+### SSR 优势
+
+- 减少白屏时间
+- 对 SEO 友好
+
+### React SSR 代码实现
+
+后续再写
+
+## 优化构建时命令行日志显示
+
+`webpack` 构建中 默认会开启较多的日志显示
+
+如果想优化日志显示可以对`stats`进行配置
+
+`stats`有一些预设选项，可作为快捷方式
+| Preset | Alternative | Description |
+| ------ | ----------- | ----------- |
+| `"errors-only"` | none | 只在发生错误时输出 |
+| `"errors-only"` | none | 只在发生错误时输出 |
+
+详细配置参考：[统计信息(stats)](https://webpack.docschina.org/configuration/stats/)
+
+```js
+module.exports = {
+  stats: 'errors-only'
+}
+```
+
+开发环境如果用到 `devServer`，配置在 `devServer` 里面：
+
+```js
+module.exports = {
+  devServer: {
+    // ...
+    stats: 'errors-only'
+  }
+}
+```
+
+### 使用 friendly-errors-webpack-plugin 插件美化命令行显示
+
+该插件有 3 个状态
+
+- `success` 构建成功的日志提示
+- `warning` 构建警告的日志提示
+- `error` 构建错误的日志提示
+
+```js
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+module.exports = {
+  plugins: [new FriendlyErrorsWebpackPlugin()]
+}
+```
+
+## 构建异常和中断处理
+
+`webpack4` 之前的版本构建失败不会抛出错误码（error code）
+
+Node.js 中的 process.exit 规范:
+
+- 0 表示成功完成，回调函数中，err 为 null
+- ⾮非 0 表示执行失败，回调函数中，err 不为 null，err.code 就是传给 exit 的数字
+
+### 如何判断构建是否成功
+
+每次构建完成后，输入 echo \$? 可以获取错误码
+
+### 主动捕获并处理构建错误
+
+`webpack4` 默认就会捕获并处理构建错误，如果需要主动捕获构建错误，可以在 plugins 中加入一个函数
+
+具体实现如下:
+
+```js
+// webpack.prod.js
+module.exports = {
+  plugins: [
+    // 构建异常和中断处理
+    function() {
+      this.hooks.done.tap('done', stats => {
+        if (
+          stats.compilation.errors &&
+          stats.compilation.errors.length &&
+          process.argv.indexOf('--watch') === -1
+        ) {
+          console.log('build error'), process.exit(1)
+        }
+      })
+    }
+  ]
+}
+```

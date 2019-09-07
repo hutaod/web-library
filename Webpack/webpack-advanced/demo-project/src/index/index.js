@@ -1,7 +1,7 @@
 // import 'lib-flexible'
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import largeNumber from '@ht1131589588/large-number';
+import largeNumber from '@ht1131589588/large-number';
 // import { common } from '../../common/index'
 import logo from '../images/logo.png'
 // import { a } from './tree-shaking'
@@ -20,7 +20,7 @@ class App extends React.Component {
 
   loadComponent() {
     import('./test.js').then((Text) => {
-      console.log(Text)
+      // console.log(Text)
       this.setState({
         Text: Text.default,
       })
@@ -36,6 +36,7 @@ class App extends React.Component {
         <p />
         {/* {common()} */}
         {Text ? <Text /> : null}
+        {largeNumber('99999999999999999999999999', '1')}
       </div>
     )
   }
