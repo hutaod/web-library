@@ -83,7 +83,8 @@ const devConfig = {
   devServer: {
     contentBase: './dist',
     // open: true,
-    hot: true
+    hot: true,
+    stats: 'errors-only'
   }
 }
 

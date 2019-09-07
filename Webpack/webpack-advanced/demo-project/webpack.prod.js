@@ -46,6 +46,7 @@ const setMPA = () => {
 }
 
 const { entry, htmlWebpackPlugins } = setMPA()
+// console.log(htmlWebpackPlugins[0])
 
 const prodConfig = {
   entry,
@@ -112,8 +113,26 @@ const prodConfig = {
       assetNameRegExp: /\.css$/,
       cssProcessor: require('cssnano')
     }),
-    ...htmlWebpackPlugins
-    // new webpack.optimize.ModuleConcatenationPlugin()
+    ...htmlWebpackPlugins,
+    // 构建异常和中断处理
+    function() {
+      // webpack3
+      // this.plugin("done", stats => {
+      //   if(stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') === -1) {
+      //     console.log('build error'),
+      //     process.exit(1);
+      //   }
+      // })
+
+      // webpack4
+      this.hooks.done.tap("done", stats => {
+        if(stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') === -1) {
+          console.log('build error'),
+          process.exit(1);
+        }
+      })
+    }
+    // new webpack.optimize.ModuleConcatenationPlugin() // production 默认开启
   ],
   optimization: {
     // usedExports: true, // 启用TerserPlugin 在生产环境默认启用（tree shaking）
@@ -141,7 +160,8 @@ const prodConfig = {
         }
       }
     }
-  }
+  },
+  stats: 'errors-only' // 
 }
 
 module.exports = prodConfig

@@ -5,6 +5,7 @@ const path = require('path')
 const merge = require('webpack-merge')
 const devConfig = require('./webpack.dev')
 const prodConfig = require('./webpack.prod')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 const baseConfig = {
   entry: {
@@ -43,12 +44,12 @@ const baseConfig = {
     //     }
     //   ]
     // })
+    new FriendlyErrorsWebpackPlugin()
   ]
 }
 
 
 module.exports = env => {
-  console.log(env)
   if(env && env.production) {
     return merge(baseConfig, prodConfig)
   } else {
