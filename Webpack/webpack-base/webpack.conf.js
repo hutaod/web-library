@@ -118,7 +118,7 @@ module.exports = {
     //   filename: 'login.html'
     // }),
     // 以下两个用于热模块替换
-    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedModulesPlugin(), // development 内置了
     new webpack.HotModuleReplacementPlugin()
     // new CopyWebpackPlugin([
     //   {

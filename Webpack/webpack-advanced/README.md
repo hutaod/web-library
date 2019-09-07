@@ -417,7 +417,7 @@ if(false) {
 }
 ```
 
-### Tree-shaking 原理
+### Tree shaking 原理
 
 利用 ES6 模块的特点：
 

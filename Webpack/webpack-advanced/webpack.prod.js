@@ -116,6 +116,7 @@ const prodConfig = {
     // new webpack.optimize.ModuleConcatenationPlugin()
   ],
   optimization: {
+    // usedExports: true, // 启用TerserPlugin 在生产环境默认启用（tree shaking）
     splitChunks: {
       // chunks: 'all', // 对同步 initial，异步 async，所有的模块 有效 all
       minSize: 30, // 单位b 文件大小超过设定值时才会进行分割

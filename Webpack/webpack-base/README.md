@@ -35,6 +35,8 @@ module.exports = {
 
 `output` 用来告诉 `webpack` 如何将编译后的文件输出到磁盘
 
+输出文件默认值是`./dist/main.js`
+
 ### output 的用法
 
 1. 单入口配置
@@ -63,8 +65,6 @@ module.exports = {
     filename: '[name].js',
     path: __dirname + '/dist'
   }
-  // 或者
-  // output: __dirname + 'dist/bundle.js'
 }
 ```
 
@@ -94,13 +94,30 @@ module.exports = {
 const path = require('path')
 module.exports = {
   module: {
-    rules: [{ test: /\.txt/, use: 'raw-loader' }]
+    rules: [
+      // 单loader
+      { test: /\.txt/, use: 'raw-loader' },
+      // 多loader
+      { test: /\.less/, use: ['style-loader', 'css-loader', 'less-loader'] },
+      // 配置loader
+      {
+        test: /\.jpe?g/,
+        use: {
+          loader: 'url-loader',
+          // 对loader设置一些配置，参数由loader定义
+          options: {
+            name: '[name]_[hash:8].[ext]',
+            limit: 10240
+          }
+        }
+      }
+    ]
   }
 }
 ```
 
-- test 指定匹配规则
-- use 指定使用的 loader 名称
+- `test`: 指定匹配规则
+- `use`: 指定使用的 `loader` 名称和对应的参数配置，多个 `loader` 时，需要注意执行顺序是从右至左
 
 ## 核心概念之 Plugins
 
@@ -144,15 +161,57 @@ module.exports = {
 
 ### Mode 的内置函数功能
 
-| 选项          | 描述                                                                                                                                                                                                                                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `development` | 会将 `process.env.NODE_ENV` 的值设为 `development`。启用 `NamedChunksPlugin` 和 `NamedModulesPlugin`。                                                                                                                                      |
-| `production`  | 会将 `process.env.NODE_ENV` 的值设为 `production`。启用 `FlagDependencyUsagePlugin`, `FlagIncludedChunksPlugin`, `ModuleConcatenationPlugin`, `NoEmitOnErrorsPlugin`, `OccurrenceOrderPlugin`, `SideEffectsFlagPlugin` 和 `UglifyJsPlugin`. |
-| `none`        | 不开启任何优化选项                                                                                                                                                                                                                          |
+| 选项          | 描述                                                                                                                                                                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `development` | 会将 `process.env.NODE_ENV` 的值设为 `development`。启用 `NamedChunksPlugin` 和 `NamedModulesPlugin`。                                                                                                                                    |
+| `production`  | 会将 `process.env.NODE_ENV` 的值设为 `production`。启用 `FlagDependencyUsagePlugin`, `FlagIncludedChunksPlugin`, `ModuleConcatenationPlugin`, `NoEmitOnErrorsPlugin`, `OccurrenceOrderPlugin`, `SideEffectsFlagPlugin` 和 `TerserPlugin`. |
+| `none`        | 不开启任何优化选项                                                                                                                                                                                                                        |
+
+插件说明：
+开发模式：
+
+- `NamedChunksPlugin` : 使用 chunk 的名字来作为 chunk 的 id
+
+![](./images/chunknamed.png)
+
+- `NamedModulesPlugin` : 作用是在热加载时直接返回更新文件名，而不是文件的 id
+
+使用前：
+![](./images/unusenamemodule.png)
+
+使用后：
+![](./images/usenamemodule.png)
+
+生产模式：
+
+- `FlagDependencyUsagePlugin` : 编译时标记依赖，用于标记依赖是否使用到
+- `FlagIncludedChunksPlugin` : 标记子 `chunks` ，防子 `chunks` 多次加载
+- `ModuleConcatenationPlugin` : webpack 本身构建后的代码存在⼤量闭包代码，这个插件用于将所有模块的代码按照引用顺序放在一个函数作用域里，然后适当的重命名一些变量以防变量名冲突，在下一章节的 `scope hoisting` 部分会讲到
+- `NoEmitOnErrorsPlugin` : 在编译出现错误时，使用该插件来跳过输出阶段
+
+```js
+module.exports = {
+  plugins: [new webpack.NoEmitOnErrorsPlugin()]
+}
+```
+
+- `OccurrenceOrderPlugin` : 用于排序输出，通过模块调用次数给模块分配 ids，常用的 ids 就会分配更短的 id，使 ids 可预测，减小文件大小
+
+```js
+new webpack.optimize.OccurrenceOrderPlugin()
+```
+
+- `SideEffectsFlagPlugin`
+
+作用：模块依赖分析
+
+会识别 package.json 或者 module.rules 的 sideEffects 标志（纯的 ES2015 模块)并排除配置的选项，其他文件没有使用过并且没有副作用的模块都会被打上 `sideEffectFree` 标记。在 `ModuleConcatenationPlugin` 中，带着 sideEffectFree 标记的模块将不会被打包
+
+- `TerserPlugin` : 生成环境默认启用，该插件会进行 `Tree Shaking(摇树优化)`，然后用 `uglify` 压缩代码
 
 ## 资源解析：解析 ES6
 
-使用 babel-loader，babel 的配置文件是.babelrc
+使用 `babel-loader`，`babel` 的配置文件是`.babelrc`(用于替换 loader 的 options 配置)
 
 ```javascript
 // webpack.config.js
@@ -283,9 +342,70 @@ module.exports = {
 
 ## 热更新： webpack-dev-server
 
-WDS 不需要手动刷新浏览器
-WDS 不输出文件，而是放在内容中
-使用 HotModuleReplacementPlugin 插件可以页面无刷新重新渲染
+`WDS` 不需要手动刷新浏览器
+`WDS` 不输出文件，而是放在内存中
+
+使用 `HotModuleReplacementPlugin` 插件可以页面无刷新重新渲染，简称 `HMR`
+
+添加`HMR` :
+
+```js
+module.exports = {
+  devServer: {
+    // ...
+    hot: true
+  }
+  plugins: [new webpack.HotModuleReplacementPlugin()]
+}
+```
+
+### css 实现 `HMR`
+
+借助于 `style-loader`，使用模块热替换来加载 `CSS` 实际上极其简单。此 loader 在幕后使用了 `module.hot.accept`，在 CSS 依赖模块更新之后，会将其 patch(修补) 到 `<style>` 标签中
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+}
+```
+
+### js 实现 `HMR`
+
+```js
+// counter.js
+function counter() {
+  var div = document.createElement('div')
+  div.setAttribute('id', 'counter')
+  div.innerHTML = 111111
+  document.body.appendChild(div)
+}
+
+export default counter
+
+// index.js
+import counter from './counter'
+
+if (module.hot) {
+  module.hot.accept('./counter', () => {
+    document.getElementById('counter').remove()
+    counter()
+  })
+}
+```
+
+修改 `counter.js` 页面会进行 `HMR`
+
+### 其他代码和框架 实现 `HMR`
+
+- [`React Hot Loader`](https://github.com/gaearon/react-hot-loader) : 实时调整 react 组件
+- [`Vue Loader`](https://github.com/vuejs/vue-loader) : 此 loader 支持 vue 组件的 HMR，提供开箱即用体验。
 
 ## 文件指纹
 
@@ -384,7 +504,3 @@ module.exports = {
 ### 注意点
 
 如果使用了 HotModuleReplacementPlugin 插件，输出的 chunk 文件指纹只能是 hash
-
-## JS文件压缩
-
-
