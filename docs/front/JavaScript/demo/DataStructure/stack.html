@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据结构 - 堆栈</title>
+</head>
+
+<body>
+    <script>
+        // 堆栈
+        class Stack {
+            constructor(...items) {
+                this._reverse = false
+                this.stack = [...items];
+            }
+
+            push(...items) {
+                return this._reverse ? this.stack.unshift(...items) : this.stack.push(...items);
+            }
+
+            pop() {
+                return this._reverse ? this.stack.shift() : this.stack.pop();
+            }
+
+            reverse() {
+                this._reverse = !this._reverse
+            }
+
+            peek() {
+                return this.stack[this.getCount() - 1];
+            }
+
+            getCount() {
+                return this.stack.length;
+            }
+
+            isEmpty() {
+                return this.stack.length === 0;
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据结构 - 二叉树</title>
+</head>
+
+<body>
+  <script>
+    class Node {
+      constructor(value) {
+        this.left = null
+        this.right = null
+        this.value = value
+      }
+    }
+
+    class BST {
+      constructor() {
+        this.root = null
+      }
+
+      insertNode(root, newNode) {
+        if (newNode.value < root.value) {
+          // 先执行无左节点操作
+          (!root.left) ? root.left = newNode: this.insertNode(root.left, newNode)
+        } else {
+          (!root.right) ? root.left = newNode: this.insertNode(root.left, newNode)
+        }
+      }
+
+      insert(value) {
+        let newNode = new Node(value)
+        // 如果没有根节点
+        if (!this.root) {
+          this.root = newNode
+        } else {
+          this.insertNode(this.root, newNode)
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
