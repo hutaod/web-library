@@ -3,7 +3,7 @@ module.exports = {
   title: '前端相关知识库',
   description: '前端,前端工程师,前端自学,前端进阶,前端发展',
   themeConfig: {
-    sidebarDepth: 2,
+    sidebarDepth: 3,
     lastUpdated: 'Last Updated',
     nav: [
       { text: '前端', link: '/front/' },
@@ -13,7 +13,19 @@ module.exports = {
     ],
     sidebar: {
       '/front/': [
-        ['/front/JavaScript/', 'JavaScript'],
+        {
+          title: 'JavaScript',
+          collapsable: true,
+          children: ['/front/JavaScript/']
+        },
+        // {
+        //   title: '构造方法',
+        //   collapsable: false,
+        //   children: [
+        //     '/front/String/String.fromCharCode',
+        //     '/front/String/String.fromCodePoint',
+        //   ],
+        // },
         ['/front/React/', 'React'],
         ['/front/Webpack/', 'Webpack']
       ]
