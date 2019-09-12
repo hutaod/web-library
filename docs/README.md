@@ -4,7 +4,7 @@ title: 大前端知识库
 description: 前端进阶知识库
 heroImage: /images/javascript.jpg
 actionText: 快速上手 →
-actionLink: /zh/guide/
+actionLink: /front/
 features:
   - title: 前端知识库
     details: 记录前端基础知识点和一些框架的使用和分析，分享前端进阶路上遇到的一些难点

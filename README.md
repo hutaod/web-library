@@ -9,9 +9,9 @@
 
 # 文件目录
 
-- [JS 系列](./JS/Js.md)
-- [React 系列](https://github.com/ht1131589588/reactExplore)
-- [Webpack 系列](./Webpack)
+- [JavaScript 系列](./docs/front/JavaScript/README.md)
+- [React 系列](./docs/front/React/README.md)
+- [Webpack 系列](./docs/extends/Webpack/README.md)
 
 # 推荐网站或 Github
 
