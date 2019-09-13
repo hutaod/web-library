@@ -1,6 +1,6 @@
 module.exports = {
   base: '/',
-  title: '前端知识库',
+  title: '时羽·前端知识库',
   description: '前端,前端工程师,前端自学,前端进阶,前端发展',
   themeConfig: {
     sidebarDepth: 1,
@@ -54,6 +54,13 @@ module.exports = {
             'Webpack/Webpack进阶',
             'Webpack/Webpack实战'
           ]
+        }
+      ],
+      '/blog/': [
+        {
+          title: '时羽·个人博客',
+          collapsable: true,
+          children: ['coding-choice-and-growth/']
         }
       ]
     }
