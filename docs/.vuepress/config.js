@@ -7,10 +7,11 @@ module.exports = {
     lastUpdated: 'Last Updated',
     nav: [
       { text: '首页', link: '/' },
+      { text: '博客', link: '/blog/' },
+      { text: '数据结构与算法', link: '/AlgorithmAndDataStructure/' },
       { text: '前端', link: '/front/' },
       { text: 'Nodejs', link: '/nodejs/' },
       { text: '扩展', link: '/extends/' },
-      { text: '博客', link: '/blog/' },
       { text: 'GitHub', link: 'https://github.com/ht1131589588/web-library' }
     ],
     sidebar: {
@@ -61,6 +62,13 @@ module.exports = {
           title: '时羽·个人博客',
           collapsable: true,
           children: ['coding-choice-and-growth/']
+        }
+      ],
+      '/AlgorithmAndDataStructure/': [
+        {
+          title: '数据结构与算法',
+          collapsable: true,
+          children: ['/AlgorithmAndDataStructure/复杂度分析']
         }
       ]
     }
