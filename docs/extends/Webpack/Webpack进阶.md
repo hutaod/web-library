@@ -546,7 +546,7 @@ import('./lazyComp.js').then(lazyComp => {
 
 ### 制定团队的 ESLint 规范
 
-- 不不重复造轮⼦子，基于 eslint:recommend 配置并改进
+- 不重复造轮⼦子，基于 eslint:recommend 配置并改进
 - 能够帮助发现代码错误的规则，全部开启
 - 帮助保持团队的代码⻛格统一，⽽不是限制开发体验
 
@@ -556,7 +556,7 @@ import('./lazyComp.js').then(lazyComp => {
 
 2. 和 webpack 集成
 
-#### 方案一 webpack 与 CI/CD 集成
+#### webpack 与 CI/CD 集成
 
 1. 在 build 阶段增加 lint pipline
 
@@ -585,7 +585,7 @@ npm i -D husky
 }
 ```
 
-#### 方案二： webpack 与 ESLint 集成
+#### webpack 与 ESLint 集成
 
 使⽤ eslint-loader，构建时检查 JS 规范
 
@@ -622,12 +622,14 @@ module.exports = {
 
 ```js
 // src/index.js
-function add(a, b) {
-  return a + b
+function randomCorlor() {
+  return (
+    '#' + ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).slice(-6)
+  )
 }
 
 export default {
-  add
+  randomCorlor
 }
 ```
 
@@ -640,12 +642,12 @@ export default {
 module.exports = {
   mode: 'production',
   entry: {
-    'large-number': './src/index.js',
-    'large-number.min': './src/index.js'
+    jsutils: './src/index.js',
+    'jsutils.min': './src/index.js'
   },
   output: {
     filename: '[name].js',
-    library: 'largeNumber',
+    library: 'jsutils',
     libraryExport: 'default',
     libraryTarget: 'umd'
   }
@@ -662,12 +664,12 @@ module.exports = {
 module.exports = {
   mode: 'none', // 设置mode为none
   entry: {
-    'large-number': './src/index.js',
-    'large-number.min': './src/index.js'
+    jsutils: './src/index.js',
+    'jsutils.min': './src/index.js'
   },
   output: {
     filename: '[name].js',
-    library: 'largeNumber',
+    library: 'jsutils',
     libraryExport: 'default',
     libraryTarget: 'umd'
   },
@@ -692,9 +694,9 @@ module.exports = {
 ```js
 // index.js
 if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./dist/large-number.min.js')
+  module.exports = require('./dist/jsutils.min.js')
 } else {
-  module.exports = require('./dist/large-number.js')
+  module.exports = require('./dist/jsutils.js')
 }
 ```
 
@@ -747,7 +749,7 @@ HTML + CSS + JS + Data -> 渲染后的 HTML
 
 ### React SSR 代码实现
 
-后续再写
+后续...
 
 ## 优化构建时命令行日志显示
 
@@ -756,10 +758,10 @@ HTML + CSS + JS + Data -> 渲染后的 HTML
 如果想优化日志显示可以对`stats`进行配置
 
 `stats`有一些预设选项，可作为快捷方式
-| Preset          | Alternative | Description        |
+| Preset | Alternative | Description |
 | --------------- | ----------- | ------------------ |
-| `"errors-only"` | none        | 只在发生错误时输出 |
-| `"errors-only"` | none        | 只在发生错误时输出 |
+| `"errors-only"` | none | 只在发生错误时输出 |
+| `"errors-only"` | none | 只在发生错误时输出 |
 
 详细配置参考：[统计信息(stats)](https://webpack.docschina.org/configuration/stats/)
 
@@ -802,7 +804,7 @@ module.exports = {
 Node.js 中的 process.exit 规范:
 
 - 0 表示成功完成，回调函数中，err 为 null
-- ⾮非 0 表示执行失败，回调函数中，err 不为 null，err.code 就是传给 exit 的数字
+- 非 0 表示执行失败，回调函数中，err 不为 null，err.code 就是传给 exit 的数字
 
 ### 如何判断构建是否成功
 
