@@ -56,5 +56,10 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  proxy: {
+    "/api/": {
+      target: 'http://locahost:7001'
+    }
   }
 }
