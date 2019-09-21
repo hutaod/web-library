@@ -1,28 +1,20 @@
 <template>
   <div class="container">
+    <h1>博客</h1>
     <div>
-      <logo />
-      <h1 class="title">front</h1>
-      <h2 class="subtitle">vue and eggjs program11</h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
-        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
-      </div>
+      <nuxt-link to="/resister">注册</nuxt-link>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
   layout: 'app',
-  components: {
-    Logo
-  },
-  mounted() {
-    console.log(this.$store)
-  },
+  async mounted() {
+    // console.log(this.$store)
+    const ret = await this.$http.get('/demoinfo')
+    console.log(ret)
+  }
 }
 </script>
 

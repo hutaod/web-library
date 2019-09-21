@@ -1,6 +1,8 @@
 <template>
   <div>
+    <h1>导航栏</h1>
     <nuxt />
+    <h2>底部信息</h2>
   </div>
 </template>
 
