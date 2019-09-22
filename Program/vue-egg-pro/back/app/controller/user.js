@@ -80,6 +80,42 @@ class UserController extends Controller {
     }
   }
 
+  async login() {
+    const { ctx, app } = this;
+    const { email, password } = ctx.request.body;
+    // 查询用户是否存在
+    const user = await ctx.model.User.findOne({
+      email,
+      password: md5(password),
+    });
+    if (user) {
+      // 生成token返回
+      const { nickname } = user;
+      const token = app.jwt.sign(
+        {
+          nickname,
+          email,
+          id: user._id,
+        },
+        app.config.jwt.secret,
+        {
+          expiresIn: '1h',
+          // expiresIn: '60s',
+        }
+      );
+      this.success({ token, email });
+    } else {
+      this.error('邮箱或密码错误');
+    }
+  }
+
+  async detail() {
+    // 只有token怎么获取详情
+    const { ctx } = this;
+    const user = await this.checkEmail(ctx.state.email);
+    this.success(user);
+  }
+
   async demoinfo() {
     // const { ctx } = this;
     console.log(this.ctx.session.emailCode);

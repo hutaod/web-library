@@ -9,11 +9,10 @@
 
 <script>
 export default {
-  layout: 'app',
   async mounted() {
     // console.log(this.$store)
-    const ret = await this.$http.get('/demoinfo')
-    console.log(ret)
+    // const ret = await this.$http.get('/user/detail')
+    // console.log(ret)
   }
 }
 </script>

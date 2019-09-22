@@ -37,5 +37,6 @@ module.exports = appInfo => {
         options: {},
       },
     },
+    secret: 'htxc',
   };
 };
