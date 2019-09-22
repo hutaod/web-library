@@ -6,6 +6,17 @@ mkdir 创建文件夹
 rm 删除文件
 rm -rf 删除文件夹及子文件
 
+### 本地文件传输到远程 CentOS
+
+    命令： scp 本地文件路径 centos 文件路径
+
+### 远程 CentOS 传输文件到本地 scp
+
+    命令： scp centos文件路径 本地文件路径
+
+scp root@xx.xx.xx.xx:~/source/a.txt /User 拷贝文件
+scp -r root@xx.xx.xx.xx:~/source /User 拷贝文件夹
+
 ## 阿里云静态服务器搭建
 
 - 上传文件到有权限的目录，比如/home/reactApp
@@ -95,7 +106,7 @@ tail -f xxx.log
 
 vi 编辑内容
 
->  https://www.w3cschool.cn/vim/cjtr1pu3.html
+> https://www.w3cschool.cn/vim/cjtr1pu3.html
 
 ### 系统信息查看
 
@@ -104,7 +115,7 @@ vi 编辑内容
 df -h
 
 # 系统配置
-cat /proc/cpuinfo 
+cat /proc/cpuinfo
 
 # 发行版本
 lsb_release -a
@@ -128,10 +139,10 @@ r  显示当前终端的进程
 T  显示当前终端的所有程序
 u  指定用户的所有进程
 -au 显示较详细的资讯
--aux 显示所有包含其他使用者的行程 
+-aux 显示所有包含其他使用者的行程
 
 # 动态查看进程变化，监控linux的系统状况
-top 
+top
 # top 运行中可以通过 top 的内部命令对进程的显示方式进行控制。内部命令如下：
 s – 改变画面更新频率
 l – 关闭或开启第一部分第一行 top 信息的表示
@@ -151,10 +162,10 @@ kill
 -a  当处理当前进程时，不限制命令名和进程号的对应关系
 -p  指定kill 命令只打印相关进程的进程号，而不发送任何信号
 -s  指定发送信号
--u  指定用户 
+-u  指定用户
 
 # 先用ps查找进程，然后用kill杀掉
-ps -ef|grep vim 
+ps -ef|grep vim
 
 ```
 
@@ -191,13 +202,13 @@ Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
 
 # 查看端口和服务
 [root@xiesshavip002 ~]# netstat -antp | grep ssh
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      734/sshd            
-tcp        0     52 192.168.130.20:22       119.129.118.189:58737   ESTABLISHED 1846/sshd: root@pts 
-tcp6       0      0 :::22                   :::*                    LISTEN      734/sshd            
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      734/sshd
+tcp        0     52 192.168.130.20:22       119.129.118.189:58737   ESTABLISHED 1846/sshd: root@pts
+tcp6       0      0 :::22                   :::*                    LISTEN      734/sshd
 [root@xiesshavip002 ~]# netstat -antp | grep 22
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      734/sshd            
-tcp        0     52 192.168.130.20:22       119.129.118.189:58737   ESTABLISHED 1846/sshd: root@pts 
-tcp6       0      0 :::22                   :::*                    LISTEN      734/sshd            
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      734/sshd
+tcp        0     52 192.168.130.20:22       119.129.118.189:58737   ESTABLISHED 1846/sshd: root@pts
+tcp6       0      0 :::22                   :::*                    LISTEN      734/sshd
 [root@xiesshavip002 ~]#
 
 # 网络抓包工具
@@ -214,7 +225,7 @@ systemctl (待完成)
 # 显示 系统状态:
 systemctl status
 
-# 
+#
 systemctl enable
 ```
 
