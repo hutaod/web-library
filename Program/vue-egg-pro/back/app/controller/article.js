@@ -1,6 +1,23 @@
 const BaseController = require('./base');
 const marked = require('marked');
 class ArticleController extends BaseController {
+  async index() {
+    const { ctx } = this;
+    const articles = await ctx.model.Article.find().populate('author');
+    // console.log(123, articles);
+    this.success(articles);
+  }
+
+  async detail() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+    const article = await ctx.model.Article.findById({ _id: id }).populate(
+      'author'
+    );
+    // console.log(123, articles);
+    this.success(article);
+  }
+
   async create() {
     const { ctx } = this;
     const { userid } = ctx.state;

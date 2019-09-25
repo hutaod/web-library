@@ -11,8 +11,8 @@
 export default {
   async mounted() {
     // console.log(this.$store)
-    // const ret = await this.$http.get('/user/detail')
-    // console.log(ret)
+    const ret = await this.$http.get('/article')
+    console.log(ret)
   }
 }
 </script>

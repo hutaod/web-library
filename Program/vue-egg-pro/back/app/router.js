@@ -17,6 +17,7 @@ module.exports = app => {
   router.get('/user/detail', jwt, controller.user.detail);
 
   // 文章
+  router.get('/article', jwt, controller.article.index);
   router.post('/article/create', jwt, controller.article.create);
 
   // 测试
