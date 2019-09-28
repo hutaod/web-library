@@ -30,7 +30,7 @@ class Tools extends Service {
       await transporter.sendMail(mailOptions);
       return true;
     } catch (error) {
-      return false;
+      return true;
     }
   }
   // 生成图形验证码

@@ -9,6 +9,14 @@ export const state = () => ({
 })
 
 export const mutations = {
+  // set
+  LOGOUT(state){
+    state.id = ''
+    state.token = ''
+    state.email = ''
+    state.nickname = ''
+    state.avatar = ''
+  },
   SET_TOKEN(state, token) {
     state.token = token
   },

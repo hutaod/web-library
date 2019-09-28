@@ -1,18 +1,24 @@
 <template>
   <div class="container">
-    <h1>博客</h1>
-    <div>
-      <nuxt-link to="/resister">注册</nuxt-link>
-    </div>
+    <ArticleItem v-for="article in articles" :key="article._id" :article="article"></ArticleItem>
   </div>
 </template>
 
 <script>
+import ArticleItem from '~/components/ArticleItem.vue'
 export default {
-  async mounted() {
-    // console.log(this.$store)
-    const ret = await this.$http.get('/article')
-    console.log(ret)
+  components: {
+    ArticleItem
+  },
+  async asyncData({ app, params, store }) {
+    // console.log(Object.keys(store))
+    // console.log(Object.keys(app))
+    const ret = await app.$axios.get('/api/article')
+    console.log(ret.data.data)
+    return {
+      articles: ret.data.data
+    }
+    // return {user:ret.data}
   }
 }
 </script>
@@ -20,11 +26,6 @@ export default {
 <style>
 .container {
   margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
 .title {

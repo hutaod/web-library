@@ -11,9 +11,12 @@ class ArticleController extends BaseController {
   async detail() {
     const { ctx } = this;
     const { id } = ctx.params;
-    const article = await ctx.model.Article.findById({ _id: id }).populate(
-      'author'
-    );
+    const article = await ctx.model.Article.findOneAndUpdate(
+      { _id: id },
+      {
+        $inc: { views: 1 },
+      }
+    ).populate('author');
     // console.log(123, articles);
     this.success(article);
   }

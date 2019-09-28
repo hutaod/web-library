@@ -143,6 +143,9 @@ export default {
               title: '注册成功',
               type: 'success'
             })
+            setTimeout(() => {
+              this.$router.push({ path: '/login' })
+            }, 1500)
           } else {
             this.$notify({
               title: ret.message,

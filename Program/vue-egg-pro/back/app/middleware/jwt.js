@@ -1,8 +1,14 @@
 module.exports = ({ app }) => {
   return async function verify(ctx, next) {
     console.log(ctx.response.header);
-
-    const token = ctx.request.header.authorization.replace('Bearer ', '');
+    const authorization = ctx.request.header.authorization;
+    if (!authorization) {
+      return (ctx.body = {
+        code: -666,
+        message: '请登录',
+      });
+    }
+    const token = authorization.replace('Bearer ', '');
     try {
       const ret = await app.jwt.verify(token, app.config.jwt.secret);
       console.log('中间件获取token信息', ret);
@@ -19,6 +25,7 @@ module.exports = ({ app }) => {
           message: 'token过期了，请登录',
         });
       }
+
       console.log(err);
     }
   };

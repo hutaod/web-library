@@ -5,7 +5,11 @@ const Controller = require('./base');
 class UserController extends Controller {
   async index() {
     const { ctx } = this;
-    ctx.body = '用户信息';
+    // const user = await new ctx.model.User({username:'xx',password:"123"}).save();
+    // console.log(ctx.model.Halou.find)
+    const user = await ctx.model.User.find();
+    // let user = await ctx.model.User.create({nickname:'54',email:'a@shengxinjing.cn',password:1})
+    ctx.body = user;
   }
 
   async checkEmail(email) {
@@ -120,6 +124,137 @@ class UserController extends Controller {
     // const { ctx } = this;
     console.log(this.ctx.session.emailCode);
     this.message('成功信息');
+  }
+
+  async isFollow() {
+    const { ctx } = this;
+    const me = await this.ctx.model.User.findById(ctx.state.userid);
+    const isFollow = !!me.following.find(v => v.toString() == ctx.params.id);
+    console.log({ isFollow });
+    this.success({
+      isFollow,
+    });
+  }
+  async follow() {
+    const { ctx } = this;
+    const me = await this.ctx.model.User.findById(ctx.state.userid);
+    const isFollow = !!me.following.find(v => v.toString() === ctx.params.id);
+    if (!isFollow) {
+      me.following.push(ctx.params.id);
+      me.save();
+      this.message('关注成功');
+    }
+  }
+  async unfollow() {
+    const { ctx } = this;
+
+    const me = await this.ctx.model.User.findById(ctx.state.userid);
+    const index = me.following.findIndex(v => v.toString() === ctx.params.id);
+
+    if (index > -1) {
+      me.following.splice(index, 1);
+      me.save();
+      this.message('取消关注成功');
+    }
+  }
+
+  async articleStatus() {
+    const { ctx } = this;
+    const me = await this.ctx.model.User.findById(ctx.state.userid);
+    const like = !!me.likeArticle.find(id => id.toString() === ctx.params.id);
+    const dislike = !!me.dislikeArticle.find(
+      id => id.toString() === ctx.params.id
+    );
+    this.success({
+      like,
+      dislike,
+    });
+  }
+
+  async likeArticle() {
+    const { ctx } = this;
+
+    const me = await ctx.model.User.findById(ctx.state.userid);
+    if (!me.likeArticle.find(id => id.toString() == ctx.params.id)) {
+      me.likeArticle.push(ctx.params.id);
+      console.log(me);
+
+      me.save();
+      await ctx.model.Article.findByIdAndUpdate(ctx.params.id, {
+        $inc: { like: 1 },
+      });
+      return this.message('点赞成功');
+    }
+    this.message('已经赞过了');
+    // likeArticle
+  }
+
+  async cancelLikeArticle() {
+    const { ctx } = this;
+    const me = await ctx.model.User.findById(ctx.state.userid);
+    const index = me.likeArticle
+      .map(id => id.toString())
+      .indexOf(ctx.params.id);
+    if (index > -1) {
+      me.likeArticle.splice(index, 1);
+      me.save();
+      await ctx.model.Article.findByIdAndUpdate(ctx.params.id, {
+        $inc: { like: -1 },
+      });
+      return this.message('取消成功');
+    }
+    this.message('已经取消了');
+  }
+
+  async dislikeArticle() {
+    const { ctx } = this;
+
+    const me = await ctx.model.User.findById(ctx.state.userid);
+    if (!me.dislikeArticle.find(id => id.toString() == ctx.params.id)) {
+      me.dislikeArticle.push(ctx.params.id);
+      console.log(me);
+
+      me.save();
+      await ctx.model.Article.findByIdAndUpdate(ctx.params.id, {
+        $inc: { dislike: 1 },
+      });
+      return this.message('成功踩');
+    }
+    // await next()
+    this.message('已经踩过了');
+    // likeArticle
+  }
+
+  async cancelDislikeArticle() {
+    const { ctx } = this;
+    const me = await ctx.model.User.findById(ctx.state.userid);
+    const index = me.dislikeArticle
+      .map(id => id.toString())
+      .indexOf(ctx.params.id);
+    if (index > -1) {
+      me.dislikeArticle.splice(index, 1);
+      me.save();
+      await ctx.model.Article.findByIdAndUpdate(ctx.params.id, {
+        $inc: { dislike: -1 },
+      });
+      return this.message('取消成功');
+    }
+    this.message('已经取消了');
+  }
+
+  async following() {
+    const { ctx } = this;
+    const user = await ctx.model.User.findById(ctx.params.id).populate(
+      'following'
+    );
+    // console.log(user.following);
+    this.success(user.following);
+  }
+
+  async followers() {
+    const { ctx } = this;
+    const followers = await ctx.model.User.find({ following: ctx.params.id });
+    this.success(followers);
   }
 }
 

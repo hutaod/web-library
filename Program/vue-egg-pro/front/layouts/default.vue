@@ -9,8 +9,8 @@
           <nuxt-link to="/">首页</nuxt-link>
         </el-menu-item>
 
-        <el-menu-item v-if="usetInfo.id" index="3" class="pull-right">
-          <nuxt-link to="/login">退出</nuxt-link>
+        <el-menu-item v-if="usetInfo.id" index="3" class="pull-right" @click="logout">
+          <span>退出</span>
         </el-menu-item>
         <el-menu-item v-if="usetInfo.id" index="4" class="pull-right">
           <nuxt-link to="/user">{{usetInfo.nickname}}</nuxt-link>
@@ -20,6 +20,7 @@
           <nuxt-link to="/editor/new">
             <el-button type="primary">写文章</el-button>
           </nuxt-link>
+          <UserDisplay :user="usetInfo"></UserDisplay>
         </el-menu-item>
 
         <el-menu-item v-if="!usetInfo.id" index="2" class="pull-right">
@@ -37,7 +38,10 @@
   </el-container>
 </template>
 <script>
+import UserDisplay from '~/components/UserDisplay.vue'
+
 export default {
+  components: { UserDisplay },
   computed: {
     usetInfo() {
       return this.$store.state.user
@@ -53,6 +57,10 @@ export default {
       if (token) {
         this.$store.dispatch('user/detail')
       }
+    },
+    logout() {
+      localStorage.removeItem('HT_TOKEN')
+      this.$store.commit('user/LOGOUT')
     }
   }
 }
