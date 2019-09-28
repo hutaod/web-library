@@ -23,6 +23,9 @@
       <cube-input v-model="value"></cube-input>
       <cube-button @click="getToken">GetToken</cube-button>
       <cube-button @click="getFollowers">GetFollowers</cube-button>
+      <cube-button @click="auth">微信登录</cube-button>
+      <cube-button @click="getUser">获取用户信息</cube-button>
+      <cube-button @click="getJSConfig">获取JSSKConfig</cube-button>
     </div>
     <script>
       var app = new Vue({
@@ -41,6 +44,43 @@
             console.log('getFollowers')
             const res = await axios.get('/getFollowers')
             console.log('res', res)
+          },
+          async auth() {
+            console.log('auth')
+            window.location.href = '/wxAuthorize'
+          },
+          async getUser() {
+            const qs = Qs.parse(window.location.search.substr(1))
+            const res = await axios.get('/getUser', {
+              params: {
+                openid: qs.openid
+              }
+            })
+            console.log('User', res.data)
+          },
+          async getJSConfig() {
+            console.log('wx', wx)
+            const res = await axios.get('/getJSConfig', {
+              params: {
+                // url: window.location.href
+              }
+            })
+            console.log('res', res.data)
+            res.data.jsApiList = [
+              'onMenuShareTimeline',
+              'onMenuShareAppMessage'
+            ]
+            // 部分api需要配置后才可以正确调用
+            wx.config(res.data)
+            wx.ready(function() {
+              console.log('wx.rendy....')
+            })
+            wx.getNetworkType({
+              success: function(res) {
+                // 返回网络类型
+                console.log('getNetworkType...', res.networkType)
+              }
+            })
           }
         },
         mounted: function() {}
