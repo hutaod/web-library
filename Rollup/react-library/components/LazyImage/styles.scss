@@ -1,0 +1,14 @@
+.al-lazy-image {
+  border: 0;
+  background-color: #efeff4;
+}
+
+.al-load-fail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #efeff4 !important;
+  img {
+    width: 0.6rem !important;
+  }
+}

@@ -12,7 +12,6 @@ function defaultTask() {
       .pipe(sass())
       .pipe(concat('index.css'))
       .pipe(dest('dist/'))
-      .pipe(dest('public/'))
   }
   return src('components/**/*.scss')
     .pipe(sass())

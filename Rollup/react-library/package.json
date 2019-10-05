@@ -8,6 +8,7 @@
     "build": "rollup -c rollup.config.js",
     "build:css": "gulp",
     "dev:css": "cross-env NODE_ENV=development gulp",
+    "dev": "cross-env npm run dev:css & npm run storybook",
     "storybook": "start-storybook"
   },
   "keywords": [],

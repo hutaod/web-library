@@ -8,7 +8,7 @@ import babel from 'rollup-plugin-babel'
 import pkg from './package.json'
 
 const external = Object.keys(pkg.dependencies)
-console.log(external)
+// console.log(external)
 
 export default {
   input: 'components/index.js',
