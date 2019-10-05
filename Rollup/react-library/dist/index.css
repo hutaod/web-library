@@ -1,0 +1,134 @@
+.product_item {
+  color: red;
+  background: #fff; }
+  .product_item .img_box {
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    background: linear-gradient(to bottom, #fff, #fafafa); }
+  .product_item .img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #fff, #fafafa); }
+  .product_item .content_box {
+    padding: 0.02rem 0.06rem 0.12rem; }
+  .product_item .title {
+    font-size: 0.13rem;
+    line-height: 0.19rem;
+    color: #333;
+    text-overflow: ellipsis;
+    overflow: hidden; }
+    .product_item .title.ellipsis1 {
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical; }
+    .product_item .title.ellipsis2 {
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; }
+  .product_item .price_name {
+    line-height: 0.14rem;
+    color: #333;
+    font-size: 0.12rem;
+    margin-top: 0.04rem; }
+  .product_item .price_amount {
+    color: #e62117;
+    font-size: 0.14rem;
+    line-height: 0.16rem; }
+  .product_item .down_payment_name,
+  .product_item .down_payment_amount {
+    margin-top: 0.02rem;
+    line-height: 0.13rem;
+    color: #999;
+    font-size: 0.11rem; }
+  .product_item .isCredit .price_name,
+  .product_item .isCredit .price_amount {
+    color: #999;
+    font-size: 0.11rem; }
+  .product_item .isCredit .down_payment_name {
+    color: #333;
+    font-size: 0.12rem; }
+  .product_item .isCredit .down_payment_amount {
+    color: #e62117;
+    font-size: 0.14rem;
+    line-height: 0.16rem; }
+
+.al-lazy-image {
+  border: 0;
+  background-color: #efeff4; }
+
+.al-load-fail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #efeff4 !important; }
+  .al-load-fail img {
+    width: 0.6rem !important; }
+
+.pro_list_container {
+  padding-bottom: 0.08rem; }
+  .pro_list_container :global .am-list-footer {
+    padding: 0; }
+  .pro_list_container .pro_show_all {
+    padding: 0.04rem 0.12rem; }
+    .pro_list_container .pro_show_all > div {
+      height: 0.45rem;
+      background: #fff;
+      font-size: 0.14rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.04rem;
+      color: #666; }
+
+.product_list {
+  padding: 0 0.12rem;
+  overflow: auto; }
+  .product_list .row {
+    display: flex; }
+  .product_list .col {
+    flex: 1; }
+    .product_list .col:last-child {
+      padding-right: 0 !important; }
+
+.pro_water_flow :global .list-view-section-body {
+  column-count: 2;
+  column-width: 1.64rem;
+  column-gap: 0.08rem; }
+
+.pro_water_flow .water_item {
+  break-inside: avoid; }
+
+.auto_height :global .am-list-view-scrollview-content.am-list {
+  position: relative !important; }
+
+.pro_list_header {
+  height: 0.4rem;
+  display: flex;
+  line-height: normal;
+  padding: 0 0.12rem;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.15rem;
+  color: #333; }
+
+.pro_list_title {
+  font-weight: bold; }
+
+.pro_group {
+  width: 100%; }
+  .pro_group .pro_group_wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; }
+  .pro_group .group_more {
+    cursor: pointer; }
+  .pro_group .group_row {
+    display: flex;
+    padding: 0 0.12rem 0.08rem; }
+  .pro_group .group_item {
+    flex: 1; }
+    .pro_group .group_item:last-child {
+      padding-right: 0 !important; }
