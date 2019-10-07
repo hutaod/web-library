@@ -1,6 +1,7 @@
 # nginx
 
 ## nginx 常用命令
+
 ```bash
 
 # 启动
@@ -17,3 +18,7 @@ nginx -s reload
 ```
 
 列：在/etc/nginx/conf.d 目录，测试 nginx 是否正确 nginx -t
+
+## nginx 安装和配置
+
+[https://segmentfault.com/a/1190000018109309](https://segmentfault.com/a/1190000018109309)
