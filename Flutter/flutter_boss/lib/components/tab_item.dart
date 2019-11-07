@@ -4,7 +4,7 @@ const double _kTextAndIconHeight = 53;
 
 class TabItem extends StatefulWidget {
   final String text;
-  final IconData icon;
+  final String icon;
   final Color color;
 
   // 构造器
@@ -26,15 +26,15 @@ class _TabItemState extends State<TabItem> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          child: Icon(
-            widget.icon,
-            size: 30.0,
+          // child: Icon(
+          //   widget.icon,
+          //   size: 30.0,
+          // ),
+          child: Image(
+            image: AssetImage(widget.icon),
+            height: 30.0,
+            width: 30.0,
           ),
-          // Image(
-          //   image: AssetImage(widget.icon),
-          //   height: 30.0,
-          //   width: 30.0,
-          // )
           margin: EdgeInsets.only(bottom: 3.0),
         ),
         Text(
