@@ -1,0 +1,20 @@
+.designImage {
+  display: block;
+  width: 100%;
+  .img {
+    width: 100%;
+    height: auto;
+  }
+  .hotArea {
+    position: absolute;
+  }
+  .textMsg {
+    height: 140px;
+    background-color: rgb(232, 247, 253);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: rgb(105, 192, 255);
+  }
+}
