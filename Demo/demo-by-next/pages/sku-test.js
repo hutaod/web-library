@@ -68,7 +68,7 @@ export default class skuTest extends Component {
     choosePropsMap: {}
   };
 
-  getSkuList = (propValList = []) => {
+  generateSkuList = (propValList = []) => {
     if (!propValList.length) {
       return propValList;
     }
@@ -206,7 +206,7 @@ export default class skuTest extends Component {
                   );
                   // console.log(skuPropList);
 
-                  const chooseSkuList = this.getSkuList(skuPropList);
+                  const chooseSkuList = this.generateSkuList(skuPropList);
                   // console.log(choosePropsMap, chooseSkuList);
 
                   this.setState({
