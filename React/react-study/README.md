@@ -1,68 +1,90 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React 学习笔记
 
-## Available Scripts
+## React 基础
 
-In the project directory, you can run:
+### React 概念
 
-### `npm start`
+React 把用户界面抽象成一个组件，有了这层抽象，React 把代码和真实渲染目标隔离开来
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### 专注视图层
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+#### `Virtual DOM` 也可叫抽象语法树
 
-### `npm test`
+`React` 把真实 `DOM` 树转换成 `JavaScript` 对象树
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+优点：
 
-### `npm run build`
+- 简化 `dom` 操作 通过数据驱动来进行 `dom` 操作，即：每次数据更新后，重新计算 `Virtual DOM`，并和上一次生成的 `Virtual DOM` 做对比，对发生变化部分做更新。
+- 方便与其他平台集成。比如 `react-native` 就是基于 `Virtual DOM` 渲染出原生控件
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 函数式编程
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+如果说人脑最擅长的是分析问题，那么电脑最擅长的就是执行命令，电脑只需要几条汇编指令就可以轻松算出我们需要很长时间才能解出的运算。命令式编程就像是给电脑下命令。而函数式编程，对应的是声明式编程，它是人类模仿自己思维逻辑方式发明出来的。声明式编程的本质是 `lambda` 演算。试想当我们操作数组的每个元素都返回一个新数组时，如果是计算机的思考方式，则需要一个新数组，然后遍历原数组，并计算赋值;如果是人的思考方式，则是构建一个规则，这个过程就变成构建一个 `f` 函数作用在数组上，然后返回新数组。这样，计算可以被重复利用。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`React` 就是把过去不断重复构建 `UI` 的过程抽象成了组件，并在给定参数的情况下约定对应的 `UI` 界面。`React` 能充分利用很多函数式方法去减少冗余代码。此外，由于它本身是简单函数，所以易于测试。可以说，函数式编程才是 `React` 的精髓。
 
-### `npm run eject`
+### JSX 语法
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`JSX` 与 `React` 之间的关系：`React` 为方便 `View` 层组件化，承载了构建 `HTML` 结构化页面的职责，而 `Jsx` 就是 `React` 创建虚拟元素的语法糖。虚拟元素可分为 `DOM 元素`（DOM element）和`组件元素`（component element）。
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `DOM 元素`: 首字母小写
+- `组件元素`: 首字母大写，支持命名空间的方式使用组件
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### React 组件
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`React` 组件基本上由三部分组成：
 
-## Learn More
+- 属性(`props`)
+- 状态(`state`)
+- 生命周期
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### React 组件与 Web Components
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+从 React 组件来看，它与 `Web Components` 传达的理念是一致的，但两者的实现方式不同：
 
-### Code Splitting
+- `React` 自定义元素是库自己构建的，与 `Web Components` 规范不通用
+- `React` 渲染过程包含了模板概念，即 JSX
+- `React` 组件的实现均在方法和类中，因此可以做到相互隔离，但不包括样式
+- `React` 引用方式遵循 ES6 modules 标准
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+#### React 组件的构建方法
 
-### Analyzing the Bundle Size
+- `Class Component`
+- `Function Component`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### React 数据流
 
-### Making a Progressive Web App
+在 React 中，数据是自顶向下单向流动的，即从父组件到子组件。这条原则让组件之间的关系变得简单且可预测。
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+state 与 props 是 React 组件中最重要得概念。如果顶层组件初始化 props，那么 React 会向下遍历整棵组件树，重新尝试渲染所有相关得子组件。而 state 只关心每个组件自己内部的状态，这些状态只能在组件内部改变。把组件看成一个函数，那么它接受了 props 作为参数，内部由 state 作为函数的内部参数，返回一个 Virtual DOM 的实现。
 
-### Advanced Configuration
+#### state
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+组件内部状态，需要用 `setState` 进行改变内部状态，也只建议这样做。
 
-### Deployment
+#### props
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+props 是 React 中另外一个重要的概念，它是 properties 的缩写。props 是 React 用来让组件之间相互联系的一种机制，通俗地说就像方法的参数一样。
 
-### `npm run build` fails to minify
+### React 生命周期
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+React 组件的生命周期根据广义定义描述，可以分为挂载、渲染和卸载这几个阶段。当渲染后的组件需要更新时，我们会重新去渲染组件，直至卸载。
+因此，我们可以把 React 生命周期分为两类：
+
+- 当组件在挂载或卸载时
+- 当组件接收新的数据时，即组件更新时
+
+挂载时生命周期顺序：
+
+1. `constructor`
+2. `getDerivedStateFromProps`
+3. `render`
+4. `componentDidMount`
+
+更新时：
+
+1. `getDerivedStateFromProps`
+2. `shouldComponentUpdate`: state 或者 props 改变时会触发，但如果用 forceUpdate 强制刷新会跳过改步骤
+3. `render`
+4. `getSnapshotBeforeUpdate`
+5. `componentDidUpdate`
