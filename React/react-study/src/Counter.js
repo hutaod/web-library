@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import ReactDOM from 'react-dom'
 
 class Counter extends Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class Counter extends Component {
 
   componentDidMount() {
     console.log(4)
+    const dom = ReactDOM.findDOMNode(this)
+    console.log('componentDidMount', dom.clientHeight)
   }
 
   // props或state更新时出发，forceUpdate强制刷新会跳过改步骤
@@ -36,10 +39,15 @@ class Counter extends Component {
     console.log(7)
   }
 
+  componentWillUnmount() {
+    console.log(8)
+  }
+
   render() {
     console.log(3)
 
     const { counter, onIncrement, dispatch } = this.props
+
     return (
       <div>
         <p>{counter}</p>

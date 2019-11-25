@@ -1,20 +1,30 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { createStore, applyMiddleware } from "redux";
-import { Provider } from "react-redux";
-import createSagaMiddleware from "redux-saga";
-import App from "./App";
-import reducer from "./reducers";
-import rootSaga from "./sagas";
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import createSagaMiddleware from 'redux-saga'
+import App from './App'
+import reducer from './reducers'
+import rootSaga from './sagas'
 
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga)
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
+console.log(ReactDOM)
+
+const Content = () => {
+  const [show, setShow] = useState(true)
+  return (
+    <div id="test-app">
+      <Provider store={store}>{show ? <App /> : <div></div>}</Provider>
+      <div onClick={() => setShow(!show)}>隐藏</div>
+    </div>
+  )
+}
+
+ReactDOM.render(<Content />, document.getElementById('root'), (...args) => {
+  // 在所有组件挂载完成后触发，componentDidMount后
+  console.log(22222, args)
+})

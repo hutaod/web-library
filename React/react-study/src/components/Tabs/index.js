@@ -33,6 +33,18 @@ class Tabs extends Component {
     }
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (
+      'activeIndex' in nextProps &&
+      nextProps.activeIndex !== prevState.activeIndex
+    ) {
+      return {
+        activeIndex: nextProps.activeIndex
+      }
+    }
+    return {}
+  }
+
   getTabPanes() {
     const { classPrefix, activeIndex, children } = this.props
   }

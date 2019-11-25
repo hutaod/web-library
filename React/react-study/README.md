@@ -76,10 +76,10 @@ React 组件的生命周期根据广义定义描述，可以分为挂载、渲�
 
 挂载时生命周期顺序：
 
-1. `constructor`
-2. `getDerivedStateFromProps`
-3. `render`
-4. `componentDidMount`
+1. `constructor` 父组件先执行
+2. `getDerivedStateFromProps` 父组件先执行
+3. `render` 父组件先执行
+4. `componentDidMount` 子组件先执行
 
 更新时：
 
@@ -88,3 +88,22 @@ React 组件的生命周期根据广义定义描述，可以分为挂载、渲�
 3. `render`
 4. `getSnapshotBeforeUpdate`
 5. `componentDidUpdate`
+
+卸载：
+
+1. `componentWillUnmount` 父组件先执行
+
+### React 与 DOM
+
+#### ReactDom
+
+- `findDOMNode` 当组件被渲染到 DOM 后，`findDOMNode` 返回该组件实例相应的 DOM 节点
+
+```js
+// this 为当前组件的实例
+const dom = ReactDOM.findDOMNode(this)
+```
+
+如果 `render` 中返回 `null`，那么 `findDOMNode` 也返回 `null`
+
+- `render`
