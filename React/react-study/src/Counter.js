@@ -43,6 +43,10 @@ class Counter extends Component {
     console.log(8)
   }
 
+  handleClick = () => {
+    console.log(123)
+  }
+
   render() {
     console.log(3)
 

@@ -95,9 +95,9 @@ React 组件的生命周期根据广义定义描述，可以分为挂载、渲�
 
 ### React 与 DOM
 
-#### ReactDom
+#### ReactDOM 中常用的方法
 
-- `findDOMNode` 当组件被渲染到 DOM 后，`findDOMNode` 返回该组件实例相应的 DOM 节点
+1. `findDOMNode` 当组件被渲染到 DOM 后，`findDOMNode` 返回该组件实例相应的 DOM 节点
 
 ```js
 // this 为当前组件的实例
@@ -106,4 +106,26 @@ const dom = ReactDOM.findDOMNode(this)
 
 如果 `render` 中返回 `null`，那么 `findDOMNode` 也返回 `null`
 
-- `render`
+2 `render` 有三个参数
+
+- `ReactElement element`
+- `DOMElement container`
+- `[function callback]`
+
+```js
+ReactDOM.render(<App />, document.getElementById('root'), (...args) => {
+  // 在所有组件挂载完成后触发，componentDidMount后
+  console.log('所有组件挂载完成', args)
+})
+```
+
+该方法把元素挂载到 `container` 下，并返回 `element` 的实例(即用`ref`引用)。当然，如果是函数组件，`render`会返回 `null`，在组件装载完成后，`callback` 就会被调用。
+
+当组件初次渲染后再次更新时，`React` 不会把整个组件重新渲染一次，而会用它高效的 `DOM diff` 算法做局部的更新
+
+3. `hydrate`
+4. `createPortal`
+5. `flushSync`
+6. `unmountComponentAtNode`
+
+#### ReactDOM 的不稳定方法

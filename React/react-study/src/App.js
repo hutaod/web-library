@@ -1,5 +1,6 @@
 import React from 'react'
 import Counter from './Counter'
+import Portal from './components/Portal'
 
 const TestComp = (props) => {
   const { children, color } = props
@@ -18,14 +19,15 @@ class App extends React.Component {
     super(props)
     console.log(111)
   }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(1112)
-
-    return null
-  }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   console.log(1112)
+  //   return {}
+  // }
 
   componentDidMount() {
     console.log(1114)
+    // const myPortal = this.myPortal
+    // console.log(myPortal, myPortal.openPortal())
   }
 
   // props或state更新时出发，forceUpdate强制刷新会跳过改步骤
@@ -65,6 +67,9 @@ class App extends React.Component {
         <div dd="dd" dataa-id="aaa">
           heihei&copy;©
         </div>
+        <Portal ref={(ref) => (this.myPortal = ref)}>
+          <div>123</div>
+        </Portal>
       </div>
     )
   }

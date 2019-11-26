@@ -24,7 +24,13 @@ const Content = () => {
   )
 }
 
-ReactDOM.render(<Content />, document.getElementById('root'), (...args) => {
-  // 在所有组件挂载完成后触发，componentDidMount后
-  console.log(22222, args)
-})
+const vm = ReactDOM.render(
+  <Content />,
+  document.getElementById('root'),
+  (...args) => {
+    // 在所有组件挂载完成后触发，componentDidMount后
+    console.log(22222, args)
+  }
+)
+
+console.log('vm', vm) // 函数组件是为null
