@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Counter from './Counter'
 import Portal from './components/Portal'
 
@@ -14,6 +15,12 @@ const TestComp = (props) => {
   )
 }
 
+class ClsCmp extends React.Component {
+  render() {
+    return <div>123</div>
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -26,8 +33,12 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log(1114)
-    // const myPortal = this.myPortal
+    const myPortal = this.myPortal
     // console.log(myPortal, myPortal.openPortal())
+    console.log(myPortal)
+    setTimeout(() => {
+      console.log(999, ReactDOM.findDOMNode(this.myPortal))
+    }, 1000)
   }
 
   // props或state更新时出发，forceUpdate强制刷新会跳过改步骤
@@ -70,6 +81,7 @@ class App extends React.Component {
         <Portal ref={(ref) => (this.myPortal = ref)}>
           <div>123</div>
         </Portal>
+        <ClsCmp></ClsCmp>
       </div>
     )
   }
