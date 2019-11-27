@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Counter from './Counter'
 import Portal from './components/Portal'
+import Tabs from './components/Tabs'
 
 const TestComp = (props) => {
   const { children, color } = props
@@ -82,6 +83,10 @@ class App extends React.Component {
           <div>123</div>
         </Portal>
         <ClsCmp></ClsCmp>
+        <Tabs defaultActiveIndex={0}>
+          <Tabs.TabPane tab="123" order="0"></Tabs.TabPane>
+          <Tabs.TabPane tab="234" order="1"></Tabs.TabPane>
+        </Tabs>
       </div>
     )
   }
