@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import TabNav from './TabNav'
 import TabContent from './TabContent'
 import TabPane from './TabPane'
+import './styles.scss'
 
 class Tabs extends Component {
   static TabPane = TabPane
@@ -24,7 +25,7 @@ class Tabs extends Component {
   }
 
   static defaultProps = {
-    classPrefix: 'tabs',
+    classPrefix: 'sword',
     onChange: () => {}
   }
 
@@ -54,7 +55,7 @@ class Tabs extends Component {
     return {}
   }
 
-  handleTabClick(activeIndex) {
+  handleTabClick = (activeIndex) => {
     const prevIndex = this.state.activeIndex
     // 如果当前activeIndex与传入的activeIndex不一致，
     // 并且props中存在defaultActiveIndex 时则更新

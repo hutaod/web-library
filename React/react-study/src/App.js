@@ -84,8 +84,12 @@ class App extends React.Component {
         </Portal>
         <ClsCmp></ClsCmp>
         <Tabs defaultActiveIndex={0}>
-          <Tabs.TabPane tab="123" order="0"></Tabs.TabPane>
-          <Tabs.TabPane tab="234" order="1"></Tabs.TabPane>
+          <Tabs.TabPane tab="123" order="0">
+            111
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="234" order="1">
+            222
+          </Tabs.TabPane>
         </Tabs>
       </div>
     )
