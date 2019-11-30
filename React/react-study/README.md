@@ -136,3 +136,35 @@ ReactDOM.render(<App />, document.getElementById('root'), (...args) => {
 
 - React 基于 Virtual DOM 实现了一个 SyntheticEvent（合成事件）层
 - 事件委派：它并不会把事件处理函数直接绑定到真实节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监听器上维持一个映射来保存所有组件内部的事件监听和处理函数。当组件挂载或卸载时，只是在这个统一的事件监听器上插入或删除一些对象；当事件发生时，首先被这个统一的事件监听器处理，然后在映射里找到真正的事件处理函数并调用。这样做简化了事件处理和回收机制，效率也有很大的提升。
+
+### 高阶组件
+
+常用的两种方式
+
+- 属性代理: 可以新增和修改 props，
+- 反向继承: 可以新增和修改 props 以及 state
+
+如何给组件命名？
+当包裹一个高阶组件时，我们失去了原始 WrappedComponent 的 displayName，而组件名字是方便我们开发和测试的重要属性。这里我们参考 react-redux 的实现方式：
+
+```js
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Comp'
+}
+
+const wapperComponent = (Comp) => {
+  class Hoc extends Component {
+    render() {
+      return <Comp {...props} />
+    }
+  }
+  Hoc.displayName = `Hoc(${getDisplayName(Comp)})`
+  return Hoc
+}
+```
+
+### Immutable 不可变性
+
+### 动画
+
+### 自动化测试

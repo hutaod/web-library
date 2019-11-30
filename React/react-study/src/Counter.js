@@ -1,8 +1,75 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ReactDOM from 'react-dom'
+import { is } from 'immutable'
 
-class Counter extends Component {
+// PureComponent 基本比较原理
+function shallowEqual(obj, newObj) {
+  if (obj === newObj) {
+    return true
+  }
+  const objKeys = Object.keys(obj)
+  const newObjKeys = Object.keys(newObj)
+  if (objKeys.length !== newObjKeys.length) {
+    return false
+  }
+  return objKeys.every((key) => {
+    return obj[key] === newObj[key]
+  })
+}
+
+// 用Immutable加强版，只能用于props和state是用Immutable数据
+
+function immutableNotEqual(nextProps, nextState, thisProps, thisState) {
+  if (
+    Object.keys(nextProps).length !== Object.keys(thisProps).length ||
+    Object.keys(nextState).length !== Object.keys(thisState).length
+  ) {
+    return true
+  }
+  console.log(2221)
+
+  for (const key in nextProps) {
+    console.log(
+      nextProps[key],
+      thisProps[key],
+      is(nextProps[key], thisProps[key])
+    )
+
+    if (nextProps.hasOwnProperty(key) && !is(thisProps[key], nextProps[key])) {
+      return true
+    }
+  }
+  console.log(2222)
+  for (const key in nextState) {
+    if (nextState.hasOwnProperty(key) && !is(thisState[key], nextState[key])) {
+      return true
+    }
+  }
+  console.log(2223)
+
+  return false
+}
+
+class Hello extends PureComponent {
+  shouldComponentUpdate(nextProps, nextState) {
+    // console.log(nextProps, nextState, this.props, this.state)
+
+    // return !shallowEqual(this.props, nextProps)
+    return immutableNotEqual(
+      nextProps || {},
+      nextState || {},
+      this.props || {},
+      this.state || {}
+    )
+  }
+  render() {
+    console.log(this.props)
+    return <div>hello</div>
+  }
+}
+
+class Counter extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -51,7 +118,7 @@ class Counter extends Component {
     console.log(3)
 
     const { counter, onIncrement, dispatch } = this.props
-
+    const style = {}
     return (
       <div>
         <p>{counter}</p>
@@ -70,6 +137,7 @@ class Counter extends Component {
         >
           改变state 的counter
         </button>
+        <Hello name={123}></Hello>
         <div>
           <button onClick={onIncrement}>+</button>
           <button

@@ -3,24 +3,76 @@ import ReactDOM from 'react-dom'
 import Counter from './Counter'
 import Portal from './components/Portal'
 import Tabs from './components/Tabs'
-
-const TestComp = (props) => {
-  const { children, color } = props
-  console.log(props.children)
-
-  return (
-    <button style={{ color }}>
-      {/* <div aria-hiddle={true}>123</div> */}
-      {children}
-    </button>
-  )
-}
+import TestImmutable from './TestImmutable'
+import TestAnimate from './TestAnimate'
 
 class ClsCmp extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      counter: 0
+    }
+    console.log('ClsCmp', 11)
+  }
+  componentDidMount() {
+    console.log('ClsCmp', 12)
+  }
+  componentWillUnmount() {
+    console.log('ClsCmp', 13)
+  }
   render() {
-    return <div>123</div>
+    console.log('ClsCmp', 14)
+    return (
+      <div
+        onClick={() => {
+          this.setState({ counter: this.state.counter + 1 })
+        }}
+      >
+        {this.state.counter}123
+      </div>
+    )
   }
 }
+
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Comp'
+}
+
+const wapperComp = (Comp) => {
+  class Hoc extends Comp {
+    // constructor(props) {
+    //   super(props) // 才会执行Comp的生命周期函数
+    //   console.log('ClsCmp', 1)
+    // }
+    // 如果写了就不会执行Comp的componentDidMount函数
+    // componentDidMount() {
+    //   console.log('ClsCmp', 2)
+    //   super.componentDidMount()
+    // }
+    // 同上
+    // componentWillUnmount() {
+    //   console.log('ClsCmp', 3)
+    // }
+    render() {
+      console.log('ClsCmp', 4)
+      const elementsTree = super.render()
+      console.log(elementsTree)
+      const props = Object.assign({}, elementsTree.props, { aac: '哈喽' })
+      console.log(props)
+      // 这样添加的props不会出现在组件的props上，在Comp内部获取不到
+      const newElementsTree = React.cloneElement(
+        elementsTree,
+        props,
+        elementsTree.props.children
+      )
+      return newElementsTree
+    }
+  }
+  Hoc.displayName = `Hoc(${getDisplayName(Comp)})`
+  return Hoc
+}
+
+const ClsCmp2 = wapperComp(ClsCmp)
 
 class App extends React.Component {
   constructor(props) {
@@ -62,13 +114,17 @@ class App extends React.Component {
     console.log(1118)
   }
 
+  handClick() {
+    console.log(this)
+  }
+
   render() {
     console.log(1113)
     const but = (
-      <TestComp add-aa={123}>
+      <TestImmutable add-aa={123}>
         <div>hello</div>
         <div>{[1, 2, 3].filter((item) => item !== 1)}</div>
-      </TestComp>
+      </TestImmutable>
     )
     console.log(but.props.children)
     window.reactaa = React
@@ -82,7 +138,8 @@ class App extends React.Component {
         <Portal ref={(ref) => (this.myPortal = ref)}>
           <div>123</div>
         </Portal>
-        <ClsCmp></ClsCmp>
+        {/* <ClsCmp></ClsCmp> */}
+        <ClsCmp2></ClsCmp2>
         <Tabs defaultActiveIndex={0}>
           <Tabs.TabPane tab="123" order="0">
             111
@@ -91,6 +148,7 @@ class App extends React.Component {
             222
           </Tabs.TabPane>
         </Tabs>
+        <TestAnimate />
       </div>
     )
   }
