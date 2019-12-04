@@ -382,7 +382,7 @@ moudle.exports = {
 // 开启摇树优化 production 模式默认开启
 module.exports = {
   optimization: {
-    true
+    usedExports: true,
   }
 }
 ```
@@ -758,10 +758,10 @@ HTML + CSS + JS + Data -> 渲染后的 HTML
 如果想优化日志显示可以对`stats`进行配置
 
 `stats`有一些预设选项，可作为快捷方式
-| Preset | Alternative | Description |
+| Preset          | Alternative | Description        |
 | --------------- | ----------- | ------------------ |
-| `"errors-only"` | none | 只在发生错误时输出 |
-| `"errors-only"` | none | 只在发生错误时输出 |
+| `"errors-only"` | none        | 只在发生错误时输出 |
+| `"errors-only"` | none        | 只在发生错误时输出 |
 
 详细配置参考：[统计信息(stats)](https://webpack.docschina.org/configuration/stats/)
 
