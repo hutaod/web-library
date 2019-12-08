@@ -1,0 +1,25 @@
+{
+  "name": "foo",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
+  "unpkg": "./dist/index.umd.js",
+  "scripts": {
+    "doc:dev": "father doc dev",
+    "doc:build": "father doc build",
+    "build": "father build"
+  },
+  "devDependencies": {
+    "father": "^2.28.0",
+    "umi-library": "^1.6.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6"
+  },
+  "peerDependencies": {
+    "react": "^16.8.5"
+  },
+  "files": [
+    "dist"
+  ]
+}

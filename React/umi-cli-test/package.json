@@ -1,0 +1,17 @@
+{
+  "name": "demacia",
+  "version": "1.0.0",
+  "description": "A framework base on umi.",
+  "bin": {
+    "demacia": "cli.js"
+  },
+  "keywords": [
+    "umi"
+  ],
+  "author": "1131589588@qq.com",
+  "license": "ISC",
+  "dependencies": {
+    "umi": "^2.11.3",
+    "umi-plugin-react": "^1.13.3"
+  }
+}

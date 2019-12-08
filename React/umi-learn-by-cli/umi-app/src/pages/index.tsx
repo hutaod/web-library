@@ -1,18 +1,26 @@
 import React from 'react';
+import { connect } from 'dva';
+import Link from 'umi/link';
+import { Button } from 'antd';
 import styles from './index.css';
 import { formatMessage } from 'umi-plugin-locale';
-export default function() {
+const Home = function({ users, dispatch }) {
   return (
     <div className={styles.normal}>
       <div className={styles.welcome} />
-      <ul className={styles.list}>
-        <li>To get started, edit <code>src/pages/index.js</code> and save to reload.</li>
-        <li>
-          <a href="https://umijs.org/guide/getting-started.html">
-            {formatMessage({ id: 'index.start' })}
-          </a>
-        </li>
-      </ul>
+      <div>{users.counter}</div>
+      <Button
+        onClick={() => {
+          dispatch({
+            type: 'users/asyncAdd',
+          });
+        }}
+      >
+        add
+      </Button>
+      <Link to="/my">to my</Link>
     </div>
   );
-}
+};
+
+export default connect(state => state)(Home);
