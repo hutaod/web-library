@@ -122,6 +122,9 @@ const ReactElement = function(type, key, ref, self, source, owner, props) {
   return element;
 };
 
+// @babel/preset-react会读取React.createElement 方法
+// 并把jsx转义后的值传递给createElement作为参数
+// 创建并返回给定type的一个新的ReactElement
 export function createElement(type, config, children) {
   const props = {};
 

@@ -1,5 +1,6 @@
 import { hot } from 'react-hot-loader/root';
-import React from './hreact/react';
+import React from 'react';
+// import React from './hreact/react';
 import ReactDom from 'react-dom';
 import Routes from './routes';
 
