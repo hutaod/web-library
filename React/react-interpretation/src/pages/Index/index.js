@@ -1,4 +1,5 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, Fragment } from 'react'
+import TestChildren from './TestChildren'
 
 const Counter = function() {
   const [counter, setCounter] = useState(0)
@@ -26,7 +27,7 @@ const ClsTest = () => {
 
 export default class Index extends Component {
   state = {
-    counter: 0
+    counter: 0,
   }
   render() {
     // const test = (
@@ -43,6 +44,10 @@ export default class Index extends Component {
         <Counter />
         {funcTest}
         {clsTest}
+        <TestChildren>
+          {null}
+          <div>123</div>
+        </TestChildren>
       </div>
     )
   }
