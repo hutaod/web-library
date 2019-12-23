@@ -260,3 +260,16 @@ export function cloneElement(element, config, children) {
   }
   return ReactElement(element.type, key, ref, self, source, owner, props)
 }
+
+/**
+ * 验证 object 是否是一个 ReactElement
+ * @param {?object} object
+ * @returns {boolean} 如果是一个 ReactElement 就返回true
+ */
+export function isValidElement(object) {
+  return (
+    typeof object === 'object' &&
+    object !== null &&
+    object.$$typeof === REACT_ELEMENT_TYPE
+  )
+}
