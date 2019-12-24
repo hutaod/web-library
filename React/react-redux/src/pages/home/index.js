@@ -1,34 +1,23 @@
 import React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { model } from '../../rayslog'
-import store from '../../store'
-model({
-  namespace: 'test',
-  state: { name: 'haha' },
-  reducers: {
-    changeName(state, { payload }) {
-      return {
-        ...state,
-        name: payload
-      }
-    }
-  }
-})
+import model from './model'
+
 function Home(props) {
   console.log(props)
   return (
     <div>
       <h2>首页</h2>
       <Link to="/detail">详情</Link>
-      <div>{props.test.name}</div>
+      <div>{props.name}</div>
       {props.global.counter}
       <div>
         <button
           onClick={() => {
             props.dispatch({
               type: 'global/increment',
-              payload: props.global.counter + 1
+              payload: props.global.counter + 1,
             })
           }}
         >
@@ -40,7 +29,7 @@ function Home(props) {
           onClick={() => {
             props.dispatch({
               type: 'global/decrement',
-              payload: props.global.counter - 1
+              payload: props.global.counter - 1,
             })
           }}
         >
@@ -50,8 +39,8 @@ function Home(props) {
       <div>
         <button
           onClick={async () => {
-            const state = store.getState()
-            console.log(state, store)
+            // const state = store.getState()
+            // console.log(state, store)
             console.time('异步请求')
             props.dispatch(async (dispatch) => {
               return new Promise((resolve) => {
@@ -59,7 +48,7 @@ function Home(props) {
                   resolve(
                     dispatch({
                       type: 'test/changeName',
-                      payload: '哈喽'
+                      payload: '哈喽',
                     })
                   )
                 }, 2000)
@@ -67,7 +56,7 @@ function Home(props) {
             })
             props.dispatch({
               type: 'global/decrement',
-              payload: props.global.counter - 1
+              payload: props.global.counter - 1,
             })
             console.timeEnd('异步请求')
             console.log(123)
@@ -82,7 +71,7 @@ function Home(props) {
             console.time('异步请求2')
             await props.dispatch({
               type: 'global/add',
-              payload: '哈喽'
+              payload: '哈喽',
             })
             // props.dispatch({
             //   type: 'global/decrement',
@@ -100,7 +89,7 @@ function Home(props) {
           onClick={() => {
             props.dispatch({
               type: 'USER_FETCH_REQUESTED',
-              payload: { userId: 11 }
+              payload: { userId: 11 },
             })
           }}
         >
@@ -111,23 +100,26 @@ function Home(props) {
   )
 }
 
-export default connect(
-  (state) => {
-    console.log(state)
-    return { ...state }
-  },
-  (dispatch, props) => {
-    console.log(dispatch, props)
-    return {
-      dispatch
+export default compose(
+  model,
+  connect(
+    (state) => {
+      console.log(state)
+      return { ...state }
+    },
+    (dispatch, props) => {
+      console.log(dispatch, props)
+      return {
+        dispatch,
+      }
+    },
+    (stateProps, dispatchProps, props) => {
+      console.log(stateProps, dispatchProps, props)
+      return {
+        ...stateProps,
+        ...dispatchProps,
+        ...props,
+      }
     }
-  },
-  (stateProps, dispatchProps, props) => {
-    console.log(stateProps, dispatchProps, props)
-    return {
-      ...stateProps,
-      ...dispatchProps,
-      ...props
-    }
-  }
+  )
 )(Home)

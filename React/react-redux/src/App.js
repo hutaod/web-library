@@ -10,10 +10,10 @@ model({
     changeName(state, { payload }) {
       return {
         ...state,
-        name: payload
+        name: payload,
       }
-    }
-  }
+    },
+  },
 })
 function App(props) {
   return (
@@ -25,7 +25,7 @@ function App(props) {
           onClick={() => {
             props.dispatch({
               type: 'global/increment',
-              payload: props.global.counter + 1
+              payload: props.global.counter + 1,
             })
           }}
         >
@@ -37,7 +37,7 @@ function App(props) {
           onClick={() => {
             props.dispatch({
               type: 'global/decrement',
-              payload: props.global.counter - 1
+              payload: props.global.counter - 1,
             })
           }}
         >
@@ -47,8 +47,8 @@ function App(props) {
       <div>
         <button
           onClick={async () => {
-            const state = store.getState()
-            console.log(state, store)
+            // const state = store.getState()
+            // console.log(state, store)
             console.time('异步请求')
             await props.dispatch(async (dispatch) => {
               return new Promise((resolve) => {
@@ -56,7 +56,7 @@ function App(props) {
                   resolve(
                     dispatch({
                       type: 'test/changeName',
-                      payload: '哈喽'
+                      payload: '哈喽',
                     })
                   )
                 }, 2000)

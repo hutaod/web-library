@@ -1,29 +1,26 @@
-import rayslog from '../rayslog'
+// import rayslog from '../rayslog'
+import demacia from '../demacia/index'
 import global from './model'
 import createSagaMiddleware from 'redux-saga'
 import mySaga from '../sagas'
 
 // reducers
 const initialModels = {
-  global
+  global,
 }
 
 const sagaMiddleware = createSagaMiddleware()
 
-const app = rayslog({
+const store = demacia({
   initialModels,
   initialState: {
     global: {
-      counter: 2
-    }
+      counter: 2,
+    },
   },
-  middlewares: [sagaMiddleware]
+  middlewares: [sagaMiddleware],
 })
 
 sagaMiddleware.run(mySaga)
-
-const store = app.store
-
-export const addReducer = app.addReducer
 
 export default store
