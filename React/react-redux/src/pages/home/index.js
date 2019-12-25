@@ -10,14 +10,14 @@ function Home(props) {
     <div>
       <h2>首页</h2>
       <Link to="/detail">详情</Link>
-      <div>{props.name}</div>
+      <div>{props.test.name}</div>
       {props.global.counter}
       <div>
         <button
           onClick={() => {
             props.dispatch({
               type: 'global/increment',
-              payload: props.global.counter + 1,
+              payload: props.global.counter + 1
             })
           }}
         >
@@ -29,7 +29,7 @@ function Home(props) {
           onClick={() => {
             props.dispatch({
               type: 'global/decrement',
-              payload: props.global.counter - 1,
+              payload: props.global.counter - 1
             })
           }}
         >
@@ -42,13 +42,13 @@ function Home(props) {
             // const state = store.getState()
             // console.log(state, store)
             console.time('异步请求')
-            props.dispatch(async (dispatch) => {
-              return new Promise((resolve) => {
+            props.dispatch(async dispatch => {
+              return new Promise(resolve => {
                 setTimeout(() => {
                   resolve(
                     dispatch({
                       type: 'test/changeName',
-                      payload: '哈喽',
+                      payload: '哈喽'
                     })
                   )
                 }, 2000)
@@ -56,7 +56,7 @@ function Home(props) {
             })
             props.dispatch({
               type: 'global/decrement',
-              payload: props.global.counter - 1,
+              payload: props.global.counter - 1
             })
             console.timeEnd('异步请求')
             console.log(123)
@@ -71,7 +71,7 @@ function Home(props) {
             console.time('异步请求2')
             await props.dispatch({
               type: 'global/add',
-              payload: '哈喽',
+              payload: '哈喽'
             })
             // props.dispatch({
             //   type: 'global/decrement',
@@ -89,7 +89,7 @@ function Home(props) {
           onClick={() => {
             props.dispatch({
               type: 'USER_FETCH_REQUESTED',
-              payload: { userId: 11 },
+              payload: { userId: 11 }
             })
           }}
         >
@@ -100,17 +100,17 @@ function Home(props) {
   )
 }
 
+Home.loadData = () => {}
+
 export default compose(
   model,
   connect(
-    (state) => {
-      console.log(state)
+    state => {
       return { ...state }
     },
     (dispatch, props) => {
-      console.log(dispatch, props)
       return {
-        dispatch,
+        dispatch
       }
     },
     (stateProps, dispatchProps, props) => {
@@ -118,7 +118,7 @@ export default compose(
       return {
         ...stateProps,
         ...dispatchProps,
-        ...props,
+        ...props
       }
     }
   )

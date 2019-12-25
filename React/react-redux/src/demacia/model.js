@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react'
-// import hoistNonReactStatic from 'hoist-non-react-statics'
+import hoistNonReactStatic from 'hoist-non-react-statics'
 import isNode from 'detect-node'
 // import { compose } from 'redux'
 // import { connect } from 'react-redux'
 import checkModel from './utils/checkModel'
-import createReducer from './createReducer'
+import createReducers from './createReducers'
 import { injectReducer, injectEffects, allModels } from './store'
 
 /**
@@ -22,25 +22,19 @@ export default function model(model) {
     checkModel(model, allModels)
   }
   const { namespace, state, reducers, effects } = model
-  if (typeof state !== 'undefined') {
-    if (reducers) {
-      // 修改reducer键值
-      Object.keys(reducers).forEach((reducerKey) => {
-        model.reducers[`${namespace}/${reducerKey}`] = reducers[reducerKey]
-        delete model.reducers[reducerKey]
-      })
-      const reducer = createReducer(model)
-      injectReducer(namespace, reducer)
-    }
-    if (effects) {
-      injectEffects(namespace, effects)
-    }
+  if (reducers) {
+    const reducer = createReducers(model)
+    injectReducer(namespace, reducer)
   }
-  return (Comp) => {
-    function ModelHoc(props, ref) {
+  if (effects) {
+    injectEffects(namespace, effects)
+  }
+  return Comp => {
+    const ModelHoc = forwardRef(function ModelHoc(props, ref) {
       return <Comp {...props} ref={ref} />
-    }
-    // hoistNonReactStatic(ModelHoc, Comp)
-    return forwardRef(ModelHoc)
+    })
+    // 拷贝静态方法
+    hoistNonReactStatic(ModelHoc, Comp)
+    return ModelHoc
   }
 }

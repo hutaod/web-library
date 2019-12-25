@@ -7,8 +7,8 @@ export default model({
     changeName(state, { payload }) {
       return {
         ...state,
-        name: payload,
+        name: payload
       }
-    },
-  },
+    }
+  }
 })

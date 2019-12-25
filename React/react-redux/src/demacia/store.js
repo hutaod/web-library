@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import isNode from 'detect-node'
 import isPlainObject from './utils/isPlainObject'
 import checkModel from './utils/checkModel'
-import createReducer from './createReducer'
+import createReducers from './createReducers'
 
 let store = null
 const allReducer = {}
@@ -58,7 +58,7 @@ export function injectEffects(namespace, effects) {
 }
 
 function createEffectsMiddle(effectsExtraArgument) {
-  return (store) => (dispatch) => (action) => {
+  return store => dispatch => action => {
     if (isPlainObject(action) && typeof action.type === 'string') {
       const { type, ...args } = action
       const actionType = action.type.split('/')
@@ -73,10 +73,10 @@ function createEffectsMiddle(effectsExtraArgument) {
 
               return dispatch({
                 type: `${namespace}/${type}`,
-                ...rest,
+                ...rest
               })
             },
-            ...effectsExtraArgument,
+            ...effectsExtraArgument
           },
           { ...args }
         )
@@ -91,7 +91,7 @@ function demacia({
   initialState,
   initialModels,
   middlewares = [],
-  effectsExtraArgument = {},
+  effectsExtraArgument = {}
 }) {
   // 初始model
   if (isPlainObject(initialModels)) {
@@ -104,13 +104,7 @@ function demacia({
         const { namespace, state, reducers, effects } = initialModel
         if (typeof state !== 'undefined') {
           if (reducers) {
-            // 修改reducer键值
-            Object.keys(reducers).forEach((reducerKey) => {
-              initialModel.reducers[`${namespace}/${reducerKey}`] =
-                reducers[reducerKey]
-              delete initialModel.reducers[reducerKey]
-            })
-            const reducer = createReducer(initialModel)
+            const reducer = createReducers(initialModel)
             injectReducer(namespace, reducer)
           }
           if (effects) {

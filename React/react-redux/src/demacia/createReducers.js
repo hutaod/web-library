@@ -3,7 +3,12 @@
  * @param {Object} model
  */
 export default function createReducers(model) {
-  const { state, reducers } = model
+  const { namespace, state, reducers } = model
+  // 修改reducer键值
+  Object.keys(reducers).forEach(reducerKey => {
+    model.reducers[`${namespace}/${reducerKey}`] = reducers[reducerKey]
+    delete model.reducers[reducerKey]
+  })
   return function finalReducer(initialState = state, action) {
     const reduceFn = reducers[action.type]
     if (typeof reduceFn === 'function') {
