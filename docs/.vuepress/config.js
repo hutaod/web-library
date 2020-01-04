@@ -73,7 +73,11 @@ module.exports = {
         {
           title: "数据结构与算法",
           collapsable: true,
-          children: ["/AlgorithmAndDataStructure/复杂度分析"]
+          children: [
+            "/AlgorithmAndDataStructure/复杂度分析",
+            "/AlgorithmAndDataStructure/栈",
+            "/AlgorithmAndDataStructure/刷题"
+          ]
         }
       ]
     }
