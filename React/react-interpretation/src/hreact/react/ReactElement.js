@@ -138,11 +138,13 @@ const ReactElement = function(type, key, ref, self, source, owner, props) {
  */
 export function jsx(type, config, maybeKey) {
 	let propName
+
 	// 提取保留名称
 	const props = {}
 
 	let key = null
 	let ref = null
+
 	// 目前，key可以作为一个prop进行传递，如果还显式声明了key，则导致潜在问题
 	// （即<div {...props} key="Hi" />或<div key="Hi" {...props} />），我们想放弃key的传递
 	// 但是作为中间步骤，我们将用jsxDEV进行除<div {...props} key="Hi" />之外的所有操作，
@@ -157,7 +159,7 @@ export function jsx(type, config, maybeKey) {
 		ref = '' + config.ref
 	}
 	// 其余属性添加到新的props对象
-	for (const propName in config) {
+	for (propName in config) {
 		if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
 			props[propName] = config[propName]
 		}
@@ -175,10 +177,65 @@ export function jsx(type, config, maybeKey) {
 	return ReactElement(type, key, ref, undefined, undefined, ReactCurrentOwner.current, props)
 }
 
+export function jsxDEV(type, config, maybeKey, source, self) {
+	let propName
+
+	// 提取保留名称
+	const props = {}
+
+	let key = null
+	let ref = null
+
+	// 目前，key可以作为一个prop进行传递，如果还显式声明了key，则导致潜在问题
+	// （即<div {...props} key="Hi" />或<div key="Hi" {...props} />），我们想放弃key的传递
+	// 但是作为中间步骤，我们将用jsxDEV进行除<div {...props} key="Hi" />之外的所有操作，
+	// 因为我们目前无法确定key是否为明确声明为undefined或不存在.
+	if (maybeKey !== undefined) {
+		key = '' + maybeKey
+	}
+	if (hasValidKey(config)) {
+		key = '' + config.key
+	}
+	if (hasValidRef(config)) {
+		ref = '' + config.ref
+	}
+	// 其余属性添加到新的props对象
+	for (propName in config) {
+		if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
+			props[propName] = config[propName]
+		}
+	}
+
+	// 处理defaultProps，当prop没有值时，把defaultProp赋值给prop
+	if (type && type.defaultProps) {
+		const defaultProps = type.defaultProps
+		for (const propName in defaultProps) {
+			if (props[propName] === undefined) {
+				props[propName] = defaultProps[propName]
+			}
+		}
+	}
+
+	if (key || ref) {
+		const displayName =
+			typeof type === 'function' ? type.displayName || type.name || 'Unknown' : type
+		if (key) {
+			defineKeyPropWarningGetter(props, displayName)
+		}
+		if (ref) {
+			defineRefPropWarningGetter(props, displayName)
+		}
+	}
+
+	return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props)
+}
+
 // @babel/preset-react会读取React.createElement 方法
 // 并把jsx转义后的值传递给createElement作为参数
 // 创建并返回给定type的一个新的ReactElement
+// 文档位置：https://reactjs.org/docs/react-api.html#createelement
 export function createElement(type, config, children) {
+	let propName
 	const props = {}
 
 	let key = null
@@ -197,7 +254,7 @@ export function createElement(type, config, children) {
 		self = config.__source === undefined ? null : config.__source
 
 		// 其余属性添加到新的props对象
-		for (const propName in config) {
+		for (propName in config) {
 			if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
 				props[propName] = config[propName]
 			}
@@ -247,7 +304,38 @@ export function createElement(type, config, children) {
 	return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props)
 }
 
+/**
+ * 返回一个产生给定类型(type)的ReactElement的函数。
+ */
+export function createFactory(type) {
+	const factory = createElement.bind(null, type)
+	// 在factory和prototype上公开类型(type)，以便可以在元素上轻松访问它。
+	// 例如：`<Foo />.type === Foo`。
+	// 不应将其命名为`constructor`，因为它可能不是创建元素的函数，甚至可能不是构造函数。
+	// 旧版挂钩：将其删除
+	factory.type = type
+	return factory
+}
+
+export function cloneAndReplaceKey(oldElement, newKey) {
+	const newElement = ReactElement(
+		oldElement.type,
+		newKey,
+		oldElement.ref,
+		oldElement._self,
+		oldElement._source,
+		oldElement._owner,
+		oldElement.props
+	)
+	return newElement
+}
+
 export function cloneElement(element, config, children) {
+	invariant(
+		!(element === null || element === undefined),
+		'React.cloneElement(...): The argument must be a React element, but you passed %s.',
+		element
+	)
 	let propName
 
 	// 拷贝props
@@ -267,19 +355,22 @@ export function cloneElement(element, config, children) {
 
 	if (config != null) {
 		if (hasValidRef(config)) {
+			// 默默的窃取parent的ref
 			ref = config.ref
 			owner = ReactCurrentOwner.current
 		}
 		if (hasValidKey(config)) {
 			key = '' + config.key
 		}
+		// 其余prop会覆盖现有props
 		let defaultProps
 		if (element.type && element.type.defaultProps) {
 			defaultProps = element.type.defaultProps
 		}
-		for (const propName in config) {
+		for (propName in config) {
 			if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
 				if (config[propName] === undefined && defaultProps != undefined) {
+					// 处理默认props
 					props[propName] = defaultProps[propName]
 				} else {
 					props[propName] = config[propName]
@@ -288,6 +379,7 @@ export function cloneElement(element, config, children) {
 		}
 	}
 
+	// 子节点可能用多个，把这些节点分配到新的props对象的children上
 	const childrenLength = arguments.length - 2
 	if (childrenLength === 1) {
 		props.children = children
