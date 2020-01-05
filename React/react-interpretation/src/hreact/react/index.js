@@ -8,9 +8,11 @@ import {
 } from '../shared/ReactSymbols'
 
 import { Component, PureComponent } from './ReactBaseClasses'
+import { createRef } from './ReactCreateRef'
 import { createElement } from './ReactElement'
 
 const React = {
+	createRef,
 	Component,
 	PureComponent,
 

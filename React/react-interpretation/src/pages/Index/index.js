@@ -3,9 +3,10 @@ import TestChildren from './TestChildren'
 console.log(React)
 window.React = React
 
-const Counter = function() {
+const Counter = function(props) {
 	const [counter, setCounter] = useState(0)
 	console.log('Fragment', Fragment, <Fragment />)
+	// console.log(props.ref) // 开发环境访问ref时会有错误提示
 
 	return (
 		<div>
@@ -45,7 +46,7 @@ export default class Index extends Component {
 
 		return (
 			<div>
-				<Counter />
+				<Counter ref={() => {}} />
 				{funcTest}
 				{clsTest}
 				<TestChildren>{null}</TestChildren>
