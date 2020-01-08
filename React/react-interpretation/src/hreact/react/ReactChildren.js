@@ -2,7 +2,7 @@ import invariant from 'invariant'
 import {
   getIteratorFn,
   REACT_ELEMENT_TYPE,
-  REACT_PORTAL_TYPE
+  REACT_PORTAL_TYPE,
 } from '../shared/ReactSymbols'
 
 import { isValidElement, cloneAndReplaceKey } from './ReactElement'
@@ -20,7 +20,7 @@ function escape(key) {
   const escapeRegex = /[=:]/g
   const escapeLookup = {
     '=': '=0',
-    ':': '=2'
+    ':': '=2',
   }
   const escapedString = ('' + key).replace(escapeRegex, function(match) {
     return escapeLookup[match]
@@ -63,7 +63,7 @@ function getPooledTraverseContext(
       keyPrefix: keyPrefix,
       func: mapFunction,
       context: mapContext,
-      count: 0
+      count: 0,
     }
   }
 }
@@ -237,4 +237,61 @@ function getComponentKey(component, index) {
 function forEachSingleChild(bookKeeping, child, name) {
   const { func, context } = bookKeeping
   func.call(context, child, bookKeeping.count++)
+}
+
+/**
+ * 用于遍历`props.children` 类似js 中forEach方法
+ *
+ * @param {?*} children
+ * @param {function(*, int)} forEachFunc
+ * @param {*} forEachContext
+ */
+function forEachChildren(children, forEachFunc, forEachContext) {
+  if (children === null) {
+    return null
+  }
+  const traverseContext = getPooledTraverseContext(
+    null,
+    null,
+    forEachFunc,
+    forEachContext
+  )
+  traverseAllChildren(children, forEachSingleChild, traverseContext)
+  releaseTraverseContext(traverseContext)
+}
+
+function mapSingleChildIntoContext(bookKeeping, child, childKey) {
+  const { result, keyPrefix, func, context } = bookKeeping
+
+  let mappedChild = func.call(context, child, bookKeeping.count++)
+  if (Array.isArray(mappedChild)) {
+    mapIntoWithKeyPrefixInternal(mappedChild, result, childKey, c => c)
+  } else if (mappedChild != null) {
+    if (isValidElement(mappedChild)) {
+      mappedChild = cloneAndReplaceKey(
+        mappedChild,
+        // 保留mapped和旧的key（如果它们不同），就像traverseAllChildren像子对象一样用于对象
+        keyPrefix +
+          (mappedChild.key && (!child || child.key !== mappedChild.key)
+            ? escapeUserProvidedKey(mappedChild.key) + '/'
+            : '') +
+          childKey
+      )
+    }
+  }
+}
+
+function mapIntoWithKeyPrefixInternal(children, array, prefix, func, context) {
+  let escapedPrefix = ''
+  if (prefix != null) {
+    escapedPrefix = escapeUserProvidedKey(prefix) + '/'
+  }
+  const traverseContext = getPooledTraverseContext(
+    array,
+    escapedPrefix,
+    func,
+    context
+  )
+  traverseAllChildren(children, mapSingleChildIntoContext, traverseContext)
+  releaseTraverseContext(traverseContext)
 }
