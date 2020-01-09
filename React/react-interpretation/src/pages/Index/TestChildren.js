@@ -1,4 +1,5 @@
-import React from 'react'
+// import React from 'react'
+import React from '../../hreact/react'
 
 /**
  * children 可以是任何表达式
@@ -8,7 +9,13 @@ import React from 'react'
 const TestChildren = ({ children }) => {
   console.log(Array.isArray(children), children)
   // console.log(children.map((item) => item))
-  console.log(React.Children.map(children, (item) => item))
+  console.log(
+    React.Children.map(children, item => {
+      console.log('item', item)
+      return item
+    })
+  )
+  console.log(React.Children.count(children))
 
   return (
     <div>

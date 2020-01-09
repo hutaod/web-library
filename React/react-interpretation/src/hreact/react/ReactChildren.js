@@ -87,6 +87,7 @@ function traverseAllChildrenImpl(
   traverseContext
 ) {
   const type = typeof children
+
   if (type === 'undefined' || type === 'boolean') {
     children = null
   }
@@ -105,14 +106,12 @@ function traverseAllChildrenImpl(
           case REACT_PORTAL_TYPE:
             invokeCallback = true
         }
-      default:
-        break
     }
   }
 
   if (invokeCallback) {
     callback(
-      traverseContextPool,
+      traverseContext,
       children,
       // 如果是唯一的子元素，则将名称包含在数组中
       // 以使子元素增加时保持一致
@@ -278,6 +277,7 @@ function mapSingleChildIntoContext(bookKeeping, child, childKey) {
           childKey
       )
     }
+    result.push(mappedChild)
   }
 }
 
@@ -294,4 +294,80 @@ function mapIntoWithKeyPrefixInternal(children, array, prefix, func, context) {
   )
   traverseAllChildren(children, mapSingleChildIntoContext, traverseContext)
   releaseTraverseContext(traverseContext)
+}
+
+/**
+ * 用于`props.children` 使用的map方法，类似js中map方法
+ *
+ * See https://reactjs.org/docs/react-api.html#reactchildrenmap
+ *
+ * mapFunction(child, key, index) 会被每个child调用
+ *
+ * @param {?*} children Children tree container.
+ * @param {function(*, int)} func The map function.
+ * @param {*} context Context for mapFunction.
+ * @return {object} Object containing the ordered map of results.
+ */
+function mapChildren(children, func, context) {
+  if (children == null) {
+    return children
+  }
+  const result = []
+  mapIntoWithKeyPrefixInternal(children, result, null, func, context)
+  return result
+}
+
+/**
+ * 计算`props.children`的数量.
+ *
+ * See https://reactjs.org/docs/react-api.html#reactchildrencount
+ *
+ * @param {?*} children Children tree container.
+ * @return {number} The number of children.
+ */
+function countChildren(children) {
+  return traverseAllChildren(children, () => null, null)
+}
+
+/**
+ * 把 children 对象 (通常指`props.children`) 转为
+ * 带有适当重新设置key的children数组并返回
+ *
+ * See https://reactjs.org/docs/react-api.html#reactchildrentoarray
+ */
+function toArray(children) {
+  const result = []
+  mapIntoWithKeyPrefixInternal(children, result, null, child => child)
+  return result
+}
+
+/**
+ * 返回子children集合中的第一个元素，并验证该集合中只有一个元素
+ * Returns the first child in a collection of children and verifies that there
+ * is only one child in the collection.
+ *
+ * See https://reactjs.org/docs/react-api.html#reactchildrenonly
+ *
+ * The current implementation of this function assumes that a single child gets
+ * passed without a wrapper, but the purpose of this helper function is to
+ * abstract away the particular structure of children.
+ *
+ * @param {?object} children Child collection structure.
+ * @return {ReactElement} The first and only `ReactElement` contained in the
+ * structure.
+ */
+function onlyChild(children) {
+  invariant(
+    isValidElement(children),
+    'React.Children.only expected to receive a single React element child.'
+  )
+  return children
+}
+
+export {
+  forEachChildren as forEach,
+  mapChildren as map,
+  countChildren as count,
+  onlyChild as only,
+  toArray,
 }
