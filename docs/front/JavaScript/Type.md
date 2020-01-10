@@ -1,8 +1,17 @@
 # 类型
 
-## 原始类型
+JavaScript定义了8种内建类型：
+- `null`
+- `undefined`
+- `boolean`
+- `number`
+- `object`
+- `symbol` -- 在es6中被加入
+- `bigint` -- es6+ 被加入
 
-在 js 中，存在 6 中原始值，分别是：
+## 原始类型（基本类型）
+
+在 js 中，除了 `object` 都是原始类型，存在 7 种原始值，分别是：
 
 - `boolean`
 - `null`
@@ -10,6 +19,7 @@
 - `number`
 - `string`
 - `symbol`
+- `bigint`
 
 原始类型存储的都是值，是没有函数可以调用的，比如`undefined.toString()`会直接报错。
 注意点：
