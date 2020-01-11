@@ -15,8 +15,8 @@ autorun(function listen() {
   console.log(userStore.userInfo)
 })
 
-setTimeout(() => {
-  userStore.userInfo = { name: 'haha' }
-}, 2000)
+// setTimeout(() => {
+//   userStore.userInfo = { name: 'haha' }
+// }, 2000)
 
 export default userStore

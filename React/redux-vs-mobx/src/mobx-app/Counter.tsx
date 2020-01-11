@@ -26,7 +26,7 @@ function observableFn(target: any, name?: any, descriptor?: any) {
 
 class Counter {
   @observable count = 0
-  @observableFn test() {}
+  @observableFn test = () => {}
   @observableFn a = []
 }
 /**
