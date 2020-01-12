@@ -11,7 +11,7 @@ type TTodo = {
 type TInitState = {
   todos: Array<TTodo>
 }
-
+// 初始state
 const initState: TInitState = {
   todos: [],
 }
@@ -21,6 +21,7 @@ type TAction = {
   payload?: any
 }
 
+// reducer
 function reducer(state = initState, action: TAction) {
   switch (action.type) {
     case 'init':
@@ -32,7 +33,25 @@ function reducer(state = initState, action: TAction) {
   }
 }
 
+// store
 const store = createStore(reducer)
+
+const initTodos = (): TAction => {
+  return {
+    type: 'init',
+    payload: [{ id: Math.random(), title: 'web前端' }],
+  }
+}
+
+const addTodo = (title: string): TAction => {
+  return {
+    type: 'add',
+    payload: {
+      id: Math.random(),
+      title,
+    },
+  }
+}
 
 type TProps = {
   todos: Array<TTodo>
@@ -44,10 +63,7 @@ class TodoList extends Component<TProps> {
     inputVal: '',
   }
   componentDidMount() {
-    this.props.dispatch({
-      type: 'init',
-      payload: [{ id: Math.random(), title: 'web前端' }],
-    })
+    this.props.dispatch(initTodos())
   }
   render() {
     const { todos, dispatch } = this.props
@@ -65,13 +81,7 @@ class TodoList extends Component<TProps> {
           />
           <Button
             onClick={() => {
-              dispatch({
-                type: 'add',
-                payload: {
-                  id: Math.random(),
-                  title: this.state.inputVal,
-                },
-              })
+              dispatch(addTodo(this.state.inputVal))
               this.setState({
                 inputVal: '',
               })

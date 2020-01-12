@@ -7,7 +7,7 @@ type TTodo = {
   id: number
   title: string
 }
-
+// state
 class TodoListState {
   @observable todos: Array<TTodo> = []
   @action init = () => {
