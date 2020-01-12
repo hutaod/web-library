@@ -33,6 +33,216 @@
 目前来看，Redux 已是 React 应用状态管理库中的霸主了，而 Mobx 则是一方诸侯，我们为什么要选择 Mobx，而不是继续沿用 Redux 呢，那就需要比较他们的异同了。
 Mobx 和 Redux 都是 JavaScript 应用状态管理库，都适用于 React，Angular，VueJs 等框架或库，而不是局限于某一特定 UI 库。
 
+下面分别用 Redux 和 Mobx 实现一个 todo list，对比以下各自的实现方式：
+
+```js
+// redux todo list
+import React, { Component } from 'react'
+import { createStore } from 'redux'
+import { Provider, connect } from 'react-redux'
+import { Button, Input, List } from 'antd'
+
+type TTodo = {
+  id: number
+  title: string
+}
+
+type TInitState = {
+  todos: Array<TTodo>
+}
+
+const initState: TInitState = {
+  todos: [],
+}
+
+type TAction = {
+  type: string
+  payload?: any
+}
+
+function reducer(state = initState, action: TAction) {
+  switch (action.type) {
+    case 'init':
+      return { todos: action.payload || [] }
+    case 'add':
+      return { todos: [...state.todos, action.payload] }
+    default:
+      return state
+  }
+}
+
+const store = createStore(reducer)
+
+type TProps = {
+  todos: Array<TTodo>
+  dispatch: Function
+}
+
+class TodoList extends Component<TProps> {
+  state = {
+    inputVal: '',
+  }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'init',
+      payload: [{ id: Math.random(), title: 'web前端' }],
+    })
+  }
+  render() {
+    const { todos, dispatch } = this.props
+
+    return (
+      <div>
+        <h2>todolist</h2>
+        <div>
+          <Input
+            style={{ width: 200 }}
+            value={this.state.inputVal}
+            onChange={e => {
+              this.setState({ inputVal: e.target.value })
+            }}
+          />
+          <Button
+            onClick={() => {
+              dispatch({
+                type: 'add',
+                payload: {
+                  id: Math.random(),
+                  title: this.state.inputVal,
+                },
+              })
+              this.setState({
+                inputVal: '',
+              })
+            }}
+          >
+            Add
+          </Button>
+        </div>
+        <List
+          header={<div>TodoList</div>}
+          bordered
+          dataSource={todos}
+          renderItem={item => <List.Item key={item.id}>{item.title}</List.Item>}
+        />
+      </div>
+    )
+  }
+}
+
+const TodoListView = connect((state: TInitState) => {
+  return {
+    todos: state.todos,
+  }
+})(TodoList)
+
+const ReduxApp = () => {
+  return (
+    <Provider store={store}>
+      <div>ReduxApp</div>
+      <TodoListView />
+    </Provider>
+  )
+}
+
+export default ReduxApp
+```
+
+```js
+// mobx todo list
+import React, { Component } from 'react'
+import { observable, action } from 'mobx'
+import { Provider, inject } from 'mobx-react'
+import { Button, Input, List } from 'antd'
+
+type TTodo = {
+  id: number
+  title: string
+}
+
+class TodoListState {
+  @observable todos: Array<TTodo> = []
+  @action init = () => {
+    this.todos = [{ id: Math.random(), title: 'web前端' }]
+  }
+  @action addTodo = (todo: TTodo) => {
+    this.todos.push(todo)
+  }
+}
+
+const store = new TodoListState()
+
+type TProps = {
+  todos?: Array<TTodo>
+  init?: Function
+  addTodo?: Function
+}
+
+@inject((stores: any) => {
+  return {
+    todos: stores.store.todos,
+    init: stores.store.init,
+    addTodo: stores.store.addTodo,
+  }
+})
+class TodoList extends Component<TProps> {
+  state = {
+    inputVal: '',
+  }
+  componentDidMount() {
+    this.props.init!()
+  }
+  render() {
+    const { todos, addTodo } = this.props
+
+    return (
+      <div>
+        <h2>todolist</h2>
+        <div>
+          <Input
+            style={{ width: 200 }}
+            value={this.state.inputVal}
+            onChange={e => {
+              this.setState({ inputVal: e.target.value })
+            }}
+          />
+          <Button
+            onClick={() => {
+              addTodo!({
+                id: Math.random(),
+                title: this.state.inputVal,
+              })
+              this.setState({
+                inputVal: '',
+              })
+            }}
+          >
+            Add
+          </Button>
+        </div>
+        <List
+          header={<div>TodoList</div>}
+          bordered
+          dataSource={todos}
+          renderItem={item => <List.Item key={item.id}>{item.title}</List.Item>}
+        />
+      </div>
+    )
+  }
+}
+
+const ReduxApp = () => {
+  return (
+    <Provider store={store}>
+      <div>ReduxApp</div>
+      <TodoList />
+    </Provider>
+  )
+}
+
+export default ReduxApp
+```
+
 ## 先简单介绍一下 Redux
 
 要介绍 Redux，我们就不得不谈到 Flux 了

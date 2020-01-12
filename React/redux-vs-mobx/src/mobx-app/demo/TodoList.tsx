@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { createStore } from 'redux'
-import { Provider, connect } from 'react-redux'
+import { observable, action } from 'mobx'
+import { Provider, inject } from 'mobx-react'
 import { Button, Input, List } from 'antd'
 
 type TTodo = {
@@ -8,49 +8,40 @@ type TTodo = {
   title: string
 }
 
-type TInitState = {
-  todos: Array<TTodo>
-}
-
-const initState: TInitState = {
-  todos: [],
-}
-
-type TAction = {
-  type: string
-  payload?: any
-}
-
-function reducer(state = initState, action: TAction) {
-  switch (action.type) {
-    case 'init':
-      return { todos: action.payload || [] }
-    case 'add':
-      return { todos: [...state.todos, action.payload] }
-    default:
-      return state
+class TodoListState {
+  @observable todos: Array<TTodo> = []
+  @action init = () => {
+    this.todos = [{ id: Math.random(), title: 'web前端' }]
+  }
+  @action addTodo = (todo: TTodo) => {
+    this.todos.push(todo)
   }
 }
 
-const store = createStore(reducer)
+const store = new TodoListState()
 
 type TProps = {
-  todos: Array<TTodo>
-  dispatch: Function
+  todos?: Array<TTodo>
+  init?: Function
+  addTodo?: Function
 }
 
+@inject((stores: any) => {
+  return {
+    todos: stores.store.todos,
+    init: stores.store.init,
+    addTodo: stores.store.addTodo,
+  }
+})
 class TodoList extends Component<TProps> {
   state = {
     inputVal: '',
   }
   componentDidMount() {
-    this.props.dispatch({
-      type: 'init',
-      payload: [{ id: Math.random(), title: 'web前端' }],
-    })
+    this.props.init!()
   }
   render() {
-    const { todos, dispatch } = this.props
+    const { todos, addTodo } = this.props
 
     return (
       <div>
@@ -65,12 +56,9 @@ class TodoList extends Component<TProps> {
           />
           <Button
             onClick={() => {
-              dispatch({
-                type: 'add',
-                payload: {
-                  id: Math.random(),
-                  title: this.state.inputVal,
-                },
+              addTodo!({
+                id: Math.random(),
+                title: this.state.inputVal,
               })
               this.setState({
                 inputVal: '',
@@ -91,17 +79,11 @@ class TodoList extends Component<TProps> {
   }
 }
 
-const TodoListView = connect((state: TInitState) => {
-  return {
-    todos: state.todos,
-  }
-})(TodoList)
-
 const ReduxApp = () => {
   return (
     <Provider store={store}>
       <div>ReduxApp</div>
-      <TodoListView />
+      <TodoList />
     </Provider>
   )
 }
