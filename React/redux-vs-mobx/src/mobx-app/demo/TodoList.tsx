@@ -1,7 +1,17 @@
 import React, { Component } from 'react'
-import { observable, action } from 'mobx'
+import { observable, action, autorun } from 'mobx'
 import { Provider, inject } from 'mobx-react'
 import { Button, Input, List } from 'antd'
+
+var a = observable.box()
+
+autorun(() => {
+  console.log(a.get())
+})
+
+setTimeout(() => {
+  a.set(11)
+}, 1000)
 
 type TTodo = {
   id: number
@@ -30,12 +40,12 @@ type TProps = {
   return {
     todos: stores.store.todos,
     init: stores.store.init,
-    addTodo: stores.store.addTodo,
+    addTodo: stores.store.addTodo
   }
 })
 class TodoList extends Component<TProps> {
   state = {
-    inputVal: '',
+    inputVal: ''
   }
   componentDidMount() {
     this.props.init!()
@@ -58,10 +68,10 @@ class TodoList extends Component<TProps> {
             onClick={() => {
               addTodo!({
                 id: Math.random(),
-                title: this.state.inputVal,
+                title: this.state.inputVal
               })
               this.setState({
-                inputVal: '',
+                inputVal: ''
               })
             }}
           >
@@ -82,7 +92,7 @@ class TodoList extends Component<TProps> {
 const ReduxApp = () => {
   return (
     <Provider store={store}>
-      <div>ReduxApp</div>
+      <div>MobxApp</div>
       <TodoList />
     </Provider>
   )

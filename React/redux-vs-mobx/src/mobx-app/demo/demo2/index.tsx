@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { observable, configure, action, runInAction, flow } from 'mobx'
+import { observable, configure, action, runInAction, autorun } from 'mobx'
 import { observer } from 'mobx-react'
 import { Button } from 'antd'
 
@@ -87,6 +87,10 @@ class AppState {
 const appState = new AppState()
 // console.log('appState.hello', appState.hello)
 
+// autorun(() => {
+//   console.log(2, 'appState.timer', appState.timer)
+// })
+
 type IProps = {
   appState: {
     timer: number
@@ -98,7 +102,7 @@ type IProps = {
 @observer
 class Demo2 extends Component<IProps> {
   render() {
-    console.log('render')
+    // console.log(3, 'render')
     const { appState } = this.props
     return (
       <div>
@@ -107,6 +111,7 @@ class Demo2 extends Component<IProps> {
         <Button
           onClick={() => {
             this.props.appState.changeTimer()
+            // console.log(1)
           }}
         >
           add
