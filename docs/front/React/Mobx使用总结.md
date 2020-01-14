@@ -418,7 +418,7 @@ class Demo2 extends Component<IProps> {
 export default <Demo2 appState={appState} />
 ```
 
-设置只能通过 action 才能改变 action 时，那 Mobx 是如何进行异步处理呢？
+设置只能通过 action 才能改变 state 时，那 Mobx 是如何进行异步处理呢？
 
 和 Redux 不同的是，Mobx 在异步处理上并不复杂，不需要引入额外的类似 redux-thunk、redux-saga 这样的库。
 唯一需要注意的是，在严格模式下，对于异步 action 里的回调，若该回调也要修改 observable 的值，那么该回调也需要绑定 action。
@@ -699,7 +699,7 @@ switch (action.type) {
 
 ## 参考
 
-- [Mobx 中文文档](http://cn.redux.js.org/)
+- [Mobx 中文文档](https://cn.mobx.js.org/)
 - [你需要 Mobx 还是 Redux](https://juejin.im/post/5a7fd72c5188257a766324ae)
 - [MobX 简介](https://tate-young.github.io/2019/03/20/react-mobx.html#reactions-%E5%8F%8D%E5%BA%94)
 - [Mobx —— React 状态管理另一条路](https://juejin.im/post/5a3e611a6fb9a0451239279d)
