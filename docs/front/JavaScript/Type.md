@@ -1,13 +1,18 @@
 # 类型
 
-JavaScript定义了8种内建类型：
+JavaScript 定义了 8 种内建类型：
+
 - `null`
 - `undefined`
 - `boolean`
 - `number`
 - `object`
-- `symbol` -- 在es6中被加入
+- `symbol` -- 在 es6 中被加入
 - `bigint` -- es6+ 被加入
+
+注意点：
+
+- 在 JS 中，变量是没有类型的，值才有类型。变量可以在任何时候，持有任何值
 
 ## 原始类型（基本类型）
 
@@ -25,7 +30,7 @@ JavaScript定义了8种内建类型：
 注意点：
 
 - `'1'.toString()`或者`false.toString()`等可以用的原因是被强制转换成了 String 类型也就是对象类型，所以可以调用 `toString` 函数。
-- 对于`null`来说，很多人会认为它是个对象类型，其实是错误的。`typeof null` 会输出 `object`，这只是 JS 存在的一个悠久 Bug。注: 在 JS 的最初版本中使用的是 32 位系统，为了性能考虑使用低位存储变量的类型信息，`000`开头代表是对象，然而 `null` 表示为全零，所以将它错误的判断为 `object` 。虽然现在的内部类型判断代码已经改变了，但是对于这个 Bug 却是一直流传下来。
+- 对于`null`来说，很多人会认为它是个对象类型，其实是错误的。`typeof null` 会输出 `object`，这只是 JS 存在的一个悠久 Bug，而且好像永远不会也不会被修复，因为有太多已经存在的 web 的内容依存着这个 bug。注: 在 JS 的最初版本中使用的是 32 位系统，为了性能考虑使用低位存储变量的类型信息，`000`开头代表是对象，然而 `null` 表示为全零，所以将它错误的判断为 `object` 。虽然现在的内部类型判断代码已经改变了，但是对于这个 Bug 却是一直流传下来。
 
 ## 对象类型
 
@@ -33,13 +38,26 @@ JavaScript定义了8种内建类型：
 
 对象类型和原始类型不同的是，原始类型存储的是值，对象类型存储的是地址。
 
-## typeof vs instanceof
+## typeof
 
-`typeof`：对于原始类型，除了 `null` 都可以显示正确的类型；对于对象类型来说，除了函数都会显示 object。
+`typeof`总是返回一个字符串，所以：
 
-`instanceof`：用于测试构造函数的 prototype 属性是否出现在对象的原型链中的任何位置。
+```js
+typeof typeof 42 // "string"
+```
 
-`Symbol.hasInstance`：用于自定义判断某对象是否为某构造器的实例。即用于自定义 `instanceof` 操作符在某个类上的行为。
+总结性的一句话：`typeof`对于原始类型，除了 `null` 都可以显示正确的类型；对于对象类型来说，除了函数都会显示 object。
+
+注意点：
+
+- `typeof` 作用于 `function` 时，结果为 `function`，很容易认为 JS 中`function`是一直顶层的内建类型，然而它实际上是对象（object）的"子类型"。因此，一个函数也被称为"可调用对象"————一个拥有 [[Call]] 内部属性、允许被调用的对象。
+- 当对一个未声明的变量使用 `typeof` 时，`typeof` 上的安全防卫机制在特定的情况下非常有用（防止抛出错误）。
+
+## instanceof
+
+`instanceof`用于测试构造函数的 prototype 属性是否出现在对象的原型链中的任何位置。
+
+`Symbol.hasInstance`用于自定义判断某对象是否为某构造器的实例。即用于自定义 `instanceof` 操作符在某个类上的行为。
 
 ```javascript
 class MyArray {
@@ -73,7 +91,7 @@ let a = {
   },
   [Symbol.toPrimitive]() {
     return 2
-  }
+  },
 }
 1 + a // => 3
 ```
