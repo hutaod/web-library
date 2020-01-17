@@ -38,6 +38,21 @@ JavaScript 定义了 8 种内建类型：
 
 对象类型和原始类型不同的是，原始类型存储的是值，对象类型存储的是地址。
 
+### Array
+
+在 JS 中 Array 的一些注意事项：
+
+- 在一个 `array` 值上使用 `delete` 将会从这个 `array` 上移出一个值槽，但是就算`delete`的是最后一个元素，它也不会更新 `length` 的属性，所以要多加小心。
+- `array`也是对象，可以在它上面添加 `string` 属性，但是这些属性不会计算在 `array` 的 `length` 中，但需要注意：如果一个可以被强制转换为 10 进制 `numver` 的 `string`被用作键的话，它会认为你想使用 `number` 索引而不是一个 `string`
+
+结论：一般来说，向 `array` 添加 `string` 属性不是一个好主意，最好使用 `object` 来处理有键/属性形式的值，而将 array 专用于严格地数字索引的值。
+
+### 类 Array 对象
+
+常见的类 array 对象：
+
+- [`arguments`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments)
+
 ## typeof
 
 `typeof`总是返回一个字符串，所以：
@@ -55,7 +70,7 @@ typeof typeof 42 // "string"
 
 ## instanceof
 
-`instanceof`用于测试构造函数的 prototype 属性是否出现在对象的原型链中的任何位置。
+`instanceof`用于测试构造函数的 `prototype` 属性是否出现在对象的原型链中的任何位置。
 
 `Symbol.hasInstance`用于自定义判断某对象是否为某构造器的实例。即用于自定义 `instanceof` 操作符在某个类上的行为。
 
