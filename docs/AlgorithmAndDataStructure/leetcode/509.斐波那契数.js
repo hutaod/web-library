@@ -10,9 +10,10 @@
  * @return {number}
  */
 var fib = function(N) {
-  if (N < 2) {
-    return N
+  const fibArr = [0, 1]
+  for (let i = 2; i <= N; i++) {
+    fibArr[i] = fibArr[i - 2] + fibArr[i - 1]
   }
-  return fib(N - 1) + fib(N - 2)
+  return fibArr[N]
 }
 // @lc code=end
