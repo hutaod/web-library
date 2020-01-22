@@ -19,7 +19,6 @@ var isValid = function(s) {
     '{': 3,
     '}': -3,
   }
-  let flag = true
   for (let i = 0; i < s.length; i++) {
     const e = s[i]
     // 判断是否是括号
@@ -29,17 +28,33 @@ var isValid = function(s) {
       } else if (stack.length > 0) {
         let a = stack.pop()
         if (a !== -obj[e]) {
-          flag = false
-          break
+          return false
         }
       } else {
-        flag = false
-        break
+        return false
       }
     }
   }
-  return flag && stack.length === 0
+  return stack.length === 0
 }
 // @lc code=end
 
-console.log(isValid('(((())[]}))'))
+// 复合题目的解
+// var isValid = function(s) {
+//   var stack = []
+//   var obj = {
+//     '(': ')',
+//     '[': ']',
+//     '{': '}',
+//   }
+//   for (let i = 0; i < s.length; i++) {
+//     const e = s[i]
+//     // 判断是否是括号
+//     if (obj[e]) {
+//       stack.push(e)
+//     } else if (e !== obj[stack.pop()]) {
+//       return false
+//     }
+//   }
+//   return !stack.length
+// }

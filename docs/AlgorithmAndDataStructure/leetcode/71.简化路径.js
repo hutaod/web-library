@@ -11,15 +11,13 @@
  */
 var simplifyPath = function(path) {
   let stack = []
-  let reg = /[\/]+/g
-  path = path.replace(reg, '/').split('/')
-  for (let i = 0; i < path.length; i++) {
+  path = path.split('/')
+  let len = path.length
+  for (let i = 0; i < len; i++) {
     const p = path[i]
-    if (p === '.' || p === '..') {
-      if (p === '..') {
-        stack.pop()
-      }
-    } else if (p !== '') {
+    if (p === '..') {
+      stack.pop()
+    } else if (p !== '' && p !== '.') {
       stack.push(p)
     }
   }
