@@ -18,7 +18,13 @@
  * @return {ListNode}
  */
 var detectCycle = function(head) {
-    
-};
+  while (head && head.next) {
+    if (head.flag) {
+      return head
+    }
+    head.flag = 1
+    head = head.next
+  }
+  return null
+}
 // @lc code=end
-
