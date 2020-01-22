@@ -11,54 +11,45 @@
  */
 var threeSum = function(nums) {
   const res = []
-  const cache = {}
+  let length = nums.length
   // 排队，最左边是最小的，最右边是最大的
-  const arr = nums.concat([]).sort((a, b) => a - b)
-
+  nums.sort((a, b) => a - b) // 会改变原数组
   // 排序后，如果最大值大于0切最小值小于0才会有解
-  if (arr[0] <= 0 && arr[arr.length - 1] >= 0) {
-    if (arr.length >= 3 && arr[0] === 0 && arr[arr.length - 1] === 0) {
-      return [[0, 0, 0]]
-    }
-    for (let i = 1; i < arr.length - 1; i++) {
-      // c 位人选
-      let first = 0
-      let last = arr.length - 1
-      if (arr[first] > 0 || arr[last] <= 0) {
+  if (nums[0] <= 0 && nums[length - 1] >= 0) {
+    for (let i = 0; i < length - 2; ) {
+      // 最左值为整数一定无解
+      if (nums[i] > 0) {
         break
       }
-      while (first < last) {
-        let result = arr[i] + arr[first] + arr[last]
-        if (result === 0 && i !== first && first !== last && i !== last) {
-          // 我们是不是可以一起组队
-          const A = [arr[i], arr[first], arr[last]]
-          const key = A.concat([])
-            .sort((a, b) => a - b)
-            .join('@')
-          if (!cache[key]) {
-            cache[key] = A
-            res.push(A)
-          }
+      let second = i + 1
+      let last = length - 1
+      do {
+        // 两人是同一个或者三人同符号，则退出（第一个和第三个一定不会都是整数或者负数）
+        if (second >= last || nums[i] * nums[last] > 0) {
+          break
         }
-        if (result <= 0 && first < i) {
-          // 实力太弱，把菜鸟右移一位
-          ++first // 如果相等就跳过
-        } else if (result > 0 && last > i) {
-          // 实力太强，把大神左移一位
-          --last // 如果相等就跳过
+        const result = nums[i] + nums[second] + nums[last]
+        if (result === 0) {
+          // 如果组队成功
+          res.push([nums[i], nums[second], nums[last]])
+        }
+        if (result <= 0) {
+          // 实力太弱，把second右移一位
+          while (second < last && nums[second] === nums[++second]) {} // 如果相等就跳过
         } else {
-          break // 某一边已经没有人选了
+          // 实力太强，把last左移一位
+          while (second < last && nums[last] === nums[--last]) {} // 如果相等就跳过
         }
-      }
+      } while (second < last)
+      while (nums[i] === nums[++i]) {}
     }
   }
-  console.log(res)
-
   return res
 }
 // @lc code=end
 
-threeSum([0, 0, 0, 0])
+threeSum([-1, 0, 1, 2, -1, -4])
+// -4,-1,-1,0,1,2
 
 /**
  * 暴力破解法 O(n3)
