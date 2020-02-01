@@ -39,18 +39,17 @@ var reverseList = function(head) {
 // var reverseList = function(head) {
 //   // 反转后第一个指向null，后面的执行方向改变
 //   let prev = null
-//   // 指针
 //   let cur = head
 //   while (cur) {
-//     // 获取下一个指针
-//     let next = cur.next
-//     // 改变指针当前的next为prev，
-//     // 比如：链表头部反转为尾部，next就为null，
-//     // 之前的第二个元素的next就是cur
-//     cur.next = prev
-//     prev = cur
-//     // 指针到next
-//     cur = next
+//     // 用解构方式简化代码
+//     ;[cur.next, prev, cur] = [prev, cur, cur.next]
+//     // // 先存取链表后续数据
+//     // let next = cur.next
+//     // // 把cur指向prev
+//     // cur.next = prev
+//     // // 把prev和cur指针向后移动一位
+//     // prev = cur
+//     // cur = next
 //   }
 //   return prev
 // }
