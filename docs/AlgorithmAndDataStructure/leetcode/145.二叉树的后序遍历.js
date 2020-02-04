@@ -13,17 +13,40 @@
  * }
  */
 /**
+ * 迭代解法
  * @param {TreeNode} root
  * @return {number[]}
  */
-var postorderTraversal = function(root, result = []) {
-  if (!root) {
-    return result
+var postorderTraversal = function(root) {
+  let result = []
+  let stack = []
+  let cur = root
+  while (cur || stack.length > 0) {
+    while (cur) {
+      result.unshift(cur.val)
+      stack.push(cur)
+      cur = cur.right
+    }
+    cur = stack.pop()
+    cur = cur.left
   }
-  // 先处理左右，再处理自己
-  postorderTraversal(root.left, result)
-  postorderTraversal(root.right, result)
-  result.push(root.val)
+
   return result
 }
 // @lc code=end
+
+/**
+ * 递归解法
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+// var postorderTraversal = function(root, result = []) {
+//   if (!root) {
+//     return result
+//   }
+//   // 先处理左右，再处理自己
+//   postorderTraversal(root.left, result)
+//   postorderTraversal(root.right, result)
+//   result.push(root.val)
+//   return result
+// }
