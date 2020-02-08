@@ -1,17 +1,5 @@
-# 二叉树
-
-## 遍历方法
-
-- 前序遍历 自 -> left -> right
-- 中序遍历 left -> 自 -> right
-- 后序遍历 left -> right -> 自
-
-递归比较简单，后面都用迭代方式实现
-
-## 前序遍历
-
-```js
 /**
+ * 前序遍历
  * @param {TreeNode} root
  * @return {number[]}
  */
@@ -25,20 +13,42 @@ var preorderTraversal = function(root) {
   // 上面的操作顺序就是先直接拿取每个节点的值，然后拿该节点的左节点，最后获取该节点右节点
   while (cur || stack.length > 0) {
     while (cur) {
+      // console.log(cur)
       stack.push(cur)
       result.push(cur.val)
       cur = cur.left
     }
     cur = stack.pop()
+    // console.log(cur)
     cur = cur.right
   }
   return result
 }
-```
 
-## 中序遍历
+const root = {
+  val: 1,
+  left: {
+    val: 5,
+    left: {
+      val: 3,
+    },
+    right: {
+      val: 4,
+    },
+  },
+  right: {
+    val: 5,
+    left: {
+      val: 4,
+    },
+    right: {
+      val: 3,
+    },
+  },
+}
 
-```js
+// console.log(preorderTraversal(root))
+
 /**
  * 中序遍历
  * @param {TreeNode} root
@@ -64,11 +74,9 @@ var inorderTraversal = function(root) {
   }
   return result
 }
-```
 
-## 后序遍历
+// console.log(inorderTraversal(root))
 
-```js
 /**
  * 后序遍历
  * @param {TreeNode} root
@@ -94,32 +102,28 @@ var postorderTraversal = function(root) {
   }
   return result
 }
-```
 
-## 层序遍历
+// console.log(postorderTraversal(root))
 
-层序遍历就是逐层遍历树结构。
-
-```js
-/**
- * 层序遍历 - 递归
- * @param {TreeNode} root
- * @return {number[][]}
- */
-var levelOrder = function(root, result = [], depth = 0) {
-  if (!root) {
-    return result
-  }
-  let val = root.val
-  if (result[depth]) {
-    result[depth].push(val)
-  } else {
-    result[depth] = [val]
-  }
-  levelOrder(root.left, result, depth + 1)
-  levelOrder(root.right, result, depth + 1)
-  return result
-}
+// /**
+//  * 层序遍历 - 递归
+//  * @param {TreeNode} root
+//  * @return {number[][]}
+//  */
+// var levelOrder = function(root, result = [], depth = 0) {
+//   if (!root) {
+//     return result
+//   }
+//   let val = root.val
+//   if (result[depth]) {
+//     result[depth].push(val)
+//   } else {
+//     result[depth] = [val]
+//   }
+//   levelOrder(root.left, result, depth + 1)
+//   levelOrder(root.right, result, depth + 1)
+//   return result
+// }
 
 /**
  * 层序遍历 - 迭代
@@ -150,11 +154,9 @@ var levelOrder = function(root) {
   }
   return res
 }
-```
 
-## 二叉树的最大深度
+// console.log(levelOrder(root))
 
-```js
 /**
  * 二叉树的最大深度
  * @param {TreeNode} root
@@ -168,11 +170,7 @@ var maxDepth = function(root, depth = 0) {
   let rightDepth = maxDepth(root.right, depth + 1)
   return Math.max(leftDepth, rightDepth) + 1
 }
-```
 
-## 对称二叉树
-
-```js
 /**
  * 对称二叉树
  * @param {TreeNode} root
@@ -194,4 +192,5 @@ var isSymmetric = function(root) {
   }
   return leftIsLikeRight(root.left, root.right)
 }
-```
+
+console.log(isSymmetric(root))
