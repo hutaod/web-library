@@ -172,7 +172,29 @@ var maxDepth = function(root, depth = 0) {
 }
 
 /**
- * 对称二叉树
+ * 对称二叉树 - 递归
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+// var isSymmetric = function(root) {
+//   if (!root) {
+//     return true
+//   }
+//   function leftIsLikeRight(left, right) {
+//     if (!left || !right) {
+//       return left === right
+//     }
+//     return (
+//       left.val === right.val &&
+//       leftIsLikeRight(left.left, right.right) &&
+//       leftIsLikeRight(left.right, right.left)
+//     )
+//   }
+//   return leftIsLikeRight(root.left, root.right)
+// }
+
+/**
+ * 对称二叉树 - 迭代
  * @param {TreeNode} root
  * @return {boolean}
  */
@@ -180,17 +202,25 @@ var isSymmetric = function(root) {
   if (!root) {
     return true
   }
-  function leftIsLikeRight(left, right) {
-    if (!left || !right) {
-      return left === right
+  let stack = []
+  let cur = root
+  let res = true
+  while (cur) {
+    while (cur) {
+      if (!cur.left || !cur.right) {
+        if (cur.left !== cur.right) {
+          return false
+        }
+      } else if (cur.left.val !== cur.right.val) {
+        return false
+      }
+      stack.push(cur)
+      cur = cur.left
     }
-    return (
-      left.val === right.val &&
-      leftIsLikeRight(left.left, right.right) &&
-      leftIsLikeRight(left.right, right.left)
-    )
+    cur = cur.pop()
+    cur = cur.right
   }
-  return leftIsLikeRight(root.left, root.right)
+  return res
 }
 
 console.log(isSymmetric(root))
