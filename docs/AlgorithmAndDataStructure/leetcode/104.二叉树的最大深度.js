@@ -13,7 +13,7 @@
  * }
  */
 /**
- * 递归解法
+ * 迭代解法
  * @param {TreeNode} root
  * @return {number}
  */

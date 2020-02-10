@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function leftPad1(str, len, letter) {
+      if(!letter && letter !== 0 ) {
+        letter = " "
+      }
+      let length = len - str.length
+      if(length) {
+        return Array(length + 1).join(letter) + str
+      }
+      return str
+    }
+
+    // 二分法
+    function leftPad2(str, len, letter) {
+      if(!letter && letter !== '0' ) {
+        letter = " "
+      }
+      let length = len - str.length
+      let total = ""
+      while (length) {
+        // 如果是奇数需要多加一个
+        if(length % 2 === 1) {
+          total += letter
+        }
+        if(length === 1) {
+          return total + str
+        }
+        // 每次*2
+        letter += letter
+        length = Math.floor(length / 2)
+      }
+    }
+
+    // 二分法 - 位运算优化（因为是直接二进制的运算，会提升效率）
+    function leftPad3(str, len, letter) {
+      if(!letter && letter !== '0' ) {
+        letter = " "
+      }
+      let length = len - str.length
+      let total = ""
+      while (length) {
+        // 如果是奇数需要多加一个
+        if(length & 1) {
+          total += letter
+        }
+        if(length === 1) {
+          return total + str
+        }
+        // 每次*2
+        letter += letter
+        length = length >> 1
+      }
+    }
+    // console.time("leftPad1")
+    // // console.log(leftPad1("hello", 1000000, '0'))
+    // for (let index = 0; index < 10000; index++) {
+    //   leftPad1("hello", 100000, '0')
+    // }
+    // console.timeEnd("leftPad1")
+    console.time("leftPad2")
+    // console.log(leftPad("hello", 100, '0'))
+    for (let index = 0; index < 100000; index++) {
+      leftPad2("hello", 1000000, '0')
+    }
+    console.timeEnd("leftPad2")
+    console.time("leftPad3")
+    // console.log(leftPad("hello", 100, '0'))
+    for (let index = 0; index < 100000; index++) {
+      leftPad3("hello", 1000000, '0')
+    }
+    console.timeEnd("leftPad3")
+  </script>
+</body>
+</html>
