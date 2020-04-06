@@ -7,6 +7,7 @@
 - [编程选择与成长之路](./coding-choice-and-growth/README.md)
 - [持续分享一些常用工具](./持续分享一些常用工具.md)
 - [性能优化](./PerformanceOptimization.md)
+- [You-Dont-Know-JS 学习笔记](./You-Dont-Know-JS.md)
 
 ## 文章收藏
 
