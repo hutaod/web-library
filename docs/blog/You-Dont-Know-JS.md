@@ -78,3 +78,69 @@ d // "F.O.O."
 ```
 
 另外需要注意的是：但反改变是改变自身，而不是返回一个新值的 Array 方法，都不能“借用”给`string`，比如：`Array.prototype.reverse.call(str)`、`Array.prototype.reverse.splice(str)`都会执行失败
+
+4. JavaScript 的 number 的实现基于“IEEE 754”标准，通常被称为“浮点”，跟大多数现代计算机语言，以及几乎所有的脚本语言一样。JavaScript 明确地使用了这个标准的“双精度”（也就是“64 位二进制”）格式。
+
+使用二进制浮点数的最出名（臭名昭著）的副作用是（这是对 所有 使用 IEEE 754 的语言都成立的 —— 不是许多人认为/假装 仅 在 JavaScript 中存在的问题）：
+
+```js
+0.1 + 0.2 === 0.3 // false
+```
+
+从数学的意义上，我们知道这个语句应当为 true。为什么它是 false？
+
+简单地说，0.1 和 0.2 的二进制表示形式是不精确的，所以它们相加时，结果不是精确地 0.3。而是 非常 接近的值：0.30000000000000004，但是如果你的比较失败了，“接近”是无关紧要的。
+
+我们可以使用这个 Number.EPSILON 来比较两个 number 的“等价性”（带有错误舍入的容差）：
+
+```js
+function isEqual(n1, n2) {
+  return Math.abs(n1 - n2) < Number.EPSILON
+}
+
+var a = 0.1 + 0.2
+var b = 0.3
+
+isEqual(a, b) // true
+isEqual(0.0000001, 0.0000002) // false
+```
+
+测试整数:
+
+测试一个值是否是整数，你可以使用 ES6 定义的 Number.isInteger(..)：
+
+```js
+Number.isInteger(42) // true
+Number.isInteger(42.0) // true
+Number.isInteger(42.3) // false
+```
+
+可以为前 ES6 填补 Number.isInteger(..)：
+
+```js
+if (!Number.isInteger) {
+  Number.isInteger = function(num) {
+    return typeof num == 'number' && num % 1 === 0
+  }
+}
+```
+
+要测试一个值是否是 安全整数，使用 ES6 定义的 Number.isSafeInteger(..)：
+
+```js
+Number.isSafeInteger(Number.MAX_SAFE_INTEGER) // true
+Number.isSafeInteger(Math.pow(2, 53)) // false
+Number.isSafeInteger(Math.pow(2, 53) - 1) // true
+```
+
+可以为前 ES6 浏览器填补 Number.isSafeInteger(..)：
+
+```js
+if (!Number.isSafeInteger) {
+  Number.isSafeInteger = function(num) {
+    return Number.isInteger(num) && Math.abs(num) <= Number.MAX_SAFE_INTEGER
+  }
+}
+```
+
+5. 虽然整数可以安全地最大达到约九万亿（53 比特），但有一些数字操作（比如位操作符）是仅仅为 32 位 number 定义的，所以对于被这样使用的 number 来说，“安全范围”一定会小得多。
