@@ -16,8 +16,9 @@
       const button = document.getElementById('button')
       let start
       function callback() {
-        console.log(Date.now() - start)
-        start = Date.now()
+        const current = Date.now()
+        console.log(current - start)
+        start = current
         Adom.style.width = Adom.offsetWidth + 1 + 'px'
         Adom.innerHTML = `${Adom.offsetWidth}%`
         if (Adom.offsetWidth < 100) {
