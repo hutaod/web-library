@@ -1,7 +1,7 @@
 ---
 home: true
 title: 大前端知识库
-description: 前端进阶知识库
+description: 前端进阶知识库，爱生活，爱编程
 heroImage: /images/javascript.jpg
 actionText: 快速上手 →
 actionLink: /front/
