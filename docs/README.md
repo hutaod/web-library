@@ -6,7 +6,7 @@ heroImage: /images/javascript.jpg
 actionText: 快速上手 →
 actionLink: /front/
 features:
-  - title: 前端知识库
+  - title: 前端•知识库
     details: 记录前端基础知识点和一些框架的使用和分析，分享前端进阶路上遇到的一些难点
   - title: Nodejs
     details: 记录Nodejs常用知识点和运用用过程中遇到一些问题
