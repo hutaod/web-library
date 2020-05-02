@@ -3,7 +3,7 @@ home: true
 title: 大前端知识库
 description: 前端进阶知识库
 heroImage: /images/javascript.jpg
-actionText: 快速上手 →
+actionText: 嘿，快速上手 →
 actionLink: /front/
 features:
   - title: 前端知识库
