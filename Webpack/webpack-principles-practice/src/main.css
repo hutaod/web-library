@@ -1,0 +1,5 @@
+html {
+  background-color: red;
+}
+/* console.log('This is a sheet.') */
+/* 只是为了测试Webpack默认按照JS语法解析模块 */
