@@ -4,6 +4,16 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import Routes from './routes'
 
+let element = (
+  <div id="a1">
+    <div id="b1">
+      <div id="c1">c1</div>
+      <div id="c2">c2</div>
+    </div>
+    <div id="b2"></div>
+  </div>
+)
+console.log(element)
 const App = hot(Routes)
 
 const render = function() {
