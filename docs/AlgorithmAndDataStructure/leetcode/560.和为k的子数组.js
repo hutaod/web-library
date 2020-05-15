@@ -6,36 +6,54 @@
 
 // @lc code=start
 /**
+ * 暴力解法，回溯+迭代
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
 var subarraySum = function(nums, k) {
-  let start = 0
-  let res = 0
-  while (start < nums.length) {
-    let sum = 0
-    for (let i = start; i < nums.length; i++) {
-      sum += nums[i]
-      if (sum >= k) {
-        if (sum === k) {
-          res += 1
-        }
-        console.log(sum, start, i)
-        if (i < nums.length - 1) {
-          sum -= nums[start]
-          start = i - 1 > start ? i - 1 : start + 1
-        } else {
-          console.log('结束')
-          start = nums.length
-        }
-        break
-      }
+  if (nums.length === 0) {
+    return 0
+  }
+  let map = { 0: 1 }
+  let prefixSum = 0
+  let count = 0
+  for (let i = 0; i < nums.length; i++) {
+    prefixSum += nums[i]
+    if (map[prefixSum - k]) {
+      count += map[prefixSum - k]
+    }
+    if (map[prefixSum]) {
+      map[prefixSum]++
+    } else {
+      map[prefixSum] = 1
     }
   }
-  console.log(res)
-  return res
+  return count
 }
 // @lc code=end
 
 subarraySum([1, 1, 1], 2)
+/**
+ * 暴力解法，回溯+迭代
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+// var subarraySum = function(nums, k) {
+//   let start = 0
+//   let res = 0
+//   while (start < nums.length) {
+//     let sum = 0
+//     for (let i = start; i < nums.length; i++) {
+//       const cur = nums[i]
+//       if (sum + cur === k) {
+//         res += 1
+//       }
+//       sum += cur
+//     }
+//     start += 1
+//   }
+//   console.log(res)
+//   return res
+// }
