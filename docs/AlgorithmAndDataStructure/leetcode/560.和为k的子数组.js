@@ -6,7 +6,7 @@
 
 // @lc code=start
 /**
- * 暴力解法，回溯+迭代
+ * 优化解法
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
