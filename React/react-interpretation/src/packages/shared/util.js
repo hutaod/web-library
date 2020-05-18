@@ -18,8 +18,8 @@ function setProp(dom, key, value) {
     dom[key.toLowerCase()] = value // 没有用合成事件
   } else if (key === 'style') {
     if (value) {
-      for (const styleName in value) {
-        dom.style[styleName] = value[styleName]
+      for (const styleName in value[key]) {
+        dom.style[styleName] = value[key][styleName]
       }
     }
   } else {

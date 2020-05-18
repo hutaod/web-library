@@ -1,4 +1,10 @@
-import { TAG_ROOT, ELEMENT_TEXT, TAG_TEXT, TAG_HOST } from '../shared/constants'
+import {
+  TAG_ROOT,
+  ELEMENT_TEXT,
+  TAG_TEXT,
+  TAG_HOST,
+  PLACEMENT,
+} from '../shared/constants'
 import { setProps } from '../shared/util'
 
 let nextUnitOfWork = null // 下一个filber单元
@@ -18,7 +24,7 @@ export function scheduleRoot(rootFiber) {
   nextUnitOfWork = rootFiber
 }
 
-function performUnitWork(currentFiber) {
+function performUnitOfWork(currentFiber) {
   beginWork(currentFiber) // 开始diff阶段
   if (currentFiber.child) {
     return currentFiber.child
@@ -35,10 +41,38 @@ function performUnitWork(currentFiber) {
 
 /**
  * diff阶段结束 - 在完成的时候要收集有副作用的fiber， 组成effet list
+ * 每一个fiber有两个属性：
+ * firstEffect指向第一个有副作用的子fiber
+ * lastEffect指向最后一个有副作用的子fiber
+ * 中间的用nextEffect做成一个单链表
  * @param {*} params
  */
 function complateUnitOfWork(currentFiber) {
   // TODO
+  let returnFilber = currentFiber.return
+  if (returnFilber) {
+    // 把自己儿子的链挂到自己父亲的链
+    if (!returnFilber.firstEffect) {
+      returnFilber.firstEffect = currentFiber.firstEffect
+    }
+    if (currentFiber.lastEffect) {
+      if (returnFilber.lastEffect) {
+        returnFilber.lastEffect.nextEffect = currentFiber.firstEffect
+      }
+      returnFilber.lastEffect = currentFiber.lastEffect
+    }
+    // 把自己挂到父亲身上
+    const effectTag = currentFiber.effectTag
+    if (effectTag) {
+      // 自己有副作用, firstEffect和lastEffect都指向自身
+      if (returnFilber.lastEffect) {
+        returnFilber.lastEffect.nextEffect = currentFiber
+      } else {
+        returnFilber.firstEffect = currentFiber
+      }
+      returnFilber.lastEffect = currentFiber
+    }
+  }
 }
 
 /**
@@ -137,13 +171,37 @@ function workLoop(deadline) {
   let shouldYield = false // 是否要让出时间片或者说控制权
   while (nextUnitOfWork && !shouldYield) {
     nextUnitOfWork = performUnitOfWork(nextUnitOfWork) // 执行完一个任务后
-    shouldYield = shouldYield.timeRemaining() < 1 // 没有时间的话就让出控制权
+    shouldYield = deadline.timeRemaining() < 1 // 没有时间的话就让出控制权
   }
-  if (!nextUnitOfWork) {
+  // console.log('workLoop')
+  if (!nextUnitOfWork && workInProcessRoot) {
     console.log('render阶段结束')
+    commitRoot()
   }
   // 不管有没有任务，都请求浏览器再次调度 每一帧都要执行一次workLoop
   requestIdleCallback(workLoop, { timeout: 500 })
+}
+
+function commitRoot() {
+  let currentFiber = workInProcessRoot.firstEffect
+  while (currentFiber) {
+    console.log('commitRoot', currentFiber)
+    commitWork(currentFiber)
+    currentFiber = currentFiber.nextEffect
+  }
+  workInProcessRoot = null
+}
+
+function commitWork(currentFiber) {
+  if (!currentFiber) {
+    return
+  }
+  let returnFiber = currentFiber.return
+  let returnDom = returnFiber.stateNode
+  if (currentFiber.effectTag === PLACEMENT) {
+    returnDom.appendChild(currentFiber.stateNode)
+  }
+  currentFiber.effectTag = null
 }
 
 // react高速浏览器，我现在有任务请你在闲的时候执行

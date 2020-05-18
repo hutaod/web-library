@@ -1,4 +1,5 @@
 import { TAG_ROOT, TAG_HOST, TAG_TEXT } from '../shared/constants'
+import { scheduleRoot } from '../scheduler/index'
 /**
  * render 是把一个元素渲染到一个容器内部
  * @param {*} element
