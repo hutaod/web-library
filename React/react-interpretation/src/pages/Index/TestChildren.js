@@ -7,15 +7,15 @@ import React from '../../hreact/react'
  * 2. 各种数据类型以及js表达式
  */
 const TestChildren = ({ children }) => {
-  console.log(Array.isArray(children), children)
-  // console.log(children.map((item) => item))
-  console.log(
-    React.Children.map(children, item => {
-      console.log('item', item)
-      return item
-    })
-  )
-  console.log(React.Children.count(children))
+  // console.log(Array.isArray(children), children)
+  // // console.log(children.map((item) => item))
+  // console.log(
+  //   React.Children.map(children, item => {
+  //     console.log('item', item)
+  //     return item
+  //   })
+  // )
+  // console.log(React.Children.count(children))
 
   return (
     <div>

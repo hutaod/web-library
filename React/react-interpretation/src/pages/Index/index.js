@@ -1,7 +1,9 @@
-import React, { Component, useState, Fragment } from 'react'
+import React, { Component, useState, unstable_ConcurrentMode } from 'react'
+import PropTypes from 'prop-types'
 import TestChildren from './TestChildren'
 // console.log(React)
 window.React = React
+console.log(React.unstable_ConcurrentMode)
 
 const Counter = function(props) {
   const [counter, setCounter] = useState(0)
@@ -18,6 +20,7 @@ const Counter = function(props) {
       >
         测试
       </button>
+      <TestContext></TestContext>
     </div>
   )
 }
@@ -30,10 +33,26 @@ const ClsTest = () => {
   return <div>ClsTest</div>
 }
 
+class TestContext extends Component {
+  render() {
+    console.log(this.context)
+    return <div>TestContext: {this.context.value}</div>
+  }
+}
+
+TestContext.contextTypes = {
+  value: PropTypes.number,
+}
+
 export default class Index extends Component {
   state = {
     counter: 0,
   }
+
+  getChildContext() {
+    return { value: this.state.counter, a: 'haha' }
+  }
+
   render() {
     // const test = (
     //   <div>
@@ -46,6 +65,14 @@ export default class Index extends Component {
 
     return (
       <div>
+        <h2>{this.state.counter}</h2>
+        <button
+          onClick={() => {
+            this.setState({ counter: this.state.counter + 1 })
+          }}
+        >
+          测试
+        </button>
         <Counter />
         {funcTest}
         {clsTest}
@@ -62,10 +89,16 @@ export default class Index extends Component {
             // console.log(this.state)
             // this.setState(0)
           }}
+          children={1}
         >
           123
         </div>
       </div>
     )
   }
+}
+
+Index.childContextTypes = {
+  value: PropTypes.number,
+  a: PropTypes.string,
 }
