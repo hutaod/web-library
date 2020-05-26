@@ -1,4 +1,4 @@
-import React, { Component, useState, unstable_ConcurrentMode } from 'react'
+import React, { Component, useState, StrictMode } from 'react'
 import PropTypes from 'prop-types'
 import TestChildren from './TestChildren'
 // console.log(React)
@@ -34,9 +34,16 @@ const ClsTest = () => {
 }
 
 class TestContext extends Component {
+  // componentWillMount() {
+  //   console.log('test StrictMode')
+  // }
   render() {
     console.log(this.context)
-    return <div>TestContext: {this.context.value}</div>
+    return (
+      // <StrictMode>
+      <div>TestContext: {this.context.value}</div>
+      // </StrictMode>
+    )
   }
 }
 
@@ -64,6 +71,7 @@ export default class Index extends Component {
     // console.log(funcTest, clsTest)
 
     return (
+      // <StrictMode>
       <div>
         <h2>{this.state.counter}</h2>
         <button
@@ -94,6 +102,7 @@ export default class Index extends Component {
           123
         </div>
       </div>
+      // </StrictMode>
     )
   }
 }
