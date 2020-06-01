@@ -1,0 +1,32 @@
+{
+  "name": "ginit",
+  "version": "1.0.0",
+  "description": "cli test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ginit": "./index.js"
+  },  
+  "keywords": [
+    "Git",
+    "CLI"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/auth-basic": "^1.4.4",
+    "@octokit/rest": "^17.9.2",
+    "chalk": "^4.0.0",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "configstore": "^5.0.1",
+    "figlet": "^1.4.0",
+    "inquirer": "^7.1.0",
+    "lodash": "^4.17.15",
+    "minimist": "^1.2.5",
+    "simple-git": "^2.5.0",
+    "touch": "^3.1.0"
+  }
+}
