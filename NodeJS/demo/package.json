@@ -7,6 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
+  "bin": {
+    "testCommader": "./commander.js"
+  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^5.1.0"
+  }
 }
