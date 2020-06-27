@@ -1,0 +1,1 @@
+require('./notexist.js')
