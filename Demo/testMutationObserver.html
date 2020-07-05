@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #root {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="start()">click</button>
+    <div id="root"></div>
+    <script>
+      const root = document.getElementById('root')
+      // // 当观察到变动时执行的回调函数
+      var callback = function(mutations) {
+        // console.log(mutations)
+        for (var mutation of mutations) {
+          if (mutation.type == 'attributes') {
+            console.log(
+              'The ' + mutation.attributeName + ' attribute was modified.'
+            )
+            return
+          }
+        }
+      }
+      var observer = new MutationObserver(callback)
+      observer.observe(root, { attributes: true })
+      console.log(root)
+      function start() {
+        setTimeout(() => {
+          console.log(123)
+        })
+        for (let index = 0; index < 50000; index++) {
+          // new Promise(resolve => {
+          //   resolve()
+          // }).then(() => {
+          //   changeheight(index / 100)
+          // })
+          changeheight(index / 100)
+        }
+      }
+
+      function changeheight(height) {
+        root.style.height = height + 'px'
+      }
+    </script>
+  </body>
+</html>
