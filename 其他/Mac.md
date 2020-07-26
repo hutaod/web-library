@@ -51,3 +51,8 @@ Target: x86_64-apple-darwin19.3.0
 Thread model: posix
 InstalledDir: /Applications/Xcode10.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 ```
+
+## brew 安装以及切换源
+
+[HomeBrew 安装软件慢的解决方法](https://www.jianshu.com/p/ff2ad9599a06)
+[Homebrew/Linuxbrew 镜像使用帮助](https://mirrors.tuna.tsinghua.edu.cn/help/homebrew/)

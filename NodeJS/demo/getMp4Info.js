@@ -8,6 +8,8 @@ const moment = require('moment')
 const util = require('util')
 const open = util.promisify(fs.open)
 const read = util.promisify(fs.read)
+const close = util.promisify(fs.close)
+const readFile = util.promisify(fs.readFile)
 
 function getTime(buffer, index) {
   const start = buffer.indexOf(Buffer.from('mvhd')) + 17
@@ -43,10 +45,12 @@ function getLocaleTime(seconds) {
   const videos = await Promise.all(
     files.map(async (file, index) => {
       const fd = await open(file, 'r')
-      const buff = Buffer.alloc(10000)
-      const { buffer } = await read(fd, buff, 0, 10000, 0)
+      const buff = Buffer.alloc(100)
+      const { buffer } = await read(fd, buff, 0, 100, 0)
+      // const buffer = await readFile(file)
+      await close(fd)
       const time = getTime(buffer, index)
-      // console.log(index, time, file)
+      console.log(index, time, file)
       return { file, time }
     })
   )
