@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // class Request {
+    //   constructor() {
+    //     super()
+    //     this.io = new XMLHttpRequest()
+    //   }
+      
+    // }
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function name() {
+      if(this.readyState === 4 && this.status === 200) {
+        var div = document.createElement("div")
+        div.innerHTML = this.responseText
+        document.body.appendChild(div)
+      }
+    }
+
+    xhr.open("GET", "/ajax", true)
+    // 必须，用
+
+  </script>
+</body>
+</html>
