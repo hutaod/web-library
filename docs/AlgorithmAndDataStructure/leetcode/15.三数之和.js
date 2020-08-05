@@ -9,38 +9,38 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var threeSum = function(nums) {
   const res = []
-  let length = nums.length
-  // 排队，最左边是最小的，最右边是最大的
-  nums.sort((a, b) => a - b) // 会改变原数组
-  // 排序后，如果最大值大于0切最小值小于0才会有解
-  if (nums[0] <= 0 && nums[length - 1] >= 0) {
-    for (let i = 0; i < length - 2; ) {
-      // 最左值为整数一定无解
-      if (nums[i] > 0) {
+  let len = nums.length
+  nums = [...nums].sort((a, b) => a - b)
+  // 排序后，只有第一个数小于等于0，最后一个数大于等于0，且数组长度大于等于3才有解
+  if (nums[0] <= 0 && nums[len - 1] >= 0 && len >=3) {
+    for (let i = 0; i < len - 2; ) {
+      // 最左值为正一定无解
+      if(nums[i] > 0) {
         break
       }
       let second = i + 1
-      let last = length - 1
-      do {
-        // 两人是同一个或者三人同符号，则退出（第一个和第三个一定不会都是整数或者负数）
-        if (second >= last || nums[i] * nums[last] > 0) {
-          break
-        }
-        const result = nums[i] + nums[second] + nums[last]
-        if (result === 0) {
-          // 如果组队成功
+      let last = len - 1
+      while (second < last) {
+        result = nums[i] + nums[second] + nums[last]
+        if(result === 0) {
+          // 组队成功
           res.push([nums[i], nums[second], nums[last]])
         }
-        if (result <= 0) {
-          // 实力太弱，把second右移一位
-          while (second < last && nums[second] === nums[++second]) {} // 如果相等就跳过
+        if(result <= 0) {
+          // 实力太弱，把second右移一位，如果second小于last，且second右移后和未移动前相等，就继续右移
+          while (second < last && nums[second] === nums[++second]) {}
         } else {
-          // 实力太强，把last左移一位
-          while (second < last && nums[last] === nums[--last]) {} // 如果相等就跳过
+          // 实力太强，把last左移一位，如果second小于last，且last左移后和未移动前相等，就继续左移
+          while (second < last && nums[last] === nums[--last]) {}
         }
-      } while (second < last)
+      }
+      // 当前值和下一个值一样，直接跳过
       while (nums[i] === nums[++i]) {}
     }
   }
