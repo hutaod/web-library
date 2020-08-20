@@ -5,6 +5,12 @@
     "docs:build": "vuepress build docs"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "^3.2.0",
     "vuepress": "^1.4.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
