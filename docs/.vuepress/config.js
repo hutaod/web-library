@@ -65,9 +65,14 @@ module.exports = {
       ],
       '/blog/': [
         {
-          title: '时羽·个人博客',
-          collapsable: true,
-          children: ['coding-choice-and-growth/'],
+          title: '博客',
+          collapsable: false,
+          children: [
+            'commit规范及自动生成changelog',
+            'coding-choice-and-growth/',
+            '持续分享一些常用工具',
+            'PerformanceOptimization'
+          ],
         },
       ],
       '/AlgorithmAndDataStructure/': [
