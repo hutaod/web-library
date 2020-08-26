@@ -1,6 +1,6 @@
 module.exports = {
   base: '/',
-  title: '时羽·前端知识库',
+  title: '一剑惊鸿·前端知识库',
   description: '前端,前端工程师,前端自学,前端进阶,前端发展',
   themeConfig: {
     sidebarDepth: 1,
