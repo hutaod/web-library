@@ -12,5 +12,5 @@ features:
     details: 记录Nodejs常用知识点和运用用过程中遇到一些问题
   - title: 扩展知识
     details: 记录一些后端、运维等相关的知识点
-footer: MIT Licensed | Copyright © 2019-present shiyu
+footer: MIT Licensed | Copyright © 2019-present 一剑惊鸿
 ---
