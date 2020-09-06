@@ -9,7 +9,7 @@
   Generator
   <script>
     function *TestGen(x) {
-      let y = 2 * (yield (x + 1))
+      let y = 2 * (yield new Promise(resolve => resolve((x + 1))))
       let z = yield y / 3
       return x + y + z
     }
@@ -22,17 +22,31 @@
 
     function autoRunGen(gen) {
       return (...args) => {
-        const it = gen(...args)
-        let res = it.next()
-        while(!res.done) {
-          res = it.next(res.value)
-        }
-        return res.value
+        return new Promise(resolve => {
+          const it = gen(...args)
+          let res = it.next()
+          function dfs(res) {
+            if(res.value) {
+              if(res.value.then) {
+                res.value.then((nextVal) => {
+                  res = it.next(nextVal)
+                  dfs(res)
+                })
+              } else {
+                res = it.next(res.value)
+              }
+            }
+            resolve(res.value)
+          }
+          dfs(res)
+        })
       }
     }
 
-    const val = autoRunGen(TestGen)(5)
-    console.log(val)
+    const promise = autoRunGen(TestGen)(5)
+    promise.then(res => {
+      console.log(res)
+    })
 
   </script>
 </body>
