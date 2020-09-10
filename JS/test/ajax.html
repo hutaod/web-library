@@ -8,10 +8,38 @@
 <body>
   <div>Ajax</div>
   <script>
-    class Ajax {
-      constructor(props) {
-        // this.
+    function ajax(opts) {
+      const {
+        method,
+        url,
+        data,
+        headers,
+        success,
+      } = opts
+
+      const xhr = new XMLHttpRequest()
+
+      xhr.onreadystatechange = function () {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          try {
+            cb(JSON.parse(xhr.responseText))
+          } catch (error) {
+            cb(xhr.responseText)
+          }
+        }
       }
+
+      xhr.open(method, url)
+
+      if(headers) {
+        for (const key in headers) {
+          if (headers.hasOwnProperty(key)) {
+            xhr.setRequestHeader(key, headers(key))
+          }
+        }
+      }
+
+      xhr.send(data)
     }
   </script>
 </body>
