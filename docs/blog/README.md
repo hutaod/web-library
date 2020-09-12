@@ -4,6 +4,7 @@
 
 ## 博客目录
 
+- [Github中的ci和cd](./Github中的ci和cd.md)
 - [commit规范及自动生成changelog](./commit规范及自动生成changelog.md)
 - [编程选择与成长之路](./coding-choice-and-growth/README.md)
 - [持续分享一些常用工具](./持续分享一些常用工具.md)
