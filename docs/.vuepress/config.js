@@ -68,6 +68,7 @@ module.exports = {
           title: '博客',
           collapsable: false,
           children: [
+            'Github中的ci和cd',
             'commit规范及自动生成changelog',
             'coding-choice-and-growth/',
             '持续分享一些常用工具',
