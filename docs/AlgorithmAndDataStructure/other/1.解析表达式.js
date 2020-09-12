@@ -27,13 +27,11 @@ function transformToRpn(exp) {
     } else {
       // 处理运算符
 
-      // 处理符号优先级
-      const top = stack[stack.length - 1]
       // 优先级高的先放到after_stack
       while(
         stack.length &&
-        ['+', '-', '*', '/'].indexOf(top) >= 0 &&
-        priority[top] >= priority[str]
+        ['+', '-', '*', '/'].indexOf(stack[stack.length - 1]) >= 0 &&
+        priority[stack[stack.length - 1]] >= priority[str]
       ) {
         after_stack.push(stack.pop())
       }
@@ -57,6 +55,7 @@ const execFuncMap = {
 function execExp(exp) {
   const stack = [] // 用于计算
   const after_stack = transformToRpn(exp) // 获取后缀表达式
+
   for (let i = 0; i < after_stack.length; i++) {
     const str = after_stack[i];
     if(execFuncMap[str]) {
@@ -73,7 +72,7 @@ function execExp(exp) {
   return stack[0]
 }
 
-execExp("1+2*3+2")
+execExp("1+3*2*3+2+6/2")
 
 var evalRPN = function(tokens) {
   const stack = [] // 用于计算
