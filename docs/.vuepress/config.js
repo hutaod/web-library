@@ -72,7 +72,8 @@ module.exports = {
             'commit规范及自动生成changelog',
             'coding-choice-and-growth/',
             '持续分享一些常用工具',
-            'PerformanceOptimization'
+            'PerformanceOptimization',
+            '开发工具常用快捷键集合'
           ],
         },
       ],
