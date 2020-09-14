@@ -18,21 +18,21 @@
 
 先进入创建 `workflow` 模板页面
 
-![创建workflow模板](./imgs/create_action.png)
+![创建workflow模板](./imgs/github/create_action.png)
 
 这时会让你编辑配置文件 `npm-publish.ymal`
 
 删除 `publish-gpr`配置
 
-![删除publish-gpr](./imgs/create_action2.png)
+![删除publish-gpr](./imgs/github/create_action2.png)
 
 修改`on`事件监听部分
 
-![修改on](./imgs/create_action3.png)
+![修改on](./imgs/github/create_action3.png)
 
 然后提交
 
-![提交npm-publish.ymal](./imgs/create_action4.png)
+![提交npm-publish.ymal](./imgs/github/create_action4.png)
 
 ### 配置 `.npmignore` 文件
 
@@ -43,9 +43,9 @@ node_modules
 
 ### 获取 `npm token`
 
-![获取token](./imgs/create_token.png)
-![获取token](./imgs/create_token2.png)
-![获取token](./imgs/create_token3.png)
+![获取token](./imgs/github/create_token.png)
+![获取token](./imgs/github/create_token2.png)
+![获取token](./imgs/github/create_token3.png)
 
 创建成功后单击就可以复制 token（token 在页面关闭后将不再出现）
 
@@ -53,9 +53,9 @@ node_modules
 
 打开 github 项目页面选择 Settings -> Secrets -> add a new secret
 
-![新建secret](./imgs/set_secrets.png)
+![新建secret](./imgs/github/set_secrets.png)
 
-![新建secret](./imgs/set_secrets2.png)
+![新建secret](./imgs/github/set_secrets2.png)
 
 ### 注意事项
 
@@ -64,7 +64,7 @@ node_modules
 
 ### 查看构建过程
 
-![building](./imgs/building.png)
+![building](./imgs/github/building.png)
 
 ### 参考文章
 
