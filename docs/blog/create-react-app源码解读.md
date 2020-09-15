@@ -71,7 +71,9 @@ if (major < 10) {
 }
 
 // 引入并执行createReactApp.js
-require('./createReactApp');
+const { init } = require('./createReactApp');
+
+init();
 ```
 
 从上面代码可以看出，`index.js` 文件仅仅只是对 nodejs 版本进行了简单校验，以及引入核心文件。下面我们来看 cra 的核心文件 `createReactApp.js`。
