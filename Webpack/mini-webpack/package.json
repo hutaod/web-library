@@ -1,0 +1,35 @@
+{
+  "name": "mini-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.20",
+    "nervjs": "^1.5.7",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-loader": "^2.4.7"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/generator": "^7.11.6",
+    "@babel/parser": "^7.11.5",
+    "@babel/plugin-transform-template-literals": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/traverse": "^7.11.5",
+    "@babel/types": "^7.11.5",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "ejs": "^3.1.5",
+    "tapable": "^1.1.3"
+  }
+}

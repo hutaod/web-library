@@ -1,0 +1,2 @@
+"use strict";var _nervjs=_interopRequireDefault(require("nervjs"));var _App=_interopRequireDefault(require("./App"));function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{"default":obj};}// index.js 根组件
+_nervjs["default"].render(/*#__PURE__*/_nervjs["default"].createElement(_App["default"],null),document.querySelector('#container'));
