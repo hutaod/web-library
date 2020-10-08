@@ -8,7 +8,6 @@ module.exports = {
     nav: [
       { text: '博客', link: '/blog/' },
       { text: '前端', link: '/front/' },
-      { text: '数据结构与算法', link: '/AlgorithmAndDataStructure/' },
       { text: '扩展', link: '/extends/' },
       { text: 'GitHub', link: 'https://github.com/ht1131589588/web-library' },
     ],
