@@ -38,7 +38,7 @@ module.exports = {
           children: [
             'React/React使用总结',
             'React/Redux源码探索',
-            'React/React源码探索',
+            'React/React源码深入浅出',
             // 'React/React常见面试题',
             // 'React/Redux-Saga探索',
             // 'React/Dva探索',
