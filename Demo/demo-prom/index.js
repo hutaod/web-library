@@ -14,7 +14,7 @@ function startPromCollect() {
   const address = require("address");
   // pushgateway 地址
   const pushIp = "http://localhost:9191";
-  const jobName = "aku-ec-mobile-sale";
+  const jobName = "test-haha";
 
   const gateway = new promClient.Pushgateway(pushIp);
   // 收集默认数据
