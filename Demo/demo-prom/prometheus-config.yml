@@ -1,0 +1,8 @@
+# File: prometheus-config.yml
+global:
+  scrape_interval:     15s
+
+scrape_configs:
+  - job_name: our-first-service
+    static_configs:
+      - targets: ['localhost:3000']
