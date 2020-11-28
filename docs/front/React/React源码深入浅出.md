@@ -98,7 +98,7 @@ Sebastian Markbage 说：
 
 那什么是 `代数效应` , 它与 Fiber 架构的有什么关系呢？
 
-##### 什么是代数效应
+一、什么是代数效应？
 
 > `代数效应` 是函数式编程中的概念，用于将副作用从函数中分离
 
@@ -180,7 +180,7 @@ try {
 
 并且，从例子中可以看出， `perform resume` 不需要区分同步异步。
 
-##### 代数效应在 React 中的应用
+二、代数效应在 React 中的应用
 
 那么 `代数效应` 与 `React` 有什么关系呢？最明显的例子就是 `Hooks`。
 
@@ -209,7 +209,7 @@ function ProfileDetails () {
 }
 ```
 
-##### 代数效应与Generator
+三、代数效应与Generator
 
 从`React15`到`React16`，协调器（`Reconciler`）重构的一大目的是：将老的`同步更新`的架构变为`异步可中断更新`。
 
@@ -252,7 +252,7 @@ function* doWork(A, B, C) {
 
 基于这些原因，`React`没有采用`Generator`实现`协调器`。
 
-##### 代数效应与Fiber
+四、代数效应与Fiber
 
 `Fiber`并不是计算机术语中的新名词，他的中文翻译叫做`纤程`，与进程（Process）、线程（Thread）、协程（Coroutine）同为程序执行过程。
 
@@ -268,7 +268,7 @@ function* doWork(A, B, C) {
 
 #### Fiber架构的实现原理
 
-##### Fiber的起源
+Fiber的起源：
 
 > 最早的`Fiber`官方解释来源于[2016年React团队成员Acdlite的一篇介绍](https://github.com/acdlite/react-fiber-architecture)。[查看译文](https://www.jianshu.com/p/48c3f3b0125c)
 
@@ -278,7 +278,7 @@ function* doWork(A, B, C) {
 
 为了解决这个问题，`React16`将**递归的无法中断的更新**重构为**异步的可中断更新**，由于曾经用于递归的**虚拟DOM**数据结构已经无法满足需要。于是，全新的`Fiber`架构应运而生。
 
-##### Fiber的含义
+Fiber的含义：
 
 `Fiber`包含三层含义：
 
@@ -288,7 +288,7 @@ function* doWork(A, B, C) {
 
 3. 作为动态的工作单元来说，每个`Fiber节点`保存了本次更新中该组件改变的状态、要执行的工作（需要被删除/被插入页面中/被更新...）。
 
-##### Fiber的结构
+Fiber的结构：
 
 你可以从这里看到[Fiber节点的属性定义](https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactFiber.new.js#L117)。虽然属性很多，但我们可以按三层含义将他们分类来看
 
@@ -338,7 +338,7 @@ function FiberNode(
 }
 ```
 
-###### 作为架构来说
+作为架构来说：
 
 每个Fiber节点有个对应的`React element`，多个`Fiber节点`是如何连接形成树呢？靠如下三个属性：
 
@@ -372,7 +372,7 @@ ReactDOM.render(<App/>, document.getElementId("root"))
 
 > 这里需要提一下，为什么父级指针叫做`return`而不是`parent`或者`father`呢？因为作为一个工作单元，`return`指节点执行完`completeWork`（本章后面会介绍）后会返回的下一个节点。子`Fiber节点`及其兄弟节点完成工作后会返回其父级节点，所以用`return`指代父级节点。
 
-###### 作为静态的数据结构
+作为静态的数据结构：
 
 作为一种静态的数据结构，保存了组件相关的信息：
 
@@ -389,7 +389,7 @@ this.type = null;
 this.stateNode = null;
 ```
 
-###### 作为动态的工作单元
+作为动态的工作单元：
 
 作为动态的工作单元，`Fiber`中如下参数保存了本次更新相关的信息，我们会在后续的更新流程中使用到具体属性时再详细介绍
 
@@ -431,10 +431,6 @@ this.childLanes = NoLanes;
 本节我们了解了`Fiber`的起源与架构，其中`Fiber节点`可以构成`Fiber树`。那么`Fiber树`和页面呈现的`DOM树`有什么关系，`React`又是如何更新`DOM`的呢？
 
 我们会在下一节讲解。
-
-### 源码的文件目录
-
-### 如何调试源码
 
 ## React 架构设计
 

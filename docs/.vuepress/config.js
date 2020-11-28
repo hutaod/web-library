@@ -70,7 +70,8 @@ module.exports = {
             'coding-choice-and-growth/',
             '持续分享一些常用工具',
             'PerformanceOptimization',
-            '开发工具常用快捷键集合'
+            '开发工具常用快捷键集合',
+            '懒加载图片组件实现'
           ],
         },
       ],
