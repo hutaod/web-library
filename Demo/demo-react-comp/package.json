@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:basic": "webpack"
+    "build:basic": "webpack --config webpack.config.basic.js"
   },
   "keywords": [],
   "author": "",
