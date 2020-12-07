@@ -98,8 +98,8 @@ function listMajors(auth) {
   const sheets = google.sheets({ version: "v4", auth });
   sheets.spreadsheets.values.get(
     {
-      spreadsheetId: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms",
-      range: "Class Data!A2:E",
+      spreadsheetId: "1yqFL4bwGQGBGUXbtIx382mTcHhPPrRgQAPyB3vt-IWY",
+      range: "工作表1!A1:C3",
     },
     (err, res) => {
       if (err) return console.log("The API returned an error: " + err);
@@ -108,7 +108,7 @@ function listMajors(auth) {
         console.log("Name, Major:");
         // Print columns A and E, which correspond to indices 0 and 4.
         rows.map((row) => {
-          console.log(`${row[0]}, ${row[4]}`);
+          console.log(JSON.stringify(row));
         });
       } else {
         console.log("No data found.");
