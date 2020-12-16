@@ -1,21 +1,34 @@
-const { google } = require("googleapis");
+const path = require("path");
+const GoogleSheets = require("./lib");
 
-// Each API may support multiple version. With this sample, we're getting
-// v3 of the blogger API, and using an API key to authenticate.
-const blogger = google.blogger({
-  version: "v3",
-  auth: "YOUR API KEY",
-});
+console.log(path.resolve("./credentials.json"));
 
-const params = {
-  blogId: "3213900",
-};
+async function main() {
+  const googleSheets = new GoogleSheets({
+    credentialsFile: path.resolve("./credentials.json"),
+  });
 
-// get the blog details
-blogger.blogs.get(params, (err, res) => {
-  if (err) {
-    console.error(err);
-    throw err;
-  }
-  console.log(`The blog url is ${res.data.url}`);
-});
+  const sheets = await googleSheets.asyncAuthComplete;
+
+  sheets.spreadsheets.values.get(
+    {
+      spreadsheetId: "1yqFL4bwGQGBGUXbtIx382mTcHhPPrRgQAPyB3vt-IWY",
+      range: "工作表2",
+    },
+    (err, res) => {
+      if (err) return console.log("The API returned an error: " + err);
+      const rows = res.data.values;
+      if (rows.length) {
+        console.log("Name, Major:");
+        // Print columns A and E, which correspond to indices 0 and 4.
+        rows.map((row) => {
+          console.log(JSON.stringify(row));
+        });
+      } else {
+        console.log("No data found.");
+      }
+    }
+  );
+}
+
+main();

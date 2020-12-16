@@ -2,8 +2,6 @@ const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
 
-// 定义操作范围
-const SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
 const TOKEN_PATH = "token.json"; // 存储的token文件地址
 
 /**
@@ -11,7 +9,7 @@ const TOKEN_PATH = "token.json"; // 存储的token文件地址
  * @param {Object} credentials 授权客户端凭据
  * @param {function} callback 授权成功后的回调
  */
-function authorize(credentials, callback) {
+function authorize(credentials, scopes, callback) {
   const { client_secret, client_id, redirect_uris } = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
@@ -20,7 +18,7 @@ function authorize(credentials, callback) {
   );
   // 检查我们之前是否已存储令牌(token)
   fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getNewToken(oAuth2Client, callback);
+    if (err) return getNewToken(oAuth2Client, scopes, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
     callback(oAuth2Client);
   });
@@ -31,10 +29,10 @@ function authorize(credentials, callback) {
  * @param {google.auth.OAuth2} oAuth2Client 要为其获取令牌的OAuth2客户端
  * @param {getEventsCallback} callback 授权客户端的回调。
  */
-function getNewToken(oAuth2Client, callback) {
+function getNewToken(oAuth2Client, scopes, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
-    scope: SCOPES,
+    scope: scopes,
   });
   console.log("Authorize this app by visiting this url:", authUrl);
   const rl = readline.createInterface({
@@ -60,11 +58,10 @@ function getNewToken(oAuth2Client, callback) {
   });
 }
 
-module.exports = function checkAndGetAuth(credentialsFile, callback) {
-  // "credentials.json"
+module.exports = function checkAndGetAuth({ credentialsFile, scopes }, callback) {
   fs.readFile(credentialsFile, (err, content) => {
     if (err) return console.log("Error loading client secret file:", err);
     // 使用credentials获取客户端授权, 以便于可访问Google Sheets API.
-    authorize(JSON.parse(content), callback);
+    authorize(JSON.parse(content), scopes, callback);
   });
 }
