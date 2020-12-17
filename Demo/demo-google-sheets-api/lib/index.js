@@ -31,6 +31,35 @@ class GoogleSheetsConverTools {
       })
     })
   }
+  
+  /**
+   * 转化sheets为json文件
+   * @param {object}
+   *  - spreadsheetId 谷歌Excel文档id
+   *  - range 范围、工作表名称
+   *  - jsonPath 导出json地址
+   */
+  async asyncTransToJson({ spreadsheetId, range, jsonPath, ...rest }) {
+    // 获取sheets
+    const sheets = await this.asyncAuth();
+    try {
+      const res = await sheets.spreadsheets.values.get({
+        spreadsheetId, range, ...rest
+      })
+      const rows = res.data.values;
+      if (rows.length) {
+        console.log("Name, Major:");
+        // Print columns A and E, which correspond to indices 0 and 4.
+        rows.map((row) => {
+          console.log(JSON.stringify(row));
+        });
+      } else {
+        console.log("No data found.");
+      }
+    } catch (err) {
+      throw Error("The API returned an error: " + err)
+    }
+  }
 }
 
-module.exports = TransleteConverTools
+module.exports = GoogleSheetsConverTools
