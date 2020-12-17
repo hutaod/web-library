@@ -1,6 +1,7 @@
 {
   "version": "1.0.0",
   "name": "web-library",
+  "description": "前端知识图谱",
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs"
