@@ -74,6 +74,7 @@ module.exports = {
             "PerformanceOptimization",
             "开发工具常用快捷键集合",
             "懒加载图片组件实现",
+            "code-review",
           ],
         },
       ],

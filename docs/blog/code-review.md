@@ -1,4 +1,4 @@
-# Code Review 指南
+# 聊聊 Code Review
 
 目录：
 
@@ -127,7 +127,7 @@ review会议结束并不意味这个review这个活动结束，因为还有待�
 
 ## 总结
 
-如何才能code review有效且高效，总结以下几点：
+高效的code review需要做到以下几点：
 
 - 会前充分准备，与会人员最少化
 - 参考review list，发现问题但不发散去讨论解决问题
