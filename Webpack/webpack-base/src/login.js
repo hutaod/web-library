@@ -1,4 +1,4 @@
-// import styles from './index.module.less'
+import "./index.scss";
 // import logo from './assets/images/logo.png'
 // console.log(logo)
 // var img = new Image()
@@ -16,21 +16,22 @@
 //   console.log(res)
 // })
 
-var btn = document.createElement('button')
-import counter from './counter'
+var btn = document.createElement("button");
+import counter from "./counter";
+btn.innerHTML = "按钮2";
+btn.onclick = function () {
+  var childNode = document.createElement("div");
+  childNode.innerHTML = `123`;
+  document.body.appendChild(childNode);
+};
 
-btn.innerHTML = '按钮'
-btn.onclick = function() {
-  var childNode = document.createElement('div')
-  childNode.innerHTML = `123`
-  document.body.appendChild(childNode)
-}
+console.log(process.env.APP_NAME);
 
-document.body.appendChild(btn)
-counter()
+document.body.appendChild(btn);
+counter();
 if (module.hot) {
-  module.hot.accept('./counter', () => {
-    document.getElementById('counter').remove()
-    counter()
-  })
+  module.hot.accept("./counter", () => {
+    document.getElementById("counter").remove();
+    counter();
+  });
 }

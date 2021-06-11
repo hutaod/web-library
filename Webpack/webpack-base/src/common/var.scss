@@ -1,0 +1,32 @@
+// $color: red;
+
+@import "./in/var.scss";
+@import "./test/var.scss";
+
+@if ($APP_NAME == "in") {
+  $color: red;
+} @else {
+  $color: yellow;
+}
+
+// $path: "./in/var.scss";
+
+// @mixin customImport($file) {
+//   @if $file == 'in' {
+//       @import './in/var.scss';
+//   } @else {
+//       @import './test/var.scss';
+//   }
+// }
+
+// @include customImport('in');
+
+// @import url($path);
+
+// $color: $APP_NAME;
+
+// @if(APP_NAME == "hello") {
+//   @import "./in/var.scss";
+// } @else {
+//   @import "./test/var.scss";
+// }
