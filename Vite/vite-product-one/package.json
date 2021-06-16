@@ -2,7 +2,8 @@
   "name": "vite-product-one",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --debug",
+    "dev": "vite",
+    "debug": "vite --debug",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },
