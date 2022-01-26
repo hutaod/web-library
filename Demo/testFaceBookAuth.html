@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Login</title>
+</head>
+<body>
+  <div>
+    <!-- <button onclick="login()">登录</button> -->
+    <button onclick="logout()">退出登录</button>
+    <fb:login-button 
+      scope="public_profile,email"
+      onlogin="checkLoginState();">
+    </fb:login-button>
+  </div>
+  <script>
+    function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+      console.log('statusChangeCallback');
+      console.log(response);                   // The current login status of the person.
+      // if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+      //   testAPI();  
+      // } else {                                 // Not logged into your webpage or we are unable to tell.
+      //   document.getElementById('status').innerHTML = 'Please log ' +
+      //     'into this webpage.';
+      // }
+    }
+
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
+
+    function logout() {
+      FB.getLoginStatus(function(response) {
+        console.log('logout');
+        console.log(response);
+        if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+          FB.logout(function(response){
+            console.log("Logged Out!");
+          });
+        } else {
+          console.log('no login');
+        }
+      });
+    }
+
+    function login() {
+      FB.getLoginStatus(function(response) {
+        // console.log(11111, response)
+        statusChangeCallback(response);
+      });
+    }
+
+    window.fbAsyncInit = function() {
+
+      console.log(111)
+      FB.init({
+        appId: '5540414235973116',
+        cookie: true,
+        xfbml: true,
+        version: 'v2.0'
+      });
+        
+      FB.AppEvents.logPageView();   
+        
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+</body>
+</html>

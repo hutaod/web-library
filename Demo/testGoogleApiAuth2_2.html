@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <script src="https://apis.google.com/js/platform.js"></script> -->
+</head>
+<body>
+  <!-- <script>
+    window.gapi.load("auth2", function () {
+      window.gapi.auth2
+        .init({
+          client_id: "451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com",
+          // client_id: "871963033346-j7stp2fefurfe3c4ae3nqt90j9tac1rc.apps.googleusercontent.com",
+          cookiepolicy: "single_host_origin",
+        })
+        .then(
+          (res) => {
+            console.log(1111, res);
+          },
+          (err) => {
+            console.log(22222, err);
+          }
+        );
+    });
+  </script> -->
+  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com">
+  <div class="g-signin2" data-onsuccess="handleCredentialResponse"></div> -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <div id="g_id_onload"
+         data-client_id="451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com"
+        >
+      </div>
+      <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+      </div>
+  <!-- <div id="g_id_onload"
+        data-client_id="451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse">
+  </div>
+  <div class="g_id_signin" data-type="standard"></div>
+  <script>
+    function handleCredentialResponse(data) {
+      console.log(1111, data)
+    }
+  </script> -->
+</body>
+</html>
