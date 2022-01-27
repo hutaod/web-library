@@ -4,53 +4,152 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <!-- <script src="https://apis.google.com/js/platform.js"></script> -->
+  <title>test Google Api OAuth2</title>
 </head>
 <body>
-  <!-- <script>
-    window.gapi.load("auth2", function () {
-      window.gapi.auth2
-        .init({
-          client_id: "451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com",
-          // client_id: "871963033346-j7stp2fefurfe3c4ae3nqt90j9tac1rc.apps.googleusercontent.com",
-          cookiepolicy: "single_host_origin",
-        })
-        .then(
-          (res) => {
-            console.log(1111, res);
-          },
-          (err) => {
-            console.log(22222, err);
-          }
-        );
-    });
-  </script> -->
-  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <meta name="google-signin-client_id" content="451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com">
-  <div class="g-signin2" data-onsuccess="handleCredentialResponse"></div> -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <div id="g_id_onload"
-         data-client_id="451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com"
-        >
-      </div>
-      <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
-      </div>
-  <!-- <div id="g_id_onload"
-        data-client_id="451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com"
-        data-callback="handleCredentialResponse">
+  <div>
+    <!-- api.js 使用方法 -->
+    <button onclick="login()">登录</button>
+    <script src="https://apis.google.com/js/api.js" async defer >
+    </script>
+    <script>
+      var GoogleAuth;
+      var SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
+
+      window.onload = () => {
+        gapi.load('client:auth2', initClient);
+      }
+    
+      function initClient() {
+        // In practice, your app can retrieve one or more discovery documents.
+        var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+    
+        // Initialize the gapi.client object, which app uses to make API requests.
+        // Get API key and client ID from API Console.
+        // 'scope' field specifies space-delimited list of access scopes.
+        gapi.client.init({
+            'clientId': '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com',
+            // 'discoveryDocs': [discoveryUrl],
+            'scope': SCOPE
+        }).then(function () {
+          GoogleAuth = gapi.auth2.getAuthInstance();
+    
+          // Listen for sign-in state changes.
+          GoogleAuth.isSignedIn.listen(updateSigninStatus);
+    
+          // Handle initial sign-in state. (Determine if user is already signed in.)
+          var user = GoogleAuth.currentUser.get();
+          console.log(1111, user)
+          // setSigninStatus();
+    
+          // // Call handleAuthClick function when user clicks on
+          // //      "Sign In/Authorize" button.
+          // $('#sign-in-or-out-button').click(function() {
+          //   handleAuthClick();
+          // });
+          // $('#revoke-access-button').click(function() {
+          //   revokeAccess();
+          // });
+        });
+      }
+
+      function updateSigninStatus() {
+        var user = GoogleAuth.currentUser.get();
+        console.log(1111, user)
+        // var isAuthorized = user.hasGrantedScopes(SCOPE);
+      }
+  
+      function login() {
+        if (GoogleAuth.isSignedIn.get()) {
+          // User is authorized and has clicked "Sign out" button.
+          // GoogleAuth.disconnect();
+          GoogleAuth.signOut();
+        } else {
+          // User is not signed in. Start Google auth flow.
+          GoogleAuth.signIn();
+        }
+      }
+  
+    </script>
+
+    <!-- 使用platform.js -->
+    <!-- <button onclick="login()">登录</button>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+      var GoogleAuth;
+      var SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
+      window.onload = () => {
+        gapi.load('client:auth2', initClient);
+      }
+    
+      function initClient() {
+        // In practice, your app can retrieve one or more discovery documents.
+        var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+    
+        // Initialize the gapi.client object, which app uses to make API requests.
+        // Get API key and client ID from API Console.
+        // 'scope' field specifies space-delimited list of access scopes.
+        gapi.client.init({
+            'clientId': '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com',
+            // 'discoveryDocs': [discoveryUrl],
+            'scope': SCOPE
+        }).then(function () {
+          GoogleAuth = gapi.auth2.getAuthInstance();
+    
+          // Listen for sign-in state changes.
+          GoogleAuth.isSignedIn.listen(updateSigninStatus);
+    
+          // Handle initial sign-in state. (Determine if user is already signed in.)
+          var user = GoogleAuth.currentUser.get();
+          console.log(1111, user)
+          // setSigninStatus();
+    
+          // // Call handleAuthClick function when user clicks on
+          // //      "Sign In/Authorize" button.
+          // $('#sign-in-or-out-button').click(function() {
+          //   handleAuthClick();
+          // });
+          // $('#revoke-access-button').click(function() {
+          //   revokeAccess();
+          // });
+        });
+      }
+
+      function updateSigninStatus() {
+        var user = GoogleAuth.currentUser.get();
+        console.log(1111, user)
+        // var isAuthorized = user.hasGrantedScopes(SCOPE);
+      }
+  
+      function login() {
+        if (GoogleAuth.isSignedIn.get()) {
+          // User is authorized and has clicked "Sign out" button.
+          // GoogleAuth.disconnect();
+          GoogleAuth.signOut();
+        } else {
+          // User is not signed in. Start Google auth flow.
+          GoogleAuth.signIn();
+        }
+      }
+  
+    </script> -->
+
+    <!-- 使用gsi/client，这种方式获取去除了access_token -->
+    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+      function handleCredentialResponse(data) {
+        // , window.gapi.auth2.getAuthInstance().currentUser.get()
+        console.log(1111, data)
+      }
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com',
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.prompt();
+      };
+    </script> -->
+
   </div>
-  <div class="g_id_signin" data-type="standard"></div>
-  <script>
-    function handleCredentialResponse(data) {
-      console.log(1111, data)
-    }
-  </script> -->
 </body>
 </html>

@@ -4,42 +4,72 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook Login</title>
+  <title>Facebook Login JavaScript Example</title>
 </head>
 <body>
   <div>
-    <!-- <button onclick="login()">登录</button> -->
+    <button onclick="login()">登录</button>
     <button onclick="logout()">退出登录</button>
-    <fb:login-button 
+    <!-- <fb:login-button 
       scope="public_profile,email"
       onlogin="checkLoginState();">
-    </fb:login-button>
+    </fb:login-button> -->
+    <div id="status">
+    </div>
   </div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script>
     function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
       console.log('statusChangeCallback');
       console.log(response);                   // The current login status of the person.
-      // if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-      //   testAPI();  
-      // } else {                                 // Not logged into your webpage or we are unable to tell.
-      //   document.getElementById('status').innerHTML = 'Please log ' +
-      //     'into this webpage.';
-      // }
+      if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+        testAPI();  
+      } else {                                 // Not logged into your webpage or we are unable to tell.
+        document.getElementById('status').innerHTML = 'Please log ' +
+          'into this webpage.';
+      }
     }
 
-    function checkLoginState() {
-      FB.getLoginStatus(function(response) {
+
+    function checkLoginState(cb) {               // Called when a person is finished with the Login Button.
+      FB.getLoginStatus(function(response) {   // See the onlogin handler
         statusChangeCallback(response);
+        cb?.(response)
+      });
+    }
+
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '5540414235973116',
+        cookie: true,
+        xfbml: true,
+        version: 'v2.0',
+        scope: "public_profile,email",
+      });
+
+      // FB.AppEvents.logPageView();   
+      
+      FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+        statusChangeCallback(response);        // Returns the login status.
+      });
+    };
+  
+    function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function(response) {
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML =
+          'Thanks for logging in, ' + response.name + '!';
       });
     }
 
     function logout() {
-      FB.getLoginStatus(function(response) {
-        console.log('logout');
-        console.log(response);
+      checkLoginState(function(response) {
         if (response.status === 'connected') {   // Logged into your webpage and Facebook.
           FB.logout(function(response){
             console.log("Logged Out!");
+            checkLoginState();
           });
         } else {
           console.log('no login');
@@ -48,33 +78,19 @@
     }
 
     function login() {
-      FB.getLoginStatus(function(response) {
-        // console.log(11111, response)
-        statusChangeCallback(response);
+      checkLoginState(function(response) {
+        if (response.status !== 'connected') {
+          FB.login(function(response){
+            console.log("login in!");
+            console.log(response);
+            checkLoginState();
+          });
+        } else {
+          console.log('logined');
+          console.log(response);
+        }
       });
     }
-
-    window.fbAsyncInit = function() {
-
-      console.log(111)
-      FB.init({
-        appId: '5540414235973116',
-        cookie: true,
-        xfbml: true,
-        version: 'v2.0'
-      });
-        
-      FB.AppEvents.logPageView();   
-        
-    };
-
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
   </script>
 </body>
 </html>
