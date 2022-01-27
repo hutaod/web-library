@@ -1,141 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>test Google Api OAuth2</title>
 </head>
+
 <body>
   <div>
     <!-- api.js 使用方法 -->
-    <button onclick="login()">登录</button>
-    <script src="https://apis.google.com/js/api.js" async defer >
-    </script>
+    <!-- <button onclick="login()">登录</button>
+    <button onclick="logout()">退出登录</button>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
     <script>
+      // 从 Google API Console 获取，https://console.cloud.google.com/apis/credentials
+      const clientId = '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com';
+      // 访问范围设置，参考 https://developers.google.com/identity/protocols/oauth2/scopes#oauth2
+      const scope = 'https://www.googleapis.com/auth/userinfo.email';
+
       var GoogleAuth;
-      var SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
 
       window.onload = () => {
         gapi.load('client:auth2', initClient);
       }
-    
+
       function initClient() {
-        // In practice, your app can retrieve one or more discovery documents.
-        var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
-    
-        // Initialize the gapi.client object, which app uses to make API requests.
-        // Get API key and client ID from API Console.
-        // 'scope' field specifies space-delimited list of access scopes.
+        // 初始化client
         gapi.client.init({
-            'clientId': '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com',
-            // 'discoveryDocs': [discoveryUrl],
-            'scope': SCOPE
+          clientId,
+          scope,
         }).then(function () {
           GoogleAuth = gapi.auth2.getAuthInstance();
-    
-          // Listen for sign-in state changes.
+
+          // 监听登录状态的改变
           GoogleAuth.isSignedIn.listen(updateSigninStatus);
-    
-          // Handle initial sign-in state. (Determine if user is already signed in.)
+
+          // 如果用户已登录，可以在这里获取用户登录信息
           var user = GoogleAuth.currentUser.get();
           console.log(1111, user)
-          // setSigninStatus();
-    
-          // // Call handleAuthClick function when user clicks on
-          // //      "Sign In/Authorize" button.
-          // $('#sign-in-or-out-button').click(function() {
-          //   handleAuthClick();
-          // });
-          // $('#revoke-access-button').click(function() {
-          //   revokeAccess();
-          // });
         });
       }
 
       function updateSigninStatus() {
         var user = GoogleAuth.currentUser.get();
         console.log(1111, user)
-        // var isAuthorized = user.hasGrantedScopes(SCOPE);
       }
-  
+
       function login() {
-        if (GoogleAuth.isSignedIn.get()) {
-          // User is authorized and has clicked "Sign out" button.
-          // GoogleAuth.disconnect();
-          GoogleAuth.signOut();
-        } else {
-          // User is not signed in. Start Google auth flow.
+        if (!GoogleAuth.isSignedIn.get()) {
+          // 用户未登录，开始授权登录
           GoogleAuth.signIn();
         }
       }
-  
-    </script>
+
+      function logout() {
+        if (GoogleAuth.isSignedIn.get()) {
+          // User is authorized and has clicked "Sign out" button.
+          GoogleAuth.signOut();
+        }
+      }
+    </script> -->
 
     <!-- 使用platform.js -->
     <!-- <button onclick="login()">登录</button>
+    <button onclick="logout()">退出登录</button>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
+      // 从 Google API Console 获取，https://console.cloud.google.com/apis/credentials
+      const clientId = '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com';
+      // 访问范围设置，参考 https://developers.google.com/identity/protocols/oauth2/scopes#oauth2
+      const scope = 'https://www.googleapis.com/auth/userinfo.email';
       var GoogleAuth;
-      var SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
       window.onload = () => {
-        gapi.load('client:auth2', initClient);
+        gapi.load('auth2', initClient);
       }
     
       function initClient() {
-        // In practice, your app can retrieve one or more discovery documents.
-        var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
-    
-        // Initialize the gapi.client object, which app uses to make API requests.
-        // Get API key and client ID from API Console.
-        // 'scope' field specifies space-delimited list of access scopes.
-        gapi.client.init({
-            'clientId': '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com',
-            // 'discoveryDocs': [discoveryUrl],
-            'scope': SCOPE
+        // 初始化client
+        gapi.auth2.init({
+          clientId,
+          scope
         }).then(function () {
           GoogleAuth = gapi.auth2.getAuthInstance();
     
-          // Listen for sign-in state changes.
+          // 监听登录状态的改变
           GoogleAuth.isSignedIn.listen(updateSigninStatus);
     
-          // Handle initial sign-in state. (Determine if user is already signed in.)
+          // 如果用户已登录，可以在这里获取用户登录信息
           var user = GoogleAuth.currentUser.get();
           console.log(1111, user)
-          // setSigninStatus();
-    
-          // // Call handleAuthClick function when user clicks on
-          // //      "Sign In/Authorize" button.
-          // $('#sign-in-or-out-button').click(function() {
-          //   handleAuthClick();
-          // });
-          // $('#revoke-access-button').click(function() {
-          //   revokeAccess();
-          // });
         });
       }
 
       function updateSigninStatus() {
         var user = GoogleAuth.currentUser.get();
         console.log(1111, user)
-        // var isAuthorized = user.hasGrantedScopes(SCOPE);
       }
   
       function login() {
-        if (GoogleAuth.isSignedIn.get()) {
-          // User is authorized and has clicked "Sign out" button.
-          // GoogleAuth.disconnect();
-          GoogleAuth.signOut();
-        } else {
-          // User is not signed in. Start Google auth flow.
+        if (!GoogleAuth.isSignedIn.get()) {
+          // 用户未登录，开始授权登录
           GoogleAuth.signIn();
         }
       }
-  
+
+      function logout() {
+        if (GoogleAuth.isSignedIn.get()) {
+          // User is authorized and has clicked "Sign out" button.
+          GoogleAuth.signOut();
+        }
+      }
     </script> -->
 
     <!-- 使用gsi/client，这种方式获取去除了access_token -->
-    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <button onclick="login()">登录</button>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
       function handleCredentialResponse(data) {
         // , window.gapi.auth2.getAuthInstance().currentUser.get()
@@ -146,10 +127,14 @@
           client_id: '451881667348-kfesh2lqbtud8c0o52cahcib010i9t64.apps.googleusercontent.com',
           callback: handleCredentialResponse
         });
-        google.accounts.id.prompt();
       };
-    </script> -->
+
+      function login() {
+        google.accounts.id.prompt();
+      }
+    </script>
 
   </div>
 </body>
+
 </html>
