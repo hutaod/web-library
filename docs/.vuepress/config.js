@@ -1,6 +1,6 @@
 module.exports = {
   base: "/",
-  title: "古月叨叨·Web知识库",
+  title: "拾光者·Web知识库",
   description: "前端,前端工程师,前端自学,前端进阶,前端发展",
   themeConfig: {
     sidebarDepth: 1,
@@ -46,6 +46,7 @@ module.exports = {
             // 'React/Dva探索',
             // 'React/Umi探索',
             "React/Mobx使用总结",
+            "React/React运用技巧",
           ],
         },
       ],
