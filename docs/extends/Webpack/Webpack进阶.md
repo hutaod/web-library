@@ -712,8 +712,6 @@ HTML + CSS + JS + Data -> 渲染后的 HTML
 
 ### ssr 中浏览器和服务器交互流程
 
-![](images/ssrprocess.png)
-
 ### 客户端渲染 vs 服务端渲染
 
 <table>

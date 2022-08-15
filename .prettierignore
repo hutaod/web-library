@@ -1,0 +1,17 @@
+package.json
+/.yarn/
+/.yarnrc.yml
+
+**/*.svg
+**/*.ejs
+**/*.html
+node_modules
+dist
+build
+es
+lib
+docs-dist
+.history
+.umi
+.umi-production
+.umi-test

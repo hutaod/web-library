@@ -1,6 +1,50 @@
-node_modules/
-.idea
-.DS_Store
+# yarn https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+.history
 .next
-docs/.vuepress/dist/
+node_modules/
+npm-debug.log*
+yarn-error.log
+package-lock.json
+.eslintcache
+/coverage/
+/report.json
+
+# production
+/**/dist
+/**/es
+/**/lib
+/**/cjs
+/**/umd
+/docs-dist
+
+# dumi assets meta data
+/assets.json
+.doc/
+
+# misc
+.DS_Store
+
+# umi
+.umi
+.umi-production
+.umi-test
+.env.local
+
+# ide
+/.vscode
+/.idea
+
+# lock
+yarn.lock
 package-lock.json

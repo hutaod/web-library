@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "rootDirs": ["config"],
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "declaration": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "downlevelIteration": true,
+    "sourceMap": true,
+    "baseUrl": "./",
+    "typeRoots": ["./node_modules/@types"],
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "demos": ["src/demos/index.ts"],
+      "@root/*": ["/*"],
+      "@docs/*": ["docs/*"],
+      "@dumiTheme/*": [".dumi/theme/*"],
+    },
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "preserveSymlinks": true
+  },
+  "include": ["docs", "config", "src"],
+  "exclude": ["node_modules", "tests/mocks"],
+}
