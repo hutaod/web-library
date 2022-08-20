@@ -1,7 +1,0 @@
-.testAnimate {
-  stroke-dasharray: 0, 1px;
-  &:hover {
-    stroke-dashoffset: 100, 0;
-    transition: stroke-dasharray 0.4s ease;
-  }
-}

@@ -8,7 +8,6 @@ export default defineConfig({
   mode: "site",
   title: "拾光者·前端知识库",
   outputPath: "./docs-dist",
-  mfsu: { production: { output: '.mfsu-production' } },
   base: "/",
   publicPath: "/",
   resolve: {
