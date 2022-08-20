@@ -15,8 +15,11 @@ export default defineConfig({
     includes: ["docs", "src"],
     passivePreview: true,
   },
+  nodeModulesTransform: process.env.NODE_ENV === "development" ? {
+    type: "none"
+  } : undefined,
   alias: {
-    "@root": process.cwd(),
+    "@src": path.resolve(__dirname, "./src"),
     "@docs": path.resolve(__dirname, "./docs"),
     "@dumiTheme": path.resolve(__dirname, "./.dumi/theme"),
     "demos": path.resolve(__dirname, "./src/demos/index.ts"),
@@ -29,15 +32,6 @@ export default defineConfig({
         prefer: "local",
         helperImportType: "esm",
       },
-    ],
-    [
-      "babel-plugin-import",
-      {
-        libraryName: "@fexd/tools",
-        camel2DashComponentName: false,
-        libraryDirectory: "es",
-      },
-      "@fexd/tools",
     ],
   ],
 });
