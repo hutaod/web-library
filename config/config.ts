@@ -1,6 +1,8 @@
 import { IConfig } from "dumi";
 
-// import { akuiMobileMenusConfig } from "./akui-mobile";
+import { blogConfig } from "./blog";
+import { extendsConfig } from "./extends";
+import { frontConfig } from "./front";
 
 const config: IConfig = {
   navs: [
@@ -16,71 +18,9 @@ const config: IConfig = {
         path: "index",
       },
     ],
-    "/blog": [
-      {
-        title: "博客",
-        collapsable: false,
-        children: [
-          "/blog/Github中的ci和cd",
-          "/blog/commit规范及自动生成changelog",
-          "/blog/coding-choice-and-growth/",
-          "/blog/持续分享一些常用工具",
-          "/blog/PerformanceOptimization",
-          "/blog/开发工具常用快捷键集合",
-          "/blog/懒加载图片组件实现",
-          "/blog/code-review",
-        ],
-      },
-    ],
-    "/front": [
-      {
-        title: "JavaScript",
-        collapsable: true,
-        children: [
-          "/front/JavaScript/Type",
-          "/front/JavaScript/This",
-          "/front/JavaScript/Copy",
-          "/front/JavaScript/Prototype",
-          "/front/JavaScript/ES6",
-          "/front/JavaScript/Async",
-          "/front/JavaScript/Promise",
-          "/front/JavaScript/EventLoop",
-          "/front/JavaScript/JS进阶",
-          "/front/JavaScript/浏览器知识点",
-          "/front/JavaScript/JS常见的设计模式",
-          "/front/JavaScript/常见的数据结构",
-          "/front/JavaScript/JS原理探索",
-        ],
-      },
-      {
-        title: "React系列",
-        // collapsable: true,
-        children: [
-          "/front/React/React使用总结",
-          "/front/React/Redux源码探索",
-          "/front/React/React源码深入浅出",
-          // 'React/React常见面试题',
-          // 'React/Redux-Saga探索',
-          // 'React/Dva探索',
-          // 'React/Umi探索',
-          "/front/React/Mobx使用总结",
-          "/front/React/React运用技巧",
-        ],
-      },
-    ],
-    "/extends": [
-      {
-        title: "Webpack 系列",
-        collapsable: true,
-        children: [
-          ["/extends/Webpack/", "前言"],
-          "/extends/Webpack/初识Webpack",
-          "/extends/Webpack/Webpack基础",
-          "/extends/Webpack/Webpack进阶",
-          "/extends/Webpack/Webpack实战",
-        ],
-      },
-    ],
+    "/blog": blogConfig,
+    "/front": frontConfig,
+    "/extends": extendsConfig,
   },
   metas: [
     {
