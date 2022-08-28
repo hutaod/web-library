@@ -1,7 +1,7 @@
 export const frontConfig = [
   {
     title: "JavaScript",
-    collapsable: true,
+    collapsable: false,
     children: [
       "/front/JavaScript/Type",
       "/front/JavaScript/This",
@@ -31,6 +31,16 @@ export const frontConfig = [
       // 'React/Umi探索',
       "/front/React/Mobx使用总结",
       "/front/React/React运用技巧",
+    ],
+  },
+  {
+    title: "Webpack 系列",
+    collapsable: true,
+    children: [
+      "/front/Webpack/初识Webpack",
+      "/front/Webpack/Webpack基础",
+      "/front/Webpack/Webpack进阶",
+      "/front/Webpack/Webpack实战",
     ],
   },
 ];
